@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8" />
+    %= stylesheet '/css/rabbid-' . $Rabbid::VERSION . '.css'
+    %= javascript '/js/rabbid-'  . $Rabbid::VERSION . '.js'
+  </head>
+  <body>
+    <a class="logo" href="<%= url_for 'corpus'  %>"><h1><span><%= title %></span></h1></a>
+    %= form_for url_for('search'), method => 'GET', begin
+    %=   hidden_parameters without => ['q']
+    %=   search_field 'q'
+    % end
+    <nav>
+      <%= link_to 'Collection', url_with('collection'), class => (stash('collection') ? 'active' : '') %>
+      <%= link_to 'Übersichten', url_with('corpus'), class => (stash('overview') ? 'active' : '') %>
+      <%= link_to 'Suche', url_with('search'), class => (stash('search') ? 'active' : '') %>
+    </nav>
+    %= content
+  </body>
+<html>

@@ -1,0 +1,16 @@
+<li tabindex="0" class="<%= $m->{flipflop} // '' %>" data-id="<%= $m->{in_doc_id} %>" data-para="<%= $m->{para} %>" data-marks="<%= join ',', @{$m->{marks} // []} %>">
+  <div>
+    <div class="snippet">
+      <span class="<%= $m->{nobr} %>"><%== $m->{content} %></span>
+    </div>
+    <p class="ref"><%= $m->{author} %>: <%= $m->{title} =%>
+<% if ($m->{year}) { %> (<%= $m->{year} %>)<% } =%>;
+<% if ($m->{polDir}) { %><%= filter_by(polDir => $m->{polDir}) =%>, <% } %>
+<% if ($m->{genre}) { %><%= filter_by(genre => $m->{genre}) =%>, <% } %>
+<% if ($m->{domain}) { %><%= filter_by(domain => $m->{domain}) =%>, <% } %>
+<%= link_to($m->{file}, url_for('file', file => $m->{file})) %> (<%= $m->{in_doc_id} %>:<%= $m->{para} %>)
+      <span class="button close">X</span>
+      <span class="button store">S</span>
+    </p>
+  </div>
+</li>

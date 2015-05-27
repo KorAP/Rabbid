@@ -1,0 +1,380 @@
+@charset "utf-8";
+@import "fonts";         // Font families
+
+$ids-pink-1:   rgb(193,   0,  43); // Lexik
+$ids-pink-2:   rgb(250, 243, 222); // Lexik
+$ids-grey-1:   rgb(135, 136, 138);
+$ids-grey-2:   rgb(217, 218, 219);
+$ids-blue-1:   rgb(  0, 158, 224); // Pragmatik
+$ids-blue-2:   rgb(188, 228, 247); // Pragmatik
+
+
+a:link {
+  text-decoration: none;
+  color: $ids-pink-1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html > body {
+  background-color: $ids-pink-1;
+  font-family: tahoma, verdana, arial;
+  font-size:11pt;
+  color: $ids-pink-2;
+}
+
+a.logo > h1 {
+  background: {
+    position: 50% 50%;
+    repeat: no-repeat;
+    size: 90% auto;
+    image: url('../img/rabbid.svg');
+  }
+  height: 32pt; // 63pt;
+  width: 107pt; // 214pt;
+  margin: 0;
+
+  // BLIND
+  > span {
+    margin-left: -3000px;
+  }
+}
+
+table.oro-view {
+  padding: 0;
+  border-collapse: collapse;
+  width: 100%;
+
+  thead tr, tfoot tr {
+    background-color: $ids-pink-2;
+    text-align: center;
+    text-wrap: no-wrap;
+    color:  $ids-pink-1;
+    height: 1.5em;
+    a:link {
+      color: $ids-pink-1;
+      text-decoration: none;
+    }
+    th {
+      a::after {
+	font-family: 'FontAwesome';
+      }
+      &.oro-ascending a::after {
+	content: " \f0d7";
+      }
+      &.oro-descending a::after {
+	content: " \f0d8";
+      }
+      &.oro-active {
+	background-color: $ids-blue-1;
+	color: $ids-blue-2;
+	a:link {
+	  color: $ids-blue-2;
+	}
+      }
+
+      border-left: 3px solid $ids-pink-1;
+      // Document ID
+      &:nth-child(1) {
+	width: 2em;
+	border-left-width: 0;
+      }
+      // Author
+      &:nth-child(2) {
+	width: 20em;
+      }
+      // Title
+      &:nth-child(3) {
+      }
+      // Year
+      &:nth-child(4) {
+	width: 4em;
+      }
+      // polDir
+      &:nth-child(5) {
+	width: 8em;
+      }
+      // Domain
+      &:nth-child(6) {
+	width: 8em;
+      }
+      // Genre
+      &:nth-child(7) {
+	width: 8em;
+      }
+    }
+  }
+  tbody tr {
+    &:nth-child(odd) {
+      background-color: lighten($ids-pink-1, 5%);
+    }
+    &:hover {
+      background-color: $ids-blue-1;
+    }
+    td {
+      padding: 3pt 6pt;
+      a:link {
+	color: $ids-pink-2;
+	font-weight: bold;
+	text-decoration: none;
+      }
+    }
+  }
+
+/*
+  .pagination {
+    a[rel="prev"] span::after {
+      font-family: 'FontAwesome';
+      content: "\f0d9";
+    }
+    a[rel="next"] span:before {
+      font-family: 'FontAwesome';
+      content: "\f0da";
+    }
+    span.ellipsis::after {
+      font-family: 'FontAwesome';
+      content: "\f141";
+    }
+    span {
+      display: inline-block;
+    }
+  }
+  */
+}
+
+h1 {
+  float: left;
+}
+
+form {
+  display: inline;
+}
+
+input[type=search] {
+  display: inline-block;
+  width: 30em;
+  margin: 10pt;
+  padding: 2pt;
+  color: $ids-grey-1;
+  border: {
+    width: 3px;
+    style: solid;
+    color: $ids-pink-2;
+    radius: 3px;
+  }
+}
+
+
+/**
+ * KWIC
+ */
+
+ol.kwic {
+  clear: both;
+  width: auto;
+  overflow-x: hidden;
+  overflow-y: visible;
+  list-style-type: none;
+  margin: 0;
+  text-indent: 0;
+  padding: 0;
+  > li {
+    border: {
+      width: 2px;
+      style: solid;
+      color: $ids-pink-1;
+    }
+    background-color: $ids-blue-2;
+    color: $ids-blue-1;
+    // text-shadow: 1px 1px 0px #ddd;
+    width: 100%;
+    &:not(.active) { // :not(:focus) {
+      border: none;
+      background-color: $ids-pink-1;
+      color: $ids-pink-2;
+      > div {
+	width: 99999%;
+	margin-left: -49999.5%;
+	overflow-x: hidden;
+	overflow-y: visible;
+	white-space: no-wrap;
+	cursor: pointer;
+	padding: 5pt 0 6pt 0;
+      }
+      &.flop {
+	background-color: lighten($ids-pink-1, 5%);
+      }
+    }
+  }
+}
+
+ol.collection {
+  margin: 0;
+  padding:0;
+  li {
+    list-style-type: none;
+    text-indent: none;
+    width: 100%;
+    height: 1.5em;
+    padding: 2pt;
+    a:link {
+      color: $ids-pink-2;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    &:nth-child(odd) {
+      background-color: lighten($ids-pink-1, 5%);
+    }
+  }
+}
+
+li:not(.active) br {
+  clear: both;
+  display: none;
+}
+
+li.active {
+  span.extend {
+    &::after {
+      content: '...';
+    }
+  }
+  span.button {
+    background-color: $ids-pink-2;
+    color: $ids-pink-1;
+    border-radius: 3pt;
+    cursor: pointer;
+    margin: 0 4pt;
+    padding: 0 4pt;
+    &:hover {
+      background-color: $ids-pink-1;
+      color: $ids-pink-2;
+    }
+  }
+}
+
+div.snippet {
+  padding: 6pt;
+  br {
+    margin-bottom:10pt
+  }
+}
+
+ol > li:focus {
+  outline: none;
+}
+
+ol > li:not(.active) { // :not(:focus) {
+  &:hover, &.flop:hover {
+    background-color: $ids-blue-1;
+  }
+  div.snippet {
+    text-overflow: ellipsis;
+    text-indent: 0;
+    padding: 0;
+  }
+  span.context-left {
+    display: inline-block;
+    text-align: right;
+    width: 50.01%;
+  }
+  p.ref {
+    display: none;
+  }
+  .match mark {
+    color: inherit;
+  }
+}
+
+p.ref {
+  padding: 3pt;
+  margin: 0;
+  text-shadow: none;
+  text-align: right;
+  background-color: $ids-blue-1; // darken($ids-pink-1, 10%);
+  color: $ids-pink-2;
+}
+
+.match {
+  padding-left: 4pt;
+  padding-right: 2pt;
+}
+
+.match mark {
+  color: $ids-pink-1;
+  font-weight: bold;
+}
+
+.context-left {
+  margin-left: 0;
+  display: inline;
+  overflow: visible;
+  text-align: left;
+  width: auto;
+}
+
+/**
+ * Highlights
+ */
+mark {
+  background-color: inherit;
+  color: inherit;
+}
+
+
+nav {
+  display: block;
+  float: right;
+  margin: 3pt;
+  padding: 3pt;
+  a {
+    padding: 3pt 7pt;
+    background-color: $ids-pink-2;
+    color: $ids-pink-1;
+    &.active {
+      background-color: $ids-blue-1;
+      color: $ids-blue-2;
+    }
+  }
+}
+
+p.filter {
+  text-indent: 6pt;
+  a {
+    text-indent: 0;
+    display: inline-block;
+    width: 1.2em;
+    text-align: center;
+    border-radius: 3px;
+    background-color: $ids-pink-2;
+    &:hover {
+      background-color: $ids-blue-1; // darken($ids-pink-1, 10%);
+      color: $ids-blue-2;
+    }
+  }
+}
+
+div.pagination {
+  background-color: $ids-pink-2;
+  height: 1.5em;
+  clear: both;
+  width: 100%;
+  text-align: center;
+  text-wrap: no-wrap;
+  color: $ids-pink-1;
+  a:link {
+    color:  $ids-pink-1;
+    text-decoration: none;
+  }
+}
+
+.pagination a:link {
+  font-weight: bold;
+}

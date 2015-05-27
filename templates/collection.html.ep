@@ -1,0 +1,11 @@
+% layout 'default';
+
+%= include 'filter';
+
+<ol class="collection">
+% foreach (@$collection) {
+%   my $url = url_with('search');
+%   $url->query([ q => $_->{q}]);
+  <li><%= link_to $_->{q}, $url %> (<%= $_->{samples} %> Belegstellen)</li>
+% }
+</ol>

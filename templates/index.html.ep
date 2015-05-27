@@ -1,0 +1,15 @@
+% layout 'default';
+
+%= search query => param('q'), begin
+% title 'Search for ' . search->query;
+
+<p>Found <%= search->total_results %> matches</p>
+<ul>
+%=  search_results begin
+  <li>
+    <h2><%= link_to $_->{title}, $_->{id} %></h2>
+    <p><%= $_->{content} %></p>
+  </li>
+%   end
+</ul>
+% end

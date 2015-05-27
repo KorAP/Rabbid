@@ -1,0 +1,22 @@
+% layout 'default';
+
+%= include 'filter';
+
+<div id="search">
+%= javascript begin
+top.query = "<%= param('q') %>";
+% end
+% if (stash 'kwic') {
+  <ol class="kwic">
+%   foreach (@{stash('kwic')}) {
+%=    include 'match', m => $_
+%   };
+  </ol>
+% };
+</div>
+
+% my $url = $c->url_with('search');
+% $url->query([ page => '{page}']);
+<div class="pagination">
+%= pagination scalar(param('page') // 1), -1 => $url;
+</div>

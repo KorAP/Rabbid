@@ -1,0 +1,5 @@
+% layout 'default';
+
+%= include 'filter';
+
+%= oro_view( stash 'oro_view' );

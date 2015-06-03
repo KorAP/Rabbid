@@ -2,4 +2,6 @@
 
 %= include 'filter';
 
+<h3>Dokumente</h3>
+
 %= oro_view( stash 'oro_view' );

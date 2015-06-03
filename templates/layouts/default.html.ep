@@ -5,20 +5,37 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <meta charset="utf-8" />
+    % foreach (app->notifications->styles) {
+    %=  stylesheet $_
+    % };
+    % foreach (app->notifications->scripts) {
+    %=  javascript $_
+    % };
     %= stylesheet '/css/rabbid-' . $Rabbid::VERSION . '.css'
     %= javascript '/js/rabbid-'  . $Rabbid::VERSION . '.js'
   </head>
   <body>
-    <a class="logo" href="<%= url_for 'corpus'  %>"><h1><span><%= title %></span></h1></a>
-    %= form_for url_for('search'), method => 'GET', begin
-    %=   hidden_parameters without => ['q']
-    %=   search_field 'q'
-    % end
+    % if ($c->allowed_for('member@all')) {
+    <a class="logo" href="<%= url_for 'collections'  %>"><h1><span><%= title %></span></h1></a>
+    %=   form_for url_for('search'), method => 'GET', begin
+    %=     hidden_parameters without => ['q']
+    %=     search_field 'q'
+    %    end
     <nav>
-      <%= link_to 'Collection', url_with('collection'), class => (stash('collection') ? 'active' : '') %>
-      <%= link_to 'Übersichten', url_with('corpus'), class => (stash('overview') ? 'active' : '') %>
-      <%= link_to 'Suche', url_with('search'), class => (stash('search') ? 'active' : '') %>
+      <%= link_to url_with('collections'), title => 'Kollektionen', class => 'collections ' . (stash('collection') ? 'active' : ''), begin %><span>Kollektionen</span><% end %>
+      <%= link_to url_with('corpus'), title => 'Dokumente', class => 'overview ' . (stash('overview') ? 'active' : ''), begin %><span>Dokumente</span><% end %>
+      <%= link_to url_with('search'), title => 'Suche', class => 'search ' . (stash('search') ? 'active' : ''), begin %><span>Suche</span><% end %>
+      <%= link_to url_with('about'), title => 'Über Rabbid', class => 'about ' . (stash('about') ? 'active' : ''), begin %><span>Über Rabbid</span><% end %>
+
+
+      <%= link_to 'acct_preferences', class => 'preferences', title => acct->handle,  begin %><span><%= acct->handle %></span><% end %>
+      <%= link_to nocsrf_url_for('acct_logout')->query({return_url => signed_url_for(url_for)}), rel => 'logout', class => 'logout', title => 'Abmelden', begin %><span><%= loc('logout') %></span><% end %>
     </nav>
+    % } else {
+    <a class="logo big" href="<%= url_for 'collections'  %>"><h1><span><%= title %></span></h1></a>
+    <h2><%= $description %></h2>
+    % };
     %= content
+    %= notifications 'alertify', -no_include
   </body>
 <html>

@@ -37,7 +37,7 @@ sub kwic {
 	  'content',
 	  'in_doc_id',
 	  'para',
-	  [ $oro->offsets('Text') => 'offset' ]
+	  'offsets(Text):marks'
 	] => { in_doc_id => 1 }
       ],
       {
@@ -55,62 +55,49 @@ sub kwic {
 
     # Prepare results
     if ($result) {
-      my ($intro, $job) = $oro->offsets->();
-      my $flipflop = 'flip';
-      my $last;
 
-      foreach my $para (@$result) {
-	my @snippet;
+      # Post process stored snippets
+      # TODO: This should be realised in an outer join instead!
+      # BEGIN
+      my @or_condition;
+      foreach (@$result) {
+	push(@or_condition, {
+	  in_doc_id => $_->{in_doc_id},
+	  para => $_->{para}
+	});
+      };
 
-	# Give matches flip flop information
-	if ($last && $last ne $para->{in_doc_id}) {
-	  $flipflop = $flipflop eq 'flip' ? 'flop' : 'flip';
-	};
-	$para->{flipflop} = $flipflop;
-	$last = $para->{in_doc_id};
+      # Load stored snippets
+      my $stored = $oro->select(
+	[
+	  Snippet => [qw/in_doc_id para left_ext right_ext marks/] => {
+	    in_coll_id => 1
+	  },
+	  Collection => [qw/coll_id/] => {
+	    coll_id => 1
+	  }
+	] => {
+	  q => $q,
+	  user_id => $c->acct->id,
+	  -or => \@or_condition
+	}
+      );
 
-	# Minor changes to the object
-	_prep_para($para);
-
-	# There are offsets defined - highlight!
-	my @marks;
-	if ($para->{offset}) {
-	  my $text = $para->{content};
-
-	  my $offset = ref $para->{offset} ? $para->{offset} :
-	    $job->($para->{offset});
-
-	  foreach (reverse @{$offset}) {
-	    # TODO: Prepend and append '_' symbals with the numbers
-	    # of offset characters before you mark everything in the substring.
-	    # -> remove _ before showing.
-
-	    if (length($text) >= ($_->[2] + $_->[3])) {
-	      substr($text, $_->[2] + $_->[3], 0, '</mark>');
-	      substr($text, $_->[2], 0, '<mark>');
-	      push @marks, $_->[2], $_->[3];
-	    };
-	  };
-	  delete $para->{offset};
-
-	  $para->{marks} = \@marks;
-
-	  # Extend to the left
-	  my $left_context_start = '<span class="context-left">';
-	  $left_context_start .= '<span class="extend left button"></span>' if $para->{previous};
-
-	  # Extend to the right
-	  my $right_context_end = '</span>';
-	  $right_context_end = '<span class="extend right button"></span></span>'
-	    if $para->{next};
-
-	  # Prepare marks for match spans
-	  unless ($text =~ s!^(.*?)(<mark>.+</mark>)(.*?)$!${left_context_start}$1</span><span class="match">$2</span><span class="context-right">$3${right_context_end}!o) {
-	    $text = "${left_context_start}</span><span class=\"match\">" . $text . "</span><span class=\"context-right\">${right_context_end}";
-	  };
-	  $para->{content} = $text;
+      my %marked;
+      foreach (@$stored) {
+	$marked{ $_->{in_doc_id} . '-' . $_->{para} } = $_;
+      };
+      foreach my $r (@$result) {
+	if (my $stored = $marked{$r->{in_doc_id} . '-' . $r->{para}}) {
+	  $r->{marked} = 'marked';
+	  $r->{left_ext}  = $stored->{left_ext};
+	  $r->{right_ext} = $stored->{right_ext};
 	};
       };
+      # END
+
+      $c->extend_result($result);
+      $c->prepare_result($result);
     };
   };
 
@@ -118,27 +105,6 @@ sub kwic {
     template => 'search',
     kwic => $result,
   );
-};
-
-
-sub _prep_para {
-  my $para = shift;
-
-  # Last parameter in document
-  unless ($para->{content} =~ s/###$//) {
-    $para->{next} = $para->{para} + 1;
-  };
-
-  # No line break in para
-  if ($para->{content} =~ s/~~~$//) {
-    $para->{nobr} = 'nobr';
-  };
-
-  # There is a previous paragraph
-  unless ($para->{para} == 0) {
-    $para->{previous} = $para->{para} - 1;
-  };
-  return $para;
 };
 
 
@@ -154,7 +120,9 @@ sub snippet {
     }
   );
 
-  return $c->render(json => _prep_para($match)) if $match;
+  return $c->render(
+    json => $c->prepare_paragraph($match)
+  ) if $match;
   return $c->reply->not_found;
 };
 
@@ -198,3 +166,81 @@ sub doc {
   # - Link to RTF
 };
 
+
+
+__END__
+
+    # Search Fulltext
+    $result = $oro->select(
+      [
+	Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
+	Text => [
+	  'content',
+	  'in_doc_id',
+	  'para',
+	  'offsets(Text):marks'
+	] => { in_doc_id => 1 }
+      ],
+      {
+	content => {
+	  match => quote($q)
+	},
+	-order => [qw/in_doc_id para/],
+	-cache => {
+	  chi => $c->chi,
+	  expires_in => '30min'
+	},
+	%args
+      }
+    );
+
+
+# SELECT Doc.author AS `author`, Doc.year AS `year`, Doc.title AS `title`, Doc.domain AS `domain`, Doc.genre AS `genre`, Doc.polDir AS `poldir`, Doc.file AS `file`, Text.content AS `content`, Text.in_doc_id AS `in_doc_id`, Text.para AS `para`, offsets(Text.Text) AS `marks` FROM Doc, Text WHERE Doc.doc_id = Text.in_doc_id AND Text.content MATCH ? ORDER BY in_doc_id, para LIMIT ? -- From Cache1 at lib/Rabbid/Controller/Search.pm line 56, <DATA> line 260.
+
+    my $q = $c->param('q');
+    my ($rv, $sth) = $oro->prep_and_exec(<<'SQL', [quote($q), $q, $c->acct->id, $items],'cached');
+SELECT
+  Doc.author AS `author`,
+  Doc.year AS `year`,
+  Doc.title AS `title`,
+  Doc.domain AS `domain`,
+  Doc.genre AS `genre`,
+  Doc.polDir AS `poldir`,
+  Doc.file AS `file`,
+  Text.content AS `content`,
+  Text.in_doc_id AS `in_doc_id`,
+  Text.para AS `para`,
+  offsets(Text.Text) AS `marks`,
+  Snippet.left_ext AS `leftExt`,
+  Snippet.right_ext AS `rightExt`,
+  Snippet.marks AS `marked`
+FROM
+  Text,
+  Collection,
+  User,
+  Snippet
+  LEFT OUTER JOIN
+  Doc
+ON
+  Snippet.in_doc_id = Doc.doc_id
+  AND
+  Snippet.para = Text.para
+  AND
+  Snippet.in_coll_id = Collection.coll_id
+WHERE
+  Doc.doc_id = Text.in_doc_id
+  AND
+  Text.content MATCH ?
+  AND
+  Collection.q = ?
+  AND
+  Collection.user_id = ?
+ORDER BY
+  in_doc_id, para LIMIT ?
+SQL
+    if ($rv) {
+      $result = [];
+      while (my $row = $sth->fetchrow_hashref) {
+	push(@$result, $row);
+      };
+    };

@@ -2,6 +2,16 @@
 
 %= include 'filter';
 
+% if (stash('collection')) {
+<h3>Kollektion &quot;<%= stash 'q' %>&quot;</h3>
+% my $export = url_with->query(format => 'xlsx');
+<p class="export">Exportieren nach <%= link_to 'Excel', $export %></p>
+% } elsif (param('q')) {
+<h3>Suche nach &quot;<%= param 'q' %>&quot;</h3>
+% } else {
+<h3>Suche</h3>
+% };
+
 <div id="search">
 %= javascript begin
 top.query = "<%= param('q') %>";
@@ -15,8 +25,10 @@ top.query = "<%= param('q') %>";
 % };
 </div>
 
-% my $url = $c->url_with('search');
-% $url->query([ page => '{page}']);
-<div class="pagination">
-%= pagination scalar(param('page') // 1), -1 => $url;
-</div>
+% unless (stash('collection')) {
+  % my $url = $c->url_with('search');
+  % $url->query([ page => '{page}']);
+  <div class="pagination">
+  %= pagination scalar(param('page') // 1), -1 => $url;
+  </div>
+% }

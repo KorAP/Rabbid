@@ -26,8 +26,10 @@ define({
       this.ID       = parseInt(match.getAttribute('data-id')),
       this.para     = parseInt(match.getAttribute('data-para'));
       this.marks    = match.getAttribute('data-marks');
-      this.leftExt  = 0;
-      this.rightExt = 0;
+
+      this.marked   = match.classList.contains('marked');
+      this.leftExt  = parseInt(match.getAttribute('data-left-ext')  || '0');
+      this.rightExt = parseInt(match.getAttribute('data-right-ext') || '0');
     };
 
     var that = this;
@@ -41,10 +43,12 @@ define({
 
     // Save the snippet
     var store = this._element.getElementsByClassName('store');
-    store[0].addEventListener('click', function (e) {
-      that.store();
-      e.halt();
-    });
+    if (store.length > 0) {
+      store[0].addEventListener('click', function (e) {
+	that.store();
+	e.halt();
+      });
+    };
 
     var ext = this._element.getElementsByClassName('extend');
     // Extend snippet
@@ -54,11 +58,11 @@ define({
 	var para = that.para;
 	var before = true;
 	if (this.classList.contains('left')) {
-	  that.leftExt++;
+	  that.incrLeftExt();
 	  para -= that.leftExt;
 	}
 	else {
-	  that.rightExt++;
+	  that.incrRightExt();
 	  para += that.rightExt;
 	  before = false;
 	};
@@ -66,16 +70,21 @@ define({
 	// Retrieve extension from system
 	that.getJSON('/corpus/' + that.ID + '/' + para, function (obj) {
 
+	  var span = document.createElement('span');
+	  span.classList.add('ext');
+	  if (obj["nobr"] !== undefined) {
+	    span.classList.add('nobr');
+	  };
+
+	  span.appendChild(
+	    document.createTextNode(obj.content)
+	  );
+
 	  // Prepend snippet
 	  if (before) {
-	    var temp = element.nextSibling;;
 	    element.parentNode.insertBefore(
-	      document.createTextNode(obj.content),
-	      temp
-	    );
-	    element.parentNode.insertBefore(
-	      document.createElement('br'),
-	      temp
+	      span,
+	      element.nextSibling
 	    );
 
 	    if (obj['previous'] === undefined)
@@ -85,11 +94,7 @@ define({
 	  // Append snippet
 	  else {
 	    element.parentNode.insertBefore(
-	      document.createElement('br'),
-	      element
-	    );
-	    element.parentNode.insertBefore(
-	      document.createTextNode(obj.content),
+	      span,
 	      element
 	    );
 
@@ -101,6 +106,26 @@ define({
     };
     
     return this;
+  },
+
+  incrLeftExt : function () {
+    this.leftExt++;
+    this._element.setAttribute('data-left-ext', this.leftExt);
+  },
+
+  incrRightExt : function () {
+    this.rightExt++;
+    this._element.setAttribute('data-right-ext', this.rightExt);
+  },
+
+  decrLeftExt : function () {
+    this.leftExt--;
+    this._element.setAttribute('data-left-ext', this.leftExt);
+  },
+
+  decrRightExt : function () {
+    this.rightExt--;
+    this._element.setAttribute('data-right-ext', this.rightExt);
   },
 
   open : function () {
@@ -131,6 +156,7 @@ define({
   },
 
   store : function () {
+    var that = this;
     this.sendJSON(
       '/corpus/' + this.ID + '/' + this.para,
       {
@@ -139,7 +165,9 @@ define({
 	"leftExt" : this.leftExt,
 	"marks" : this.marks
       }, function () {
-	// Todo: Stored!
+	alertify.log("Beleg gespeichert","success",3000);
+	that.marked = true;
+	that._element.classList.add('marked');
       });
   },
 

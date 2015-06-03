@@ -1,7 +1,16 @@
-<li tabindex="0" class="<%= $m->{flipflop} // '' %>" data-id="<%= $m->{in_doc_id} %>" data-para="<%= $m->{para} %>" data-marks="<%= join ',', @{$m->{marks} // []} %>">
+<li tabindex="0"\
+ class="<%= $m->{flipflop} // '' %> <%= $m->{marked} // '' %>"
+ data-id="<%= $m->{in_doc_id} %>"\
+ data-para="<%= $m->{para} %>"\
+ data-marks="<%= $m->{marks} %>"\
+ data-left-ext="<%= $m->{left_ext} // 0 %>"\
+ data-right-ext="<%= $m->{right_ext} // 0 %>">
   <div>
+    <div class="flag"></div>
     <div class="snippet">
-      <span class="<%= $m->{nobr} %>"><%== $m->{content} %></span>
+%#      <span class="<%= $m->{nobr} %>">
+<%== $m->{content} %>
+%#      </span>
     </div>
     <p class="ref"><%= $m->{author} %>: <%= $m->{title} =%>
 <% if ($m->{year}) { %> (<%= $m->{year} %>)<% } =%>;
@@ -9,8 +18,8 @@
 <% if ($m->{genre}) { %><%= filter_by(genre => $m->{genre}) =%>, <% } %>
 <% if ($m->{domain}) { %><%= filter_by(domain => $m->{domain}) =%>, <% } %>
 <%= link_to($m->{file}, url_for('file', file => $m->{file})) %> (<%= $m->{in_doc_id} %>:<%= $m->{para} %>)
-      <span class="button close">X</span>
-      <span class="button store">S</span>
+      <span title="Speichern" class="button store"><span>Speichern</span></span>
+      <span title="Schließen" class="button close"><span>Schließen</span></span>
     </p>
   </div>
 </li>

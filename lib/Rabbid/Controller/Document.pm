@@ -23,16 +23,24 @@ sub overview {
       expires_in => '60min'
     },
     display => [
-      'ID' => sub {
-	my ($c, $row) = @_;
-	return $c->link_to(
-	  $row->{doc_id} // $row->{dID},
-	  $c->url_for('file', file => $row->{file})
-	)
-      },
+      'ID' => 'doc_id',
       'Verfasser' => 'author',
-      'Titel' => 'title',
-      'Jahr' => ['year', (class => 'integer')],
+      'Titel' =>
+	['title', process => sub {
+	   my ($c, $row) = @_;
+
+	   return $c->link_to(
+	     $c->url_for('file', file => $row->{file}),
+	     class => 'file', sub {
+	       b('<span>file</span>')
+	     }
+	   ) . ' ' . ($row->{title} || $row->{file});
+	 }],
+      'Jahr' =>
+	['year', class => 'integer', process => sub {
+	   my ($c, $row) = @_;
+	   return $c->filter_by(year => $row->{year});
+	 }],
       'Spektrum' =>
 	['polDir', process => sub {
 	   my ($c, $row) = @_;

@@ -53,7 +53,7 @@ CREATE INDEX IF NOT EXISTS ${_}_i ON Snippet ($_)
 SQL
       };
       $oro->do(<<"SQL") or return -1;
-CREATE UNIQUE INDEX IF NOT EXISTS all_i ON Snippet (in_coll_id, in_doc_id, para)
+CREATE UNIQUE INDEX IF NOT EXISTS all_i ON Snippet (in_doc_id, para, in_coll_id)
 SQL
     }
   );

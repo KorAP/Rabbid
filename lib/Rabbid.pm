@@ -1,6 +1,7 @@
 package Rabbid;
 use Mojo::Base 'Mojolicious';
 use Mojo::ByteStream 'b';
+use Mojo::Util qw/xml_escape/;
 use Lingua::Stem::UniNE::DE qw/stem_de/;
 use Cache::FastMmap;
 require Rabbid::Analyzer;
@@ -15,21 +16,25 @@ $ENV{MOJO_INACTIVITY_TIMEOUT} = 120;
 sub startup {
   my $self = shift;
 
-  $self->secrets(['jgfhnvfnhghGFHGfvnhrvtukrKHGUjhu6464cvrj764cc64ethzvf']);
+  $self->secrets(
+    ['jgfhnvfnhghGFHGfvnhrvtukrKHGUjhu6464cvrj764cc64ethzvf']
+  );
 
   push @{$self->commands->namespaces}, __PACKAGE__ . '::Command';
 
+  # Add richtext format
   $self->types->type(rtf => 'application/rtf');
-
-  $self->plugin(Notifications => {
-    Alertify => 1
-  });
 
   $self->defaults(
     title => 'Rabbid',
     description => 'Recherche- und Analyse-Basis für Belegstellen in Diskursen',
     layout => 'default'
   );
+
+  # Add plugins
+  $self->plugin(Notifications => {
+    Alertify => 1
+  });
 
   $self->plugin('CHI' => {
     default => {
@@ -39,7 +44,6 @@ sub startup {
     }
   });
 
-  # Export collections
   $self->plugin('ReplyTable');
 
   my $user_db = $self->home .'/db/user.sqlite';
@@ -56,13 +60,11 @@ sub startup {
     }
   });
 
-
   $self->plugin('Oro::Account' => {
     oro_handle => 'user',
     invalid => [qw/collection search overview corpus doc/],
     default_lang => 'de'
   });
-
 
   $self->plugin('TagHelpers::Pagination' => {
     separator => '',
@@ -73,13 +75,13 @@ sub startup {
     prev => '<span>&lt;</span>'
   });
 
-
   $self->plugin('Oro::Viewer' => {
     default_count => 25,
     max_count => 100
   });
 
 
+  # Add helpers
   $self->helper(
     hidden_parameters => sub {
       my $c = shift;
@@ -101,7 +103,6 @@ sub startup {
     }
   );
 
-
   $self->helper(
     filter_by => sub {
       my $c = shift;
@@ -117,7 +118,6 @@ sub startup {
       );
     }
   );
-
 
   $self->helper(
     extend_result => sub {
@@ -184,7 +184,6 @@ sub startup {
     }
   );
 
-
   # Create highlights, mark document flips, integrate extensions
   $self->helper(
     prepare_result => sub {
@@ -223,10 +222,14 @@ sub startup {
 	    # -> remove _ before showing.
 
 	    if (length($text) >= ($_->[2] + $_->[3])) {
-	      substr($text, $_->[2] + $_->[3], 0, '</mark>');
-	      substr($text, $_->[2], 0, '<mark>');
+	      substr($text, $_->[2] + $_->[3], 0, '#!#/mark#!~');
+	      substr($text, $_->[2], 0, '#!#mark#!~');
 	    };
 	  };
+
+	  $text = xml_escape $text;
+	  $text =~ s/#!#/</g;
+	  $text =~ s/#!~/>/g;
 
 	  $para->{marks} = $marks;
 
@@ -236,9 +239,9 @@ sub startup {
 	    $left .= '<span class="extend left button"></span>';
 	  };
 	  if ($para->{left}) {
-	    $left .= '<span class="collapse left button"></span>';
+	    # $left .= '<span class="collapse left button"></span>';
 	    foreach (@{$para->{left}}) {
-	      $left .= '<span class="ext">' . $_ . '</span>';
+	      $left .= '<span class="ext">' . xml_escape($_) . '</span>';
 	    };
 	  };
 
@@ -246,9 +249,9 @@ sub startup {
 	  my $right = '';
 	  if ($para->{right}) {
 	    foreach (@{$para->{right}}) {
-	      $right .= '<span class="ext">' . $_ . '</span>';
+	      $right .= '<span class="ext">' . xml_escape($_) . '</span>';
 	    };
-	    $right .= '<span class="collapse right button"></span>';
+	    # $right .= '<span class="collapse right button"></span>';
 	  };
 	  if ($para->{next}) {
 	    $right .= '<span class="extend right button"></span></span>';
@@ -298,31 +301,40 @@ sub startup {
   # Router
   my $r = $self->routes;
 
-  # Normal route to controller
+  # Open routes
   $r->any('/login')->acct('login' => { return_url => 'collections'});
   $r->any('/login/forgotten')->acct('forgotten');
   $r->any('/about')->to(
     cb => sub {
-      shift->render(template => 'impressum', about => 1)
+      shift->render(template => 'about', about => 1)
     })->name('about');
 
   # Restricted routes
+  # User management
   my $res = $r->route('/')->over(allowed_for => '@all');
   $res->any('/login/remove')->acct('remove');
   $res->any('/preferences')->acct('preferences');
   $res->any('/logout')->acct('logout');
 
+  # Collections
   $res->get( '/')->to('Collection#index', collection => 1)->name('collections');
-  $res->get( '/collection/:coll_id')->to('Collection#collection', collection => 1)->name('collection');
+  $res->get( '/collection/:coll_id')->to(
+    'Collection#collection',
+    collection => 1
+  )->name('collection');
+
+  # Search
   $res->get( '/search')->to('Search#kwic', search => 1)->name('search');
+
+  # Corpus view
   $res->get( '/corpus')->to('Document#overview', overview => 1)->name('corpus');
   $res->get( '/corpus/raw/:file')->name('file');
 
-  # Ajax ...
+  # Ajax responses
   $res->get( '/corpus/:doc_id/:para', [doc_id => qr/\d+/, para => qr/\d+/])->to('Search#snippet')->name('snippet');
   $res->post('/corpus/:doc_id/:para',[doc_id => qr/\d+/, para => qr/\d+/])->to('Collection#store');
 
-
+  # Catchall for restricted routes
   $r->any('/*catchall', { catchall => '' })->to(
     cb => sub {
       my $c = shift;

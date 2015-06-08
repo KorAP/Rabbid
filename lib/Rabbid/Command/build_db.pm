@@ -4,7 +4,6 @@ use utf8;
 use Mojo::DOM;
 use Mojo::ByteStream 'b';
 use Mojo::Collection 'c';
-use Data::Dumper;
 use Unicode::Normalize qw/NFKC/;
 use Text::FromAny;
 use Encode;
@@ -26,14 +25,14 @@ sub _init {
       # Create document table
       $oro->do(<<'SQL') or return -1;
 CREATE TABLE Doc (
-  doc_id INTEGER PRIMARY KEY,
-  author TEXT,
-  year   INTEGER,
-  title  TEXT,
-  domain TEXT,
-  genre  TEXT,
-  polDir TEXT,
-  file   TEXT
+  doc_id  INTEGER PRIMARY KEY,
+  author  TEXT,
+  year    INTEGER,
+  title   TEXT,
+  domain  TEXT,
+  genre   TEXT,
+  polDir  TEXT,
+  file    TEXT
 )
 SQL
 

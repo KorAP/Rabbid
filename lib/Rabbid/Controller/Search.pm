@@ -1,6 +1,5 @@
 package Rabbid::Controller::Search;
 use Mojo::Base 'Mojolicious::Controller';
-use Data::Dumper;
 use Mojo::Util 'quote';
 require Rabbid::Analyzer;
 

@@ -1,7 +1,7 @@
 {
   "name": "Rabbid",
   "description": "Recherche- und Analyse-Basis für Belegstellen in Diskursen",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "devDependencies": {
     "grunt":                   "~0.4.5",
     "grunt-contrib-copy":      "^0.8.0",

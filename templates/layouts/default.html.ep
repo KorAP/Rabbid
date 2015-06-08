@@ -18,7 +18,7 @@
     % if ($c->allowed_for('member@all')) {
     <a class="logo" href="<%= url_for 'collections'  %>"><h1><span><%= title %></span></h1></a>
     %=   form_for url_for('search'), method => 'GET', begin
-    %=     hidden_parameters without => ['q']
+    %=     hidden_parameters without => ['q', 'page']
     %=     search_field 'q'
     %    end
     <nav>

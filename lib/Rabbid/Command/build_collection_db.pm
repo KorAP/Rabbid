@@ -1,5 +1,6 @@
 package Rabbid::Command::build_collection_db;
 use Mojo::Base 'Mojolicious::Command';
+use DBIx::Oro;
 
 use Getopt::Long qw/GetOptions :config no_auto_abbrev no_ignore_case/;
 

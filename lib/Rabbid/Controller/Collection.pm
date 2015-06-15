@@ -1,7 +1,10 @@
 package Rabbid::Controller::Collection;
 use Mojo::Base 'Mojolicious::Controller';
 use Mojo::Util qw/quote unquote/;
+use Mojo::ByteStream 'b';
+use RTF::Writer;
 require Rabbid::Analyzer;
+
 
 # View all collections
 sub index {
@@ -75,8 +78,13 @@ sub collection {
   $c->prepare_result($result);
 
   # Export collection in Excel format
-  if ($c->param('format') && $c->param('format') eq 'xlsx') {
-    return $c->_export_to_excel($query => $result)
+  if ($c->param('format')) {
+    if ($c->param('format') eq 'xlsx') {
+      return $c->_export_to_excel($query => $result);
+    }
+    elsif ($c->param('format') eq 'rtf') {
+      return $c->_export_to_rtf($query => $result);
+    };
   };
 
   # Override query
@@ -117,6 +125,7 @@ sub store {
   # Start transaction
   $oro->txn(
     sub {
+      my $oro = shift;
 
       # Merge and retrieve collection
       $oro->merge(
@@ -124,6 +133,8 @@ sub store {
 	  last_modified => \"datetime('now')"
 	} => $constraint
       );
+
+      $c->notify(warn => 'Hui: ' . $oro->last_sql . $c->dumper($oro->select('Collection')));
 
       # Gett collection id
       $coll_id = $oro->load(Collection => $constraint)->{coll_id};
@@ -199,5 +210,92 @@ sub _export_to_excel {
 
   return $c->reply->table(xlsx => \@table);
 };
+
+sub _export_to_rtf {
+  my ($c, $query, $result) = @_;
+  my $scalar;
+
+  my $rtf = RTF::Writer->new_to_string(\$scalar);
+
+  # Create RTF Prolog
+  $rtf->prolog(
+    title => 'Belegstellen-' . $query,
+    author => $c->acct->handle,
+    operator => 'Rabbid',
+    charset => 'utf8'
+  );
+
+  $rtf->paragraph(\'\fs40\b', "Belegstellen für " . quote($query), \'\sb400');
+
+  my $i = 1;
+
+  # Iterate over results
+  foreach my $res (@$result) {
+    my $content = $res->{content};
+    $content =~ s!\<\/?span[^>]*?\>!!g; # Remove markup
+
+    $content = b($content)->split(qr/(<\/?mark>)/)->map(
+      sub {
+	if ($_ eq '<mark>') {
+	  return \'{\b\ul';
+	} elsif ($_ eq '</mark>') {
+	  return \'}';
+	};
+	return $_;
+      });
+
+    # Write content
+    $rtf->paragraph(\'\brdrb \brdrs\brdrw10\brsp20 {\fs4\~}');
+    $rtf->paragraph(\'\sb100');
+    $rtf->paragraph(\'\li500\qj', \'{\b', $i++, \')} ', $content->to_array);
+
+    my @meta = ();
+    push (@meta, $res->{author}. ': ') if $res->{author};
+    if ($res->{title}) {
+      push (@meta, \'{\b', $res->{title} . ' ', \'}');
+    };
+    push (@meta, '(' . $res->{year}. ') ')  if $res->{year};
+    push (@meta, $res->{domain} . ', ')     if $res->{domain};
+    push (@meta, $res->{genre} . ', ')      if $res->{genre};
+    push (@meta, $res->{polDir} . ', ')     if $res->{polDir};
+
+    if ($res->{domain} || $res->{genre} || $res->{polDir}) {
+      chop $meta[-1];
+      chop $meta[-1];
+    };
+
+    # Todo:
+    # {\field{\*\fldinst{HYPERLINK "http://www.suck.com/"}}{\fldrslt{\ul stuff }}}
+
+    $rtf->paragraph(\'\sb200\i', @meta);
+    $rtf->paragraph('[ ' . $res->{file} . ']') if $res->{file};
+
+    # Write new line
+    # $rtf->paragraph(\'\brdrb \brdrs\brdrw10\brsp20 {\fs4\~}');
+    $rtf->paragraph(\'\sb100');
+  };
+
+  # Add page numbers
+  $rtf->number_pages($query . ': ');
+
+  $rtf->close;
+
+  # https://metacpan.org/module/Mojolicious::Plugin::RenderFile
+  return $c->render_file(
+    data => $scalar,
+    format => 'rtf',
+    filename => 'Belegstellen-' . unquote($query) . '.rtf',
+    content_disposition => 'inline'
+  );
+
+
+  # Give the file a name
+  # $c->res->headers->content_disposition(
+  #   'inline; filename="Belegstellen-' . unquote($query) . '.rtf"'
+  # );
+
+};
+
+
 
 1;

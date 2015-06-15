@@ -12,13 +12,14 @@
     <dd><%= link_to 'Nils Diewald', 'http://nils-diewald.de' %></dd>
   </dl>
 
-  <p><%= link_to 'Rabbid' %> ist ein Nebenprojekt von <%= link_to 'KorAP', 'http://korap.ids-mannheim.de/' %>. Es dient sowohl als optimiertes Tool zur Recherche von Belegstellen in Diskursen als auch der prototypenbasierten Weiterentwicklung der KorAP Plattform.</p>
+  <p><%= link_to 'Rabbid' %> ist ein Nebenprojekt von <%= link_to 'KorAP', 'http://korap.ids-mannheim.de/' %>, das in enger Zusammenarbeit mit dem Projekt <%= link_to 'Demokratiediskurs 1918/1925', 'http://www1.ids-mannheim.de/lexik/zeitreflexion18.html' %> entwickelt wurde. Es dient sowohl als optimiertes Tool zur Recherche von Belegstellen in Diskursen als auch der prototypenbasierten Weiterentwicklung der KorAP Plattform.</p>
   <p>Rabbid bietet - im Gegensatz zu KorAP - nur eingeschränkte Suchoptionen auf kleine, unannotierte Korpora.</p>
 
-  <h4>Todo</h4>
+  <h4>Todo ...</h4>
   <ul>
     <li>Kontext-Verkleinerung</li>
     <li>Löschen gespeicherter Belegstellen</li>
+    <li>Unterstützung mehrerer Korpora</li>
     <li>Mehrfach-Filter
       <ul>
 	<li>typisierte Filter (größer, kleiner als ... u.a. für Jahres-Ranges)</li>

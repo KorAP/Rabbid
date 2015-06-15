@@ -3,7 +3,7 @@ use Mojo::Base 'Mojolicious';
 use Cache::FastMmap;
 
 
-our $VERSION = '0.1.1';
+our $VERSION = '0.2.0';
 
 
 # 120 seconds inactivity allowed
@@ -22,6 +22,7 @@ sub startup {
 
   # Add richtext format
   $self->types->type(rtf => 'application/rtf');
+  $self->types->type(doc => 'application/msword');
 
   $self->defaults(
     title => 'Rabbid',
@@ -33,12 +34,17 @@ sub startup {
   $self->plugin('Config');
   $self->plugin('Notifications');
   $self->plugin('CHI');
+  $self->plugin('RenderFile');
   $self->plugin('ReplyTable');
   $self->plugin('TagHelpers::Pagination');
   $self->plugin('Oro');
   $self->plugin('Oro::Viewer');
   $self->plugin('RabbidHelpers');
-
+  $self->plugin(MailException => {
+    from    => join('@', qw/diewald ids-mannheim.de/),
+    to      => join('@', qw/diewald ids-mannheim.de/),
+    subject => 'Rabbid crashed!'
+  });
   # Temporary - User Management
   $self->plugin('Oro::Account');
   $self->plugin('Oro::Account::ConfirmMail');
@@ -47,7 +53,7 @@ sub startup {
   my $r = $self->routes;
 
   # Open routes
-  $r->any('/login')->acct('login' => { return_url => 'collections'});
+  $r->any('/login')->acct('login' => { return_url => 'collections' });
   $r->any('/login/forgotten')->acct('forgotten');
   $r->any('/about')->to(
     cb => sub {

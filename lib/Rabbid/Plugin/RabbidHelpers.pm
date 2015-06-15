@@ -104,7 +104,12 @@ sub register {
 	  else {
 	    $c->prepare_paragraph($_);
 	    push(@{$r->{right}}, $_->{content});
-	    $r->{next} = $_->{next} > $r->{next} ? $_->{next} : $r->{next};
+	    if (!defined $r->{next} && defined $_->{next}) {
+	      $r->{next} = $_->{next};
+	    }
+	    elsif (defined $_->{next}) {
+	      $r->{next} = $_->{next} > $r->{next} ? $_->{next} : $r->{next};
+	    };
 	  };
 	};
       };

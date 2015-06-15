@@ -12,27 +12,30 @@ WriteMakefile(
   LICENSE => 'bsd_2',
   PREREQ_PM => {
     'Mojolicious' => '6.11',
-    'Mojolicious::Plugin::ReplyTable' => 0,
-    'Mojolicious::Plugin::Notifications' => 0,
-    'Mojolicious::Plugin::CHI' => 0,
-    'Mojolicious::Plugin::Oro' => 0,
-    'Mojolicious::Plugin::TagHelpers::Pagination' => 0,
-    'Mojolicious::Plugin::Localize' => 0,
+    'Mojolicious::Plugin::ReplyTable' => 0.04,
+    'Mojolicious::Plugin::RenderFile' => 0,
+    'Mojolicious::Plugin::Notifications' => 0.9,
+    'Mojolicious::Plugin::MailException' => 0.19,
+    'Mojolicious::Plugin::CHI' => 0.11,
+    'DBIx::Oro' => 0.31_3, # GitHub
+    'Mojolicious::Plugin::Oro' => 0.06, # GitHub
+    'Mojolicious::Plugin::TagHelpers::Pagination' => 0.05,
+    'Mojolicious::Plugin::Localize' => 0.09, # GitHub
 
-    # Temporary
-    'Mojolicious::Plugin::Oro::Account' => 0,
-    'Mojolicious::Plugin::Oro::Account::ConfirmMail' => 0,
-    'Mojolicious::Plugin::Mail' => 0,
+    # IDS specific
+    'Mojolicious::Plugin::Oro::Account' => 0.15, # Closed source!
+    'Mojolicious::Plugin::Oro::Account::ConfirmMail' => 0, # Closed source!
+    'Mojolicious::Plugin::Mail' => 1.5,
 
     'Mojolicious::Plugin::Oro::Viewer' => 0,
-    'Cache::FastMmap' => 0,
-    'Excel::Writer::XLSX' => 0,
-    'Search::Tokenizer' => 0,
-    'Lingua::Stem::UniNE::DE' => 0,
-    'DBIx::Oro' => '0.31',
+    'Cache::FastMmap' => 1.40,
+    'Excel::Writer::XLSX' => 0.84,
+    'RTF::Writer' => 0,
+    'Search::Tokenizer' => 1.01,
+    'Lingua::Stem::UniNE::DE' => 0.08,
     'Text::FromAny' => 0,
-    'Unicode::Normalize' => 0,
-    'Encode' => 0,
+    'Unicode::Normalize' => 1.18,
+    'Encode' => 2.73,
     'Getopt::Long' => 0
   },
   test => {

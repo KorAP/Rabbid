@@ -4,8 +4,7 @@
 
 % if (stash('collection')) {
 <h3>Kollektion &quot;<%= stash 'q' %>&quot;</h3>
-% my $export = url_with->query(format => 'xlsx');
-<p class="export">Exportieren nach <%= link_to 'Excel', $export %></p>
+<p class="export">Exportieren nach <%= link_to 'Excel', url_with->query(format => 'xlsx') %> <%= link_to 'RTF', url_with->query(format => 'rtf') %></p>
 % } elsif (param('q')) {
 <h3>Suche nach &quot;<%= param 'q' %>&quot;</h3>
 % } else {

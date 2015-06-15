@@ -53,7 +53,7 @@ sub kwic {
     );
 
     # Prepare results
-    if ($result) {
+    if (scalar @$result) {
 
       # Post process stored snippets
       # TODO: This should be realised in an outer join instead!

@@ -2,9 +2,14 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="<%= stash 'prefix' %>/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="<%= stash 'prefix' %>/favicon.ico" type="image/x-icon" />
     <meta charset="utf-8" />
+    %= javascript begin
+      % my $api = url_for('collections');
+      % $api =~ s!/$!!;
+      window.RabbidAPI = '<%= $api %>';
+    % end
     % foreach (app->notifications->styles) {
     %=  stylesheet $_
     % };
@@ -34,8 +39,9 @@
     % } else {
     <a class="logo big" href="<%= url_for 'collections'  %>"><h1><span><%= title %></span></h1></a>
     <h2><%= $description %></h2>
+    <a class="korap-project" href="http://korap.ids-mannheim.de/"><span>KorAP</span></a>
     % };
     %= content
     %= notifications 'alertify', -no_include
   </body>
-<html>
+</html>

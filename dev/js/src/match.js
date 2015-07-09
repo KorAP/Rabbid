@@ -1,3 +1,5 @@
+window.RabbidAPI = window.RabbidAPI || "";
+
 define({
   create : function (match) {
     return Object.create(this)._init(match);
@@ -68,7 +70,9 @@ define({
 	};
 
 	// Retrieve extension from system
-	that.getJSON('/corpus/' + that.ID + '/' + para, function (obj) {
+	that.getJSON(
+	  window.RabbidAPI + '/corpus/' + that.ID + '/' + para,
+	  function (obj) {
 
 	  var span = document.createElement('span');
 	  span.classList.add('ext');
@@ -158,7 +162,7 @@ define({
   store : function () {
     var that = this;
     this.sendJSON(
-      '/corpus/' + this.ID + '/' + this.para,
+      window.RabbidAPI + '/corpus/' + this.ID + '/' + this.para,
       {
 	"q" : top.query,
 	"rightExt" : this.rightExt,

@@ -2,8 +2,15 @@
 
 use strict;
 use warnings;
+use FindBin;
+use File::Spec::Functions qw(splitdir catdir);
 
 use lib 'lib';
+
+BEGIN {
+  my $path = catdir(splitdir($FindBin::Bin), '..', 'lib');
+  push(@INC, $path);
+};
 
 # Start command line interface for application
 require Mojolicious::Commands;

@@ -20,6 +20,17 @@ sub startup {
   push @{$self->commands->namespaces}, __PACKAGE__ . '::Command';
   push @{$self->plugins->namespaces},  __PACKAGE__ . '::Plugin';
 
+  # korap.ids-mannheim.de specific path prefixing
+  $self->hook(
+    before_dispatch => sub {
+      my $c = shift;
+      my $host = $c->req->headers->header('X-Forwarded-Host');
+      if ($host && $host eq 'korap.ids-mannheim.de') {
+	$c->req->url->base->path('/rabbid/');
+	$c->stash(prefix => '/rabbid');
+      };
+    }) if $self->mode eq 'production';
+
   # Add richtext format
   $self->types->type(rtf => 'application/rtf');
   $self->types->type(doc => 'application/msword');

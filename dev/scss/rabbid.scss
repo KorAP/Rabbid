@@ -49,6 +49,25 @@ a.logo > h1 {
   }
 }
 
+a.korap-project {
+  display: inline-block;
+  height: 2em;
+  width: 9em;
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  background: {
+    position: 50% 50%;
+    repeat: no-repeat;
+    size: 90% auto;
+    image: url('../img/korap-project-2.svg');
+  }
+  // BLIND
+  > span {
+    margin-left: -3000px;
+  }
+}
+
 a.logo.big h1 {
   display: block;
   background: {
@@ -64,6 +83,25 @@ a.logo.big h1 {
     top: 10pt;
     bottom: 10pt;
     left: 10%;
+  }
+}
+
+p.export {
+  a {
+    &::after {
+      font-family: 'FontAwesome';
+      content: '';
+    }
+    &.rtf::after {
+      content: "\f1c2";
+    }
+    &.excel::after {
+      content: "\f1c3";
+    }
+    > span {
+      position: absolute;
+      margin-left: -3000px;
+    }
   }
 }
 

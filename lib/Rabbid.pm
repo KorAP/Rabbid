@@ -3,7 +3,7 @@ use Mojo::Base 'Mojolicious';
 use Cache::FastMmap;
 
 
-our $VERSION = '0.2.0';
+our $VERSION = '0.2.1';
 
 
 # 120 seconds inactivity allowed

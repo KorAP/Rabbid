@@ -1,4 +1,4 @@
-window.RabbidAPI = window.RabbidAPI || "";
+window.RabbidAPI = window.RabbidAPI || '';
 
 define({
   create : function (match) {
@@ -16,10 +16,10 @@ define({
 	match === null ||
 	match === undefined) {
       throw new Error('Missing parameters');
-    }
+    };
 
     // Match defined as a node
-    else if (match instanceof Node) {
+    if (match instanceof Node) {
       this._element  = match;
       
       // Circular reference !!
@@ -33,6 +33,7 @@ define({
       this.leftExt  = parseInt(match.getAttribute('data-left-ext')  || '0');
       this.rightExt = parseInt(match.getAttribute('data-right-ext') || '0');
     };
+
 
     var that = this;
 
@@ -52,6 +53,35 @@ define({
       });
     };
 
+    var coll = this._element.getElementsByClassName('collapse');
+    // Collapse snippet
+    for (var i = 0; i < coll.length; i++) {
+      coll[i].addEventListener('click', function (e) {
+	var element = this;
+
+	// The button object
+	var p = element.parentNode;
+
+	// Was extended to the right
+	if (this.classList.contains('left')) {
+	  var nextObject = p.nextSibling;
+	  if (nextObject.nodeType === 1 && nextObject.classList.contains('ext')) {
+	    p.parentNode.removeChild(nextObject);
+	    that.decrLeftExt();
+	  };
+	}
+
+	// Was extended to the left
+	else {
+	  var previousObject = p.previousSibling;
+	  if (previousObject.nodeType === 1 && previousObject.classList.contains('ext')) {
+	    p.parentNode.removeChild(previousObject);
+	    that.decrRightExt();
+	  };
+	};
+      });
+    };
+
     var ext = this._element.getElementsByClassName('extend');
     // Extend snippet
     for (var i = 0; i < ext.length; i++) {
@@ -59,14 +89,17 @@ define({
 	var element = this;
 	var para = that.para;
 	var before = true;
+
 	if (this.classList.contains('left')) {
-	  that.incrLeftExt();
-	  para -= that.leftExt;
-	}
-	else {
-	  that.incrRightExt();
-	  para += that.rightExt;
+	  para -= (that.leftExt + 1);
+	} else {
+	  para += (that.rightExt + 1);
 	  before = false;
+	};
+
+	if (para < 0) {
+	  alertify.log("Keine weitere Erweiterungen", "note", 3000);
+	  return;
 	};
 
 	// Retrieve extension from system
@@ -74,38 +107,55 @@ define({
 	  window.RabbidAPI + '/corpus/' + that.ID + '/' + para,
 	  function (obj) {
 
-	  var span = document.createElement('span');
-	  span.classList.add('ext');
-	  if (obj["nobr"] !== undefined) {
-	    span.classList.add('nobr');
-	  };
+	    if (before) {
+	      that.incrLeftExt();
+	    }
+	    else {
+	      that.incrRightExt();
+	    };
 
-	  span.appendChild(
-	    document.createTextNode(obj.content)
-	  );
+	    // Create new extension element
+	    var span = document.createElement('span');
+	    span.classList.add('ext');
+	    if (obj["nobr"] !== undefined) {
+	      span.classList.add('nobr');
+	    };
 
-	  // Prepend snippet
-	  if (before) {
-	    element.parentNode.insertBefore(
-	      span,
-	      element.nextSibling
+	    // Add text content
+	    span.appendChild(
+	      document.createTextNode(obj.content)
 	    );
+	    
+	    var p = element.parentNode;
 
-	    if (obj['previous'] === undefined)
-	      element.parentNode.removeChild(element);
-	  }
+	    // left extension - Prepend snippet
+	    if (before) {
+	      p.parentNode.insertBefore(
+		span,
+		p.nextSibling
+	      );
+	      
+	      /*
+		Todo: Make obj disabled
+		if (obj['previous'] === undefined)
+		element.parentNode.removeChild(element);
+	      */
+	    }
 
-	  // Append snippet
-	  else {
-	    element.parentNode.insertBefore(
-	      span,
-	      element
-	    );
+	    // Append snippet
+	    else {
+	      p.parentNode.insertBefore(
+		span,
+		p
+	      );
 
-	    if (obj['next'] === undefined)
-	      element.parentNode.removeChild(element);
-	  }
-	});
+	      /*
+		Todo: Make obj disable
+		if (obj['next'] === undefined)
+		element.parentNode.removeChild(element);
+	      */
+	    }
+	  });
       });
     };
     
@@ -137,7 +187,7 @@ define({
     // Add actions unless it's already activated
     var element = this._element;
 
-    // There is an element to open
+    // There is no element to open
     if (this._element === undefined || this._element === null)
       return false;
     
@@ -218,7 +268,7 @@ define({
 	if (this.status === 200)
 	  onload(JSON.parse(this.responseText));
 	else
-	  console.log(this.status, this.statusText);
+	  alertify.log("Keine weitere Erweiterungen", "note", 3000);
       }
     };
     req.ontimeout = function () {

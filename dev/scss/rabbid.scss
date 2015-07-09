@@ -332,28 +332,47 @@ h3 {
 
 li.active {
   span.extend {
+    display: inline-block;
     &.left::after {
       font-family: 'FontAwesome';
-      content: '\f03b';
+      content: "\f0d9"; // '\f03b';
     }
     &.right::after {
       font-family: 'FontAwesome';
-      content: '\f03c';
+      content: "\f0da"; // '\f03c';
     }
   }
-  span.button {
+  span.collapse {
     display: inline-block;
+    &.right::after {
+      font-family: 'FontAwesome';
+      content: "\f0d9"; // '\f03b';
+    }
+    &.left::after {
+      font-family: 'FontAwesome';
+      content: "\f0da"; // '\f03c';
+    }
+  }
+  span.buttons, span.button {
     background-color: $ids-pink-2;
     color: $ids-pink-1;
     border-radius: 5px;
-    cursor: pointer;
     margin: 0 4pt;
-    // padding: 0 4pt;
+  }
+
+  span.button, span.buttons > span {
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 4pt;
     // width: 1.8em;
     &:hover {
       background-color: $ids-pink-1;
       color: $ids-pink-2;
     }
+  }
+
+  span.button {
     &.close::after {
       font-family: 'FontAwesome';
       content: '\f00d';
@@ -651,4 +670,9 @@ li.active span {
       display: block;
     }
   }
+}
+
+.alertify-log-note {
+  background: $ids-pink-1;
+  color: $ids-pink-2;
 }

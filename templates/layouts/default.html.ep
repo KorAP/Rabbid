@@ -17,7 +17,11 @@
     %=  javascript $_
     % };
     %= stylesheet '/css/rabbid-' . $Rabbid::VERSION . '.css'
-    %= javascript '/js/rabbid-'  . $Rabbid::VERSION . '.js'
+    % if (app->mode eq 'production') {
+      %= javascript '/js/rabbid-'  . $Rabbid::VERSION . '.js'
+    % } else {
+      %= javascript '/js/lib/require.js', 'data-main' => '/js/src/development.js',  async => 'async'
+    % };
   </head>
   <body>
     % if ($c->allowed_for('member@all')) {

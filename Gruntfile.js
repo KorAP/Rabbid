@@ -73,6 +73,24 @@ module.exports = function(grunt) {
 	    filter: 'isFile',
 	    nonull:true,
 	    timestamp:true
+	  },
+	  {
+	    expand: true,
+	    cwd: 'dev/js/lib/',
+	    src: '**',
+	    dest: 'public/js/lib/',
+	    filter: 'isFile',
+	    nonull:true,
+	    timestamp:true
+	  },
+	  {
+	    expand: true,
+	    cwd: 'dev/js/src/',
+	    src: '**',
+	    dest: 'public/js/src/',
+	    filter: 'isFile',
+	    nonull:true,
+	    timestamp:true
 	  }
 	]
       }
@@ -81,6 +99,13 @@ module.exports = function(grunt) {
       css: {
 	files: ['dev/scss/rabbid.scss'],
 	tasks: ['sass'],
+	options: {
+	  spawn: false
+	}
+      },
+      js: {
+	files: ['dev/js/src/{init,match,app}.js'],
+	tasks: ['copy'],
 	options: {
 	  spawn: false
 	}

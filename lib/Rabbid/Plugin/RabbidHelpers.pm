@@ -167,9 +167,12 @@ sub register {
 
 	  # Extend to the left
 	  my $left = '<span class="context-left">';
-	  if ($para->{previous}) {
-	    $left .= '<span class="extend left button"></span>';
-	  };
+	  # if ($para->{previous}) {
+	  $left .= '<span class="buttons">';
+	  $left .= '<span class="extend left"></span>';
+	  $left .= '<span class="collapse left"></span>';
+	  $left .= '</span>';
+	  # };
 	  if ($para->{left}) {
 	    # $left .= '<span class="collapse left button"></span>';
 	    foreach (@{$para->{left}}) {
@@ -185,12 +188,15 @@ sub register {
 	    };
 	    # $right .= '<span class="collapse right button"></span>';
 	  };
-	  if ($para->{next}) {
-	    $right .= '<span class="extend right button"></span></span>';
-	  }
-	  else {
-	    $right .= '</span>'
-	  };
+	  # if ($para->{next}) {
+	  $right .= '<span class="buttons">';
+	  $right .= '<span class="collapse right"></span>';
+	  $right .= '<span class="extend right"></span>';
+	  $right .= '</span>';
+	  #}
+	  #else {
+	    $right .= '</span>';
+	  #};
 
 	  # Prepare marks for match spans
 	  unless ($text =~ s!^(.*?)(<mark>.+</mark>)(.*?)$!${left}$1</span><span class="match">$2</span><span class="context-right">$3${right}!o) {

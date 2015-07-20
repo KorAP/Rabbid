@@ -4,6 +4,9 @@
     <title><%= title %></title>
     <link rel="icon" href="<%= stash 'prefix' %>/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="<%= stash 'prefix' %>/favicon.ico" type="image/x-icon" />
+
+    <!-- <%= url_for->to_abs %> -->
+
     <meta charset="utf-8" />
     %= javascript begin
       % my $api = url_for('collections');

@@ -5,10 +5,11 @@ use Mojo::Util qw/xml_escape/;
 use Lingua::Stem::UniNE::DE qw/stem_de/;
 require Rabbid::Analyzer;
 
+# Register plugin to establish helpers
 sub register {
   my ($plugin, $self) = @_;
 
-  # Add helpers
+  # Move query parameters to hidden form fields
   $self->helper(
     hidden_parameters => sub {
       my $c = shift;
@@ -30,6 +31,7 @@ sub register {
     }
   );
 
+  # Create filtering links
   $self->helper(
     filter_by => sub {
       my $c = shift;
@@ -37,9 +39,9 @@ sub register {
       return $c->link_to(
 	$value,
 	$c->url_with->query([
-	  startPage => 1,
-	  filterBy => $key,
-	  filterOp => 'equals',
+	  startPage   => 1,
+	  filterBy    => $key,
+	  filterOp    => 'equals',
 	  filterValue => $value
 	])
       );

@@ -15,6 +15,7 @@ a:link, a:visited {
   color: $ids-pink-1;
 }
 
+
 * {
   box-sizing: border-box;
 }
@@ -485,7 +486,6 @@ mark {
   color: inherit;
 }
 
-
 nav {
   display: block;
   float: right;
@@ -627,7 +627,7 @@ fieldset {
   }
 }
 
-a.acct-forgotten {
+a[rel=forgotten] {
   color: $ids-pink-2;
   margin: 0 5em;
 }

@@ -152,7 +152,7 @@ sub kwic {
 	  }
 	] => {
 	  q => $q,
-	  user_id => $c->acct->id,
+	  user_id => $c->rabbid_acct->id,
 	  -or => \@or_condition
 	}
       );
@@ -275,7 +275,7 @@ __END__
 # SELECT Doc.author AS `author`, Doc.year AS `year`, Doc.title AS `title`, Doc.domain AS `domain`, Doc.genre AS `genre`, Doc.polDir AS `poldir`, Doc.file AS `file`, Text.content AS `content`, Text.in_doc_id AS `in_doc_id`, Text.para AS `para`, offsets(Text.Text) AS `marks` FROM Doc, Text WHERE Doc.doc_id = Text.in_doc_id AND Text.content MATCH ? ORDER BY in_doc_id, para LIMIT ? -- From Cache1 at lib/Rabbid/Controller/Search.pm line 56, <DATA> line 260.
 
     my $q = $c->param('q');
-    my ($rv, $sth) = $oro->prep_and_exec(<<'SQL', [quote($q), $q, $c->acct->id, $items],'cached');
+    my ($rv, $sth) = $oro->prep_and_exec(<<'SQL', [quote($q), $q, $c->rabbid_acct->id, $items],'cached');
 SELECT
   Doc.author AS `author`,
   Doc.year AS `year`,

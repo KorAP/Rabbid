@@ -2,7 +2,7 @@ package Rabbid;
 use Mojo::Base 'Mojolicious';
 
 
-our $VERSION = '0.2.1';
+our $VERSION = '0.3.0';
 
 # This method will run once at server start
 sub startup {
@@ -64,62 +64,56 @@ sub startup {
     subject => 'Rabbid crashed!'
   });
 
-  # Temporary plugins - User Management
-  $self->plugin('Oro::Account');
-  $self->plugin('Oro::Account::ConfirmMail');
+  # Rabbid can be configured for multiple users and corpora,
+  # but this requires closed source plugins
+  my $multi = $self->config('multi');
 
   # Router
   my $r = $self->routes;
 
-  # Open routes
-  $r->any('/login')->acct('login' => { return_url => 'collections' });
-  $r->any('/login/forgotten')->acct('forgotten');
-  $r->any('/about')->to(
-    cb => sub {
-      shift->render(template => 'about', about => 1)
-    })->name('about');
+  # There is a rabbid multi plugin defined, establish
+  if ($multi) {
+    $self->plugin($multi);
+    $r = $r->rabbid_multi;
+  };
 
-  # Restricted routes for user management
-  my $res = $r->route('/')->over(allowed_for => '@all');
-  $res->any('/login/remove')->acct('remove');
-  $res->any('/preferences')->acct('preferences');
-  $res->any('/logout')->acct('logout');
+  # Load default plugin
+  $self->plugin('RabbidMulti');
 
   # Collection view
-  $res->get('/')->to('Collection#index', collection => 1)->name('collections');
-  $res->get('/collection/:coll_id')->to(
+  $r->get('/')->to('Collection#index', collection => 1)->name('collections');
+  $r->get('/collection/:coll_id')->to(
     'Collection#collection', collection => 1
   )->name('collection');
 
   # Search view
-  $res->get('/search')->to('Search#kwic', search => 1)->name('search');
+  $r->get('/search')->to('Search#kwic', search => 1)->name('search');
 
   # Corpus view
-  $res->get('/corpus')->to(
+  $r->get('/corpus')->to(
     'Document#overview', overview => 1
   )->name('corpus');
-  $res->get('/corpus/raw/:file')->name('file');
+  $r->get('/corpus/raw/:file')->name('file');
 
   # Ajax API
   # Retrieve snippets
-  $res->get('/corpus/:doc_id/:para',
-	    [doc_id => qr/\d+/, para => qr/\d+/]
-	  )->to('Search#snippet')->name('snippet');
+  $r->get('/corpus/:doc_id/:para',
+	  [doc_id => qr/\d+/, para => qr/\d+/]
+	)->to('Search#snippet')->name('snippet');
 
   # Store snippets
-  $res->post('/corpus/:doc_id/:para',
-	     [doc_id => qr/\d+/, para => qr/\d+/]
-	   )->to('Collection#store');
+  $r->post('/corpus/:doc_id/:para',
+	   [doc_id => qr/\d+/, para => qr/\d+/]
+	 )->to('Collection#store');
 
-  # Catchall for restricted routes
-  $r->any('/*catchall', { catchall => '' })->to(
+  # Catchall
+  $self->routes->any('/*catchall', { catchall => '' })->to(
     cb => sub {
       my $c = shift;
-      return $c->redirect_to('acct_login') unless $c->allowed_for('@all');
+      return $c->rabbid_catchall if $multi;
       return $c->reply->not_found;
     });
 };
-
 
 1;
 

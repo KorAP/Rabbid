@@ -7,10 +7,48 @@ require Rabbid::Analyzer;
 
 # Register plugin to establish helpers
 sub register {
-  my ($plugin, $self) = @_;
+  my ($plugin, $app) = @_;
+
+  # Add links to navigation line
+  my @navigation;
+  $app->helper(
+    rabbid_navi => sub {
+      my $c = shift;
+      my $b;
+
+      # Just retrieve the navigation
+      unless (@_) {
+	foreach (@navigation) {
+
+	  # Render string variables
+	  unless (ref $_) {
+	    $b .= $c->render_to_string($_);
+	  }
+
+	  # Append bytestreams
+	  else {
+	    $b .= $_;
+	  }
+	};
+	return b($b) if $b;
+	return '';
+      };
+
+      # Adding navigations can only happen in app mode
+      if (ref $app ne 'Rabbid') {
+	$app->log->warn(
+	  'rabbid_navi(x) needs to be called by app'
+	);
+	return;
+      };
+
+      push(@navigation, @_);
+    }
+  );
+
 
   # Move query parameters to hidden form fields
-  $self->helper(
+  $app->helper(
     hidden_parameters => sub {
       my $c = shift;
       my %param = @_;
@@ -32,7 +70,7 @@ sub register {
   );
 
   # Create filtering links
-  $self->helper(
+  $app->helper(
     filter_by => sub {
       my $c = shift;
       my ($key, $value) = @_;
@@ -48,7 +86,7 @@ sub register {
     }
   );
 
-  $self->helper(
+  $app->helper(
     extend_result => sub {
       my $c = shift;
       my $result = shift;
@@ -119,7 +157,7 @@ sub register {
   );
 
   # Create highlights, mark document flips, integrate extensions
-  $self->helper(
+  $app->helper(
     prepare_result => sub {
       my $c = shift;
       my $result = shift;
@@ -221,7 +259,7 @@ sub register {
     }
   );
 
-  $self->helper(
+  $app->helper(
     prepare_paragraph => sub {
       my $para = pop;
 
@@ -243,7 +281,7 @@ sub register {
     }
   );
 
-  $self->helper(
+  $app->helper(
     stem => sub { return stem_de pop }
   );
 };

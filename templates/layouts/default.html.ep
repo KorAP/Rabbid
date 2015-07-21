@@ -27,7 +27,7 @@
     % };
   </head>
   <body>
-    % if ($c->allowed_for('member@all')) {
+    % if ($c->rabbid_acct->id) {
     <a class="logo" href="<%= url_for 'collections'  %>"><h1><span><%= title %></span></h1></a>
     %=   form_for url_for('search'), method => 'GET', begin
     %=     hidden_parameters without => ['q', 'page']
@@ -38,15 +38,12 @@
       <%= link_to url_with('corpus'), title => 'Dokumente', class => 'overview ' . (stash('overview') ? 'active' : ''), begin %><span>Dokumente</span><% end %>
       <%= link_to url_with('search'), title => 'Suche', class => 'search ' . (stash('search') ? 'active' : ''), begin %><span>Suche</span><% end %>
       <%= link_to url_with('about'), title => 'Über Rabbid', class => 'about ' . (stash('about') ? 'active' : ''), begin %><span>Über Rabbid</span><% end %>
-
-
-      <%= link_to 'acct_preferences', class => 'preferences', title => acct->handle,  begin %><span><%= acct->handle %></span><% end %>
-      <%= link_to nocsrf_url_for('acct_logout')->query({return_url => signed_url_for(url_for)}), rel => 'logout', class => 'logout', title => 'Abmelden', begin %><span><%= loc('logout') %></span><% end %>
+      %= rabbid_navi
     </nav>
     % } else {
     <a class="logo big" href="<%= url_for 'collections'  %>"><h1><span><%= title %></span></h1></a>
     <h2><%= $description %></h2>
-    <a class="korap-project" href="http://korap.ids-mannheim.de/"><span>KorAP</span></a>
+    <a class="korap-project" href="http://korap.ids-mannheim.de/kalamar"><span>KorAP</span></a>
     % };
     %= content
     %= notifications 'alertify', -no_include

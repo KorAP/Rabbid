@@ -10,7 +10,7 @@ require Rabbid::Analyzer;
 sub index {
   my $c = shift;
 
-  my $user_id = $c->acct->id or return $c->reply->not_found;
+  my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
 
   # Retrieve all collections from the user
   my $colls = $c->oro->select(
@@ -41,7 +41,7 @@ sub collection {
   my $coll_id = $c->stash('coll_id');
 
   my $oro = $c->oro;
-  my $user_id = $c->acct->id or return $c->reply->not_found;
+  my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
 
   # Get collection based on id
   my $coll = $oro->load(Collection => [qw/q/] => {
@@ -107,7 +107,7 @@ sub store {
   my $doc_id  = $c->stash('doc_id');
   my $para    = $c->stash('para');
   my $json    = $c->req->json;
-  my $user_id = $c->acct->id or return $c->reply->not_found;
+  my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
 
   # No query submitted
   return $c->reply->not_found unless $json->{q};
@@ -228,7 +228,7 @@ sub _export_to_rtf {
   # Create RTF Prolog
   $rtf->prolog(
     title => 'Belegstellen-' . $query,
-    author => $c->acct->handle,
+    author => $c->rabbid_acct->handle,
     operator => 'Rabbid',
     charset => 'utf8'
   );

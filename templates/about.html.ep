@@ -24,6 +24,7 @@
 	<li>typisierte Filter (größer, kleiner als ... u.a. für Jahres-Ranges)</li>
       </ul>
     </li>
+    <li>Sortieren von Belegstellen</li>
     <li>Ignorieren von Treffern in einer Suche</li>
     <li>Visuelle Unterscheidung von Paragraphen und Nicht-Paragraphen</li>
     <li>HTML-Ansicht des gesamten Dokuments</li>

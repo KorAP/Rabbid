@@ -161,10 +161,10 @@ sub register {
 	      # TODO: needs to be tested though!
 	      # Remove the string including the end
 	      my $remove = substr($text, $_->[2], $_->[3] + 10, '');
-	      use bytes;
+#	      use bytes;
 	      # Add the marker
 	      substr($remove, $_->[3], 0, '#!#/mark#!~');
-	      no bytes;
+#	      no bytes;
 	      substr($text, $_->[2], 0, $remove);
 	      substr($text, $_->[2], 0, '#!#mark#!~');
 	    };

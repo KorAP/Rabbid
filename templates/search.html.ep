@@ -16,12 +16,16 @@
 top.query = "<%= param('q') %>";
 % end
 % if (stash('kwic') && @{stash('kwic')} > 0) {
+% if (defined stash('totalResults')) {
+  <p class="total-results"><span><%= stash 'totalResults' %></span> Treffer</p>
+% };
+
   <ol class="kwic">
 %   foreach (@{stash('kwic')}) {
 %=    include 'match', m => $_
 %   };
   </ol>
-% } else {
+% } elsif (param('q')) {
 <div style="clear:both; text-align: center; padding: .5em">
   <object type="image/svg+xml" data="<%= stash 'prefix' %>/img/rabbid-sad.svg"></object>
   <p>Leider keine Treffer ...</p>
@@ -33,6 +37,10 @@ top.query = "<%= param('q') %>";
   % my $url = $c->url_with('search');
   % $url->query([ page => '{page}']);
   <div class="pagination">
+  % if (stash('totalResults')) {
+  %= pagination scalar(param('page') // 1), stash('totalPages') => $url;
+  % } else {
   %= pagination scalar(param('page') // 1), -1 => $url;
+  % };
   </div>
 % }

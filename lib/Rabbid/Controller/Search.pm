@@ -1,9 +1,74 @@
 package Rabbid::Controller::Search;
 use Mojo::Base 'Mojolicious::Controller';
 use Mojo::Util 'quote';
+use POSIX 'ceil';
 require Rabbid::Analyzer;
 
 my $items = 20;
+
+sub _count {
+  my $c = shift;
+
+  my $q = $c->param('q');
+  my $result;
+
+  if ($q) {
+    my $oro = $c->oro;
+
+    # Set filtering
+    if ($c->param('filterBy')) {
+
+      # Search Fulltext
+      $result = $oro->load(
+	[
+	  Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
+	  Text => [
+	    'count(para):para_count'
+	  ] => { in_doc_id => 1 }
+	],
+	{
+	  content => {
+	    match => quote($q)
+	  },
+	  -cache => {
+	    chi => $c->chi,
+	    expires_in => '120min'
+	  },
+	  scalar($c->param('filterBy')) => scalar($c->param('filterValue'))
+	}
+      );
+    }
+    else {
+
+      # Search Fulltext
+      $result = $oro->load(
+	Text => [
+	  'count(para):para_count'
+	],
+	{
+	  content => {
+	    match => quote($q)
+	  },
+	  -cache => {
+	    chi => $c->chi,
+	    expires_in => '120min'
+	  }
+	}
+      );
+    };
+
+    return 0 unless $result;
+    return $result->{para_count};
+  };
+  return 0;
+};
+
+# Get total pages
+sub _total_pages {
+  my ($total_results, $items_per_page) = @_;
+  return 0 if $total_results <= 0;
+  return ceil($total_results / ($items_per_page || 1));
+};
 
 sub kwic {
   my $c = shift;
@@ -13,6 +78,13 @@ sub kwic {
 
   if ($q) {
     my $oro = $c->oro;
+
+    # Get count information per default
+    # This should come from cache in morst of the cases
+    my $count = $c->_count;
+    $c->stash(totalResults => $count);
+    $c->stash(itemsPerPage => $items);
+    $c->stash(totalPages => _total_pages($count, $items));
 
     my %args = (
       -limit => $items

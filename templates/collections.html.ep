@@ -6,6 +6,6 @@
 
 <ol class="collection">
 % foreach (@$collection) {
-  <li><%= link_to $_->{q}, url_with('collection', coll_id => $_->{id}) %> (<%= $_->{samples} %> Belegstellen)</li>
+  <li><%= link_to $_->{q}, url_with('collection', coll_id => $_->{id})->query([q => $_->{q}]) %> (<%= $_->{samples} %> Belegstellen)</li>
 % }
 </ol>

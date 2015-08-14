@@ -15,6 +15,14 @@ a:link, a:visited {
   color: $ids-pink-1;
 }
 
+.total-results {
+  margin-right: 1em;
+  float: right;
+  text-align: right;
+  > span {
+    font-weight: bold;
+  }
+}
 
 * {
   box-sizing: border-box;

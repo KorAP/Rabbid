@@ -15,12 +15,17 @@
 %= javascript begin
 top.query = "<%= param('q') %>";
 % end
-% if (stash 'kwic') {
+% if (stash('kwic') && @{stash('kwic')} > 0) {
   <ol class="kwic">
 %   foreach (@{stash('kwic')}) {
 %=    include 'match', m => $_
 %   };
   </ol>
+% } else {
+<div style="clear:both; text-align: center; padding: .5em">
+  <object type="image/svg+xml" data="<%= stash 'prefix' %>/img/rabbid-sad.svg"></object>
+  <p>Leider keine Treffer ...</p>
+</div>
 % };
 </div>
 

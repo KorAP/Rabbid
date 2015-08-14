@@ -53,7 +53,7 @@ sub kwic {
     );
 
     # Prepare results
-    if (scalar @$result) {
+    if ($result && scalar @$result) {
 
       # Post process stored snippets
       # TODO: This should be realised in an outer join instead!
@@ -98,6 +98,9 @@ sub kwic {
       $c->extend_result($result);
       $c->prepare_result($result);
     };
+  }
+  else {
+    $result = [];
   };
 
   return $c->render(

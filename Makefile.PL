@@ -19,7 +19,7 @@ WriteMakefile(
     'Mojolicious::Plugin::CHI' => 0.11,
     'DBIx::Oro' => 0.31_3, # GitHub
     'Mojolicious::Plugin::Oro' => 0.06, # GitHub
-    'Mojolicious::Plugin::TagHelpers::Pagination' => 0.05,
+    'Mojolicious::Plugin::TagHelpers::Pagination' => 0.06,
     'Mojolicious::Plugin::Localize' => 0.09, # GitHub
 
     # IDS specific

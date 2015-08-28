@@ -17,7 +17,10 @@ top.query = "<%= param('q') %>";
 % end
 % if (stash('kwic') && @{stash('kwic')} > 0) {
 % if (defined stash('totalResults')) {
-  <p class="total-results"><span><%= stash 'totalResults' %></span> Treffer</p>
+  <p class="total-results"><span><%= stash 'totalResults' %></span>
+    Treffer in
+    <span><%= stash 'totalDocs' %></span>
+    Dokument<% if (stash('totalDocs') != 1) { %>en<% } %></p>
 % };
 
   <ol class="kwic">

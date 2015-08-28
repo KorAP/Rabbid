@@ -23,7 +23,8 @@ sub _count {
 	[
 	  Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
 	  Text => [
-	    'count(para):para_count'
+	    'count(para):para_count',
+	    'count(distinct(in_doc_id)):doc_count'
 	  ] => { in_doc_id => 1 }
 	],
 	{
@@ -43,7 +44,8 @@ sub _count {
       # Search Fulltext
       $result = $oro->load(
 	Text => [
-	  'count(para):para_count'
+	  'count(para):para_count',
+	  'count(distinct(in_doc_id)):doc_count'
 	],
 	{
 	  content => {
@@ -57,10 +59,10 @@ sub _count {
       );
     };
 
-    return 0 unless $result;
-    return $result->{para_count};
+    return (0,0) unless $result;
+    return ($result->{para_count}, $result->{doc_count});
   };
-  return 0;
+  return (0,0);
 };
 
 # Get total pages
@@ -81,10 +83,11 @@ sub kwic {
 
     # Get count information per default
     # This should come from cache in morst of the cases
-    my $count = $c->_count;
+    my ($count, $doc_count) = $c->_count;
     $c->stash(totalResults => $count);
+    $c->stash(totalDocs    => $doc_count);
     $c->stash(itemsPerPage => $items);
-    $c->stash(totalPages => _total_pages($count, $items));
+    $c->stash(totalPages   => _total_pages($count, $items));
 
     my %args = (
       -limit => $items

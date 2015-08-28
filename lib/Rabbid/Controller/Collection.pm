@@ -134,10 +134,18 @@ sub store {
 	} => $constraint
       );
 
-      $c->notify(warn => 'Hui: ' . $oro->last_sql . $c->dumper($oro->select('Collection')));
+      # $c->notify(warn => 'Hui: ' . $oro->last_sql . $c->dumper($oro->select('Collection')));
 
       # Gett collection id
-      $coll_id = $oro->load(Collection => $constraint)->{coll_id};
+      my $coll_id = $oro->load(Collection => $constraint);
+
+      if ($coll_id) {
+	$coll_id = $coll_id->{coll_id};
+      }
+      else {
+	$c->notify(error => 'Unable to create collection');
+	return -1;
+      };
 
       # Todo: Check if leftExt and rightExt are numbers
       if ($oro->merge(

@@ -3,10 +3,14 @@ use Test::More;
 use Test::Mojo;
 use lib '../lib', 'lib';
 
-my $t = Test::Mojo->new('Rael');
+# Todo: use .test environment!
+my $t = Test::Mojo->new('Rabbid');
 $t->get_ok('/')
-  ->status_is(200)
-  ->element_exists('table.oro-view');
+  ->status_is(200);
+
+done_testing;
+
+__END__
 
 $t->get_ok('/?q=Darmstädtler')
   ->status_is(200);

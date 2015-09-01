@@ -2,7 +2,7 @@ package Rabbid;
 use Mojo::Base 'Mojolicious';
 
 
-our $VERSION = '0.3.0';
+our $VERSION = '0.3.1';
 
 # This method will run once at server start
 sub startup {

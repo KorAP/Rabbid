@@ -1,3 +1,6 @@
+0.3.1 2015-09-01
+        - First release in KorAP infrastructure.
+
 0.3.0 2015-07-20
         - Decoupled multi-corpora/multi-user configuration.
 

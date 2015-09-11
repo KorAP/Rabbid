@@ -18,12 +18,16 @@
   <h4>Todo ...</h4>
   <ul>
     <li>Löschen gespeicherter Belegstellen</li>
+    <li>Filtern von Kollektionen</li>
+    <li>Tabbing durch Trefferlisten</li>
+    <li>Notizfunktion pro Kollektion</li>
     <li>Unterstützung mehrerer Korpora</li>
     <li>Mehrfach-Filter
       <ul>
 	<li>typisierte Filter (größer, kleiner als ... u.a. für Jahres-Ranges)</li>
       </ul>
     </li>
+    <li>Tagging von Trefferkategorien</li>
     <li>Sortieren von Belegstellen</li>
     <li>Ignorieren von Treffern in einer Suche</li>
     <li>Visuelle Unterscheidung von Paragraphen und Nicht-Paragraphen</li>

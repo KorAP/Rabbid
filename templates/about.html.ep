@@ -7,30 +7,11 @@
 <main>
   <dl>
     <dt>Idee und Konzept</dt>
-    <dd><%= link_to 'Ruth Mell', 'http://www.ids-mannheim.de/lexik/personal/mell.html' %> und Nils Diewald</dd>
+    <dd><%= link_to 'Ruth Maria Mell', 'http://www.ids-mannheim.de/lexik/personal/mell.html' %> und Nils Diewald</dd>
     <dt>Programmierung und Gestaltung</dt>
     <dd><%= link_to 'Nils Diewald', 'http://nils-diewald.de' %></dd>
   </dl>
 
   <p><%= link_to 'Rabbid' %> ist ein Nebenprojekt von <%= link_to 'KorAP', 'http://korap.ids-mannheim.de/' %>, das in enger Zusammenarbeit mit dem Projekt <%= link_to 'Demokratiediskurs 1918/1925', 'http://www1.ids-mannheim.de/lexik/zeitreflexion18.html' %> entwickelt wurde. Es dient sowohl als optimiertes Tool zur Recherche von Belegstellen in Diskursen als auch der prototypenbasierten Weiterentwicklung der KorAP Plattform.</p>
   <p>Rabbid bietet - im Gegensatz zu KorAP - nur eingeschränkte Suchoptionen auf kleine, unannotierte Korpora.</p>
-
-  <h4>Todo ...</h4>
-  <ul>
-    <li>Löschen gespeicherter Belegstellen</li>
-    <li>Filtern von Kollektionen</li>
-    <li>Tabbing durch Trefferlisten</li>
-    <li>Notizfunktion pro Kollektion</li>
-    <li>Unterstützung mehrerer Korpora</li>
-    <li>Mehrfach-Filter
-      <ul>
-	<li>typisierte Filter (größer, kleiner als ... u.a. für Jahres-Ranges)</li>
-      </ul>
-    </li>
-    <li>Tagging von Trefferkategorien</li>
-    <li>Sortieren von Belegstellen</li>
-    <li>Ignorieren von Treffern in einer Suche</li>
-    <li>Visuelle Unterscheidung von Paragraphen und Nicht-Paragraphen</li>
-    <li>HTML-Ansicht des gesamten Dokuments</li>
-  </ul>
 </main>

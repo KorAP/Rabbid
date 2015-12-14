@@ -2,12 +2,22 @@ package Rabbid::Plugin::RabbidHelpers;
 use Mojo::Base 'Mojolicious::Plugin';
 use Mojo::ByteStream 'b';
 use Mojo::Util qw/xml_escape/;
+use DBIx::Oro;
 use Lingua::Stem::UniNE::DE qw/stem_de/;
 require Rabbid::Analyzer;
 
 # Register plugin to establish helpers
 sub register {
   my ($plugin, $app) = @_;
+
+  # On database init
+  $app->hook(
+    'on_oro_init' => sub {
+      my $oro = shift;
+      _init_corpus_db($oro);
+      _init_collection_db($oro);
+    }
+  );
 
   # Add links to navigation line
   my @navigation;
@@ -285,6 +295,98 @@ sub register {
     stem => sub { return stem_de pop }
   );
 };
+
+
+# Initialize collection database
+sub _init_collection_db {
+  my $oro = shift;
+
+  $oro->txn(
+    sub {
+      # Create collection table
+      $oro->do(<<'SQL') or return -1;
+CREATE TABLE Collection (
+  coll_id       INTEGER PRIMARY KEY,
+  user_id       INTEGER,
+  last_modified INTEGER,
+  q             TEXT
+)
+SQL
+
+      # Indices on collection table
+      foreach (qw/coll_id user_id q last_modified/) {
+	$oro->do(<<"SQL") or return -1;
+CREATE INDEX IF NOT EXISTS ${_}_i ON Collection ($_)
+SQL
+      };
+      $oro->do(<<"SQL") or return -1;
+CREATE UNIQUE INDEX IF NOT EXISTS coll_i ON Collection (user_id, q)
+SQL
+
+      # Create snippet table
+      $oro->do(<<'SQL') or return -1;
+CREATE TABLE Snippet (
+  in_coll_id INTEGER,
+  in_doc_id  INTEGER,
+  para       INTEGER,
+  left_ext   INTEGER,
+  right_ext  INTEGER,
+  marks      TEXT
+)
+SQL
+
+      # Indices on snippet table
+      foreach (qw/in_doc_id in_coll_id para/) {
+	$oro->do(<<"SQL") or return -1;
+CREATE INDEX IF NOT EXISTS ${_}_i ON Snippet ($_)
+SQL
+      };
+      $oro->do(<<"SQL") or return -1;
+CREATE UNIQUE INDEX IF NOT EXISTS all_i ON Snippet (in_doc_id, para, in_coll_id)
+SQL
+
+    }
+  ) or return -1;
+};
+
+
+sub _init_corpus_db {
+  my $oro = shift;
+
+  $oro->txn(
+    sub {
+      # Create document table
+      $oro->do(<<'SQL') or return -1;
+CREATE TABLE Doc (
+  doc_id  INTEGER PRIMARY KEY,
+  author  TEXT,
+  year    INTEGER,
+  title   TEXT,
+  domain  TEXT,
+  genre   TEXT,
+  polDir  TEXT,
+  file    TEXT
+)
+SQL
+
+      # Create paragraph table
+      # local_id is numerical to ensure the next/previous paragraph can be retrieved.
+      # use with: SELECT * FROM Paragraph WHERE content MATCH '"der Aufbruch"';
+      $oro->do(<<'FTS') or return -1;
+CREATE VIRTUAL TABLE Text USING fts4 (
+ in_doc_id, para, content, tokenize=perl 'Rabbid::Analyzer::tokenize'
+)
+FTS
+
+      foreach (qw/doc_id genre polDir domain year/) {
+	$oro->do(<<"SQL") or return -1;
+CREATE INDEX IF NOT EXISTS ${_}_i ON Doc ($_)
+SQL
+      }
+    }
+  ) or return -1;
+};
+
 
 
 1;

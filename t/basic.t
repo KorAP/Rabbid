@@ -3,10 +3,17 @@ use Test::More;
 use Test::Mojo;
 use lib '../lib', 'lib';
 
-# Todo: use .test environment!
+$ENV{MOJO_MODE} = 'test';
+
 my $t = Test::Mojo->new('Rabbid');
+
 $t->get_ok('/')
-  ->status_is(200);
+  ->status_is(200)
+  ->text_is('h1 span', 'Rabbid')
+  ->element_exists('a.collections')
+  ->element_exists('a.overview')
+  ->element_exists('a.search')
+  ->element_exists('a.about');
 
 done_testing;
 

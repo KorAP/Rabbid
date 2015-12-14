@@ -2,10 +2,16 @@
 
 %= include 'filter';
 
+% if (scalar @$collection) {
 <h3>Kollektionen</h3>
 
 <ol class="collection">
-% foreach (@$collection) {
+%   foreach (@$collection) {
   <li><%= link_to $_->{q}, url_with('collection', coll_id => $_->{id})->query([q => $_->{q}]) %> (<%= $_->{samples} %> Belegstellen)</li>
-% }
+%   }
 </ol>
+% } else {
+  <div style="clear:both; text-align: center; padding: .5em">
+    <object type="image/svg+xml" data="<%= stash 'prefix' %>/img/rabbid-sad.svg"></object>
+  </div>
+% };

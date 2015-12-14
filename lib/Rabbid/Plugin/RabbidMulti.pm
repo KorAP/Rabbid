@@ -1,7 +1,7 @@
 package Rabbid::Plugin::RabbidMulti;
 use Mojo::Base 'Mojolicious::Plugin';
 
-# Create a plugin that mimics the following behaviour
+# Create a plugin that mimics the following multi user behaviour
 sub register {
   my ($self, $app) = @_;
 

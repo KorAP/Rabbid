@@ -1,20 +1,19 @@
 package Rabbid;
 use Mojo::Base 'Mojolicious';
 
-
 our $VERSION = '0.3.1';
 
 # This method will run once at server start
 sub startup {
   my $self = shift;
 
+  $self->plugin('Config');
+  my $config = $self->config;
+
+  $self->secrets($config->{secrets}) if $config->{secrets};
+
   # 120 seconds inactivity allowed
   $ENV{MOJO_INACTIVITY_TIMEOUT} = 120;
-
-  # The secret should be changed!
-  $self->secrets(
-    ['jgfhnvfnhghGFHGfvnhrvtukrKoGUjhu6464cvrj764cc64ethzvf']
-  );
 
   push @{$self->commands->namespaces}, __PACKAGE__ . '::Command';
   push @{$self->plugins->namespaces},  __PACKAGE__ . '::Plugin';
@@ -49,7 +48,6 @@ sub startup {
   );
 
   # Add plugins
-  $self->plugin('Config');
   $self->plugin('Notifications');
   $self->plugin('CHI');
   $self->plugin('RenderFile');
@@ -57,12 +55,16 @@ sub startup {
   $self->plugin('TagHelpers::Pagination');
   $self->plugin('Oro');
   $self->plugin('Oro::Viewer');
+
+  my $me = $config->{MailException};
+  if ($me) {
+    $self->plugin('MailException' => {
+      from    => $me->{from},
+      to      => $me->{to},
+      subject => 'Rabbid crashed!'
+    });
+  };
   $self->plugin('RabbidHelpers');
-  $self->plugin('MailException' => {
-    from    => join('@', qw/diewald ids-mannheim.de/),
-    to      => join('@', qw/diewald ids-mannheim.de/),
-    subject => 'Rabbid crashed!'
-  });
 
   # Rabbid can be configured for multiple users and corpora,
   # but this requires closed source plugins
@@ -105,6 +107,8 @@ sub startup {
   $r->post('/corpus/:doc_id/:para',
 	   [doc_id => qr/\d+/, para => qr/\d+/]
 	 )->to('Collection#store');
+
+  $r->get('/about')->to('about');
 
   # Catchall
   $self->routes->any('/*catchall', { catchall => '' })->to(

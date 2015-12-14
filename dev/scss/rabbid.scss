@@ -79,12 +79,7 @@ a.korap-project {
 
 a.logo.big h1 {
   display: block;
-  background: {
-    position: 50% 50%;
-    repeat: no-repeat;
-    size: 90% auto;
-    image: url('../img/rabbid.svg');
-  }
+  float: none;
   height: 64pt * 2;
   width: 214pt * 2;
   // left: -107pt;
@@ -92,6 +87,15 @@ a.logo.big h1 {
     top: 10pt;
     bottom: 10pt;
     left: 10%;
+  }
+}
+
+a.logo.center h1 {
+  margin: {
+    top: auto;
+    left: auto;
+    bottom: auto;
+    right: auto;
   }
 }
 

@@ -11,7 +11,7 @@
 %   }
 </ol>
 % } else {
-  <div style="clear:both; text-align: center; padding: .5em">
-    <object type="image/svg+xml" data="<%= stash 'prefix' %>/img/rabbid-sad.svg"></object>
+  <div id="happy">
+    <object type="image/svg+xml" data="<%= stash 'prefix' %>/img/rabbid-happy.svg"></object>
   </div>
 % };

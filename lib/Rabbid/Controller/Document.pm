@@ -1,9 +1,6 @@
 package Rabbid::Controller::Document;
 use Mojo::Base 'Mojolicious::Controller';
 use Mojo::ByteStream 'b';
-use Mojo::DOM;
-use Mojo::Util qw/html_unescape/;
-use Fcntl qw(O_APPEND O_CREAT O_EXCL O_RDONLY O_RDWR SEEK_SET);
 use IO::File;
 require Rabbid::Analyzer;
 
@@ -16,6 +13,8 @@ sub overview {
   my $c = shift;
   # Show all docs sorted
 
+
+  # TODO: Make this configurable
   my $oro_table = {
     table => 'Doc',
     cache => {

@@ -70,18 +70,12 @@ sub new {
 
   $snippet[-1]->final(1) if $snippet[-1];
 
+  $meta{title} = $title;
+
   bless {
     meta => \%meta,
-    title => $title,
     snippet => c(@snippet)
   }, $class;
-};
-
-
-# Title of the document
-sub title {
-  my $self = shift;
-  return $self->{title} // '';
 };
 
 
@@ -89,7 +83,10 @@ sub title {
 sub meta {
   my $self = shift;
   my $cat = shift;
-  return $self->{meta}->{$cat} // '';
+  if ($cat) {
+    return $self->{meta}->{$cat} // '';
+  };
+  return $self->{meta};
 };
 
 

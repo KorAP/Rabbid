@@ -4,8 +4,8 @@ use Mojo::ByteStream 'b';
 use IO::File;
 require Rabbid::Analyzer;
 
-my $left_offset = 100;
-my $right_offset = 100;
+# my $left_offset = 100;
+# my $right_offset = 100;
 
 
 # This action will render a template

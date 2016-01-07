@@ -185,6 +185,7 @@ sub kwic {
 };
 
 
+# Get snippet
 sub snippet {
   my $c = shift;
   my $oro = $c->oro;
@@ -200,6 +201,7 @@ sub snippet {
   return $c->render(
     json => $c->prepare_paragraph($match)
   ) if $match;
+
   return $c->reply->not_found;
 };
 

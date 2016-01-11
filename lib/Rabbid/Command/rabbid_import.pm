@@ -6,6 +6,7 @@ use Getopt::Long qw/GetOptions :config no_auto_abbrev no_ignore_case/;
 has description => 'Import RabbidML files.';
 has usage       => sub { shift->extract_usage };
 
+sub run
 
 
 __END__
@@ -14,4 +15,4 @@ __END__
 
 =head1 SYNOPSIS
 
-  $ perl script/rabbid rabbid_import
+  $ perl script/rabbid rabbid_import examplecorpus files*

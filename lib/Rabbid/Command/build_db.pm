@@ -11,7 +11,7 @@ use Rabbid::Analyzer;
 
 use Getopt::Long qw/GetOptions :config no_auto_abbrev no_ignore_case/;
 
-has description => 'Initialize Rabbid database.';
+has description => 'Initialize Rabbid database (DEPRECATED)';
 has usage       => sub { shift->extract_usage };
 
 sub _init {

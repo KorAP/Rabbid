@@ -12,6 +12,7 @@ sub register {
   my ($plugin, $app) = @_;
 
   # On database init
+  # TODO: THIS IS TEMPORARY
   $app->hook(
     'on_oro_init' => sub {
       my $oro = shift;

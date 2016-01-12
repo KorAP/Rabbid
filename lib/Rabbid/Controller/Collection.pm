@@ -219,6 +219,7 @@ sub _export_to_excel {
   return $c->reply->table(xlsx => \@table);
 };
 
+
 # Todo: use Mojo::Template!
 sub _export_to_rtf {
   my ($c, $query, $result) = @_;

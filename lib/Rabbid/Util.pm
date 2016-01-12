@@ -3,6 +3,7 @@ use Mojo::Base -strict;
 use Mojo::Collection 'c';
 
 
+# Split long paragraphs in short snippets
 sub split_long_paragraph {
   my $full_p = shift;
 

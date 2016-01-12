@@ -1,11 +1,10 @@
 ![Rabbid](https://raw.githubusercontent.com/KorAP/Rabbid/master/dev/demo/img/rabbid.png)
 
-Rabbid is rapid application development platform for
+Rabbid is a rapid application development environment for
 [KorAP Corpus Analysis Platform](http://korap.ids-mannheim.de/)
 and used in production for the collection of textual examples for lexicographic work.
 
 ![Rabbid Screenshot](https://raw.githubusercontent.com/KorAP/Rabbid/master/dev/demo/img/screenshot.png)
-
 
 **! This software is in its early stages and not stable yet! Use it on your own risk!**
 

@@ -90,6 +90,10 @@ is released under the terms of the BSD License.
 by Dave Gandy
 is released under the terms of the
 [SIL OFL 1.1](http://scripts.sil.org/OFL).
+The Example corpus is released under the
+[Project Gutenberg License](http://gutenberg.net/license):
+"This eBook is for the use of anyone anywhere at no cost and with almost no restrictions whatsoever. You may copy it, give it away or re-use it under the terms of the Project Gutenberg License included with this eBook or online at www.gutenberg.net"
+
 
 ### Original Software
 
@@ -99,7 +103,7 @@ Author: [Nils Diewald](http://nils-diewald.de/),
 
 Rabbid is developed as part of the [KorAP](http://korap.ids-mannheim.de/)
 and
-[Demokratiediskurs 1918/1925](http://www1.ids-mannheim.de/lexik/zeitreflexion18.html)
+[Demokratiediskurs 1918-1925](http://www1.ids-mannheim.de/lexik/zeitreflexion18.html)
 projects at the
 [Institute for the German Language (IDS)](http://ids-mannheim.de/),
 member of the

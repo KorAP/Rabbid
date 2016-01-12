@@ -4,6 +4,7 @@ use Mojo::ByteStream 'b';
 use Mojo::Util qw/xml_escape/;
 use DBIx::Oro;
 use Lingua::Stem::UniNE::DE qw/stem_de/;
+use Rabbid::Corpus;
 require Rabbid::Analyzer;
 
 # Register plugin to establish helpers

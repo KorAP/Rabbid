@@ -1,7 +1,11 @@
 {
   "name": "Rabbid",
   "description": "Recherche- und Analyse-Basis für Belegstellen in Diskursen",
-  "version": "0.3.1",
+  "version": "0.4.0",
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/KorAP/Rabbid.git"
+  },
   "devDependencies": {
     "grunt":                   "~0.4.5",
     "grunt-contrib-copy":      "^0.8.0",

@@ -105,6 +105,8 @@ $t->get_ok('/corpus/1/2')
   ->json_is('/in_doc_id', 1)
 ;
 
+sleep(1); # This is necessary to correctly order the collections
+
 $t->post_ok('/corpus/1/1' => json => {
   leftExt => 0,
   rightExt => 1,
@@ -120,8 +122,20 @@ $t->post_ok('/corpus/1/1' => json => {
   ->json_is('/para', 1)
   ->json_is('/leftExt', 0);
 
+$t->get_ok('/')
+  ->status_is(200)
+  ->text_is('h3', 'Kollektionen')
+  ->text_is('ol.collection li:nth-of-type(1) a', 'Rabbid')
+  ->text_is('ol.collection li:nth-of-type(1)', '(1 Belegstelle)')
+  ->text_is('ol.collection li:nth-of-type(2) a', 'tschüß')
+  ->text_is('ol.collection li:nth-of-type(2)', '(2 Belegstellen)')
+  ;
 
-
+$t->get_ok('/collection/1')
+  ->status_is(200)
+  ->text_is('h3', 'Kollektion "tschüß"')
+  ->element_count_is('ol.kwic li', 2)
+  ;
 
 done_testing;
 

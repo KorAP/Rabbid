@@ -88,7 +88,7 @@ sub _initialize {
 
       # Create document table
       $oro->do(<<"SQL") or return -1;
-CREATE TABLE Doc (
+CREATE TABLE IF NOT EXISTS Doc (
   doc_id  INTEGER PRIMARY KEY,
   $keys
 )
@@ -98,7 +98,7 @@ SQL
       # local_id is numerical to ensure the next/previous paragraph can be retrieved.
       # use with: SELECT * FROM Paragraph WHERE content MATCH '"der Aufbruch"';
       $oro->do(<<'FTS') or return -1;
-CREATE VIRTUAL TABLE Text USING fts4 (
+CREATE VIRTUAL TABLE IF NOT EXISTS Text USING fts4 (
  in_doc_id, para, content, tokenize=perl 'Rabbid::Analyzer::tokenize'
 )
 FTS

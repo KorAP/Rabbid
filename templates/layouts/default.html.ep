@@ -41,7 +41,7 @@
       %= rabbid_navi
     </nav>
     % } else {
-    <a class="logo big" href="<%= url_for 'collections'  %>"><h1><span><%= title %></span></h1></a>
+    <a class="logo big" href="<%= url_for 'collections' %>"><h1><span><%= title %></span></h1></a>
     <h2><%= $description %></h2>
     <a class="korap-project" href="http://korap.ids-mannheim.de/kalamar"><span>KorAP</span></a>
     % };

@@ -19,20 +19,24 @@ sub startup {
   push @{$self->plugins->namespaces},  __PACKAGE__ . '::Plugin';
 
   # korap.ids-mannheim.de specific path prefixing
+  # This can be removed or replaced, if you are running Rabbid
+  # below a specific path
   $self->hook(
     before_dispatch => sub {
       my $c = shift;
+      my $path = 'rabbid';
+
       my $host = $c->req->headers->header('X-Forwarded-Host');
       if ($host && $host eq 'korap.ids-mannheim.de') {
 
 	# Set Rabbid path and correct host and port information
 	my $base = $c->req->url->base;
-	$base->path('/rabbid/');
+	$base->path('/' . $path . '/');
 	$base->host($host);
 	$base->port(undef);
 
 	# Prefix is used for static assets
-	$c->stash(prefix => '/rabbid');
+	$c->stash(prefix => '/' . $path);
       };
     }) if $self->mode eq 'production';
 

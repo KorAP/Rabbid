@@ -47,10 +47,10 @@ is($text->[2]->{content},
    'Nichts weiter.~~~', 'content');
 is($text->[2]->{para}, 2, 'Paragraph');
 
-is($text->[3]->{in_doc_id}, 1, 'doc id');
-is($text->[3]->{content},
+is($text->[4]->{in_doc_id}, 1, 'doc id');
+is($text->[4]->{content},
    'Tschüß!###', 'content');
-is($text->[3]->{para}, 3, 'Paragraph');
+is($text->[4]->{para}, 4, 'Paragraph');
 
 $text = $corpus->oro->load('Doc');
 

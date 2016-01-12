@@ -1,0 +1,117 @@
+#!/usr/bin/env perl
+use Mojo::Base -strict;
+use lib '../lib/', 'lib';
+use Rabbid::Util;
+use Mojo::ByteStream 'b';
+use Mojo::Collection 'c';
+use XML::Loy;
+use Getopt::Long;
+
+my @files;
+GetOptions('file=s@' => \@files);
+
+# Convert files from Guttenberg to RabbidXML
+to_xml($_) foreach @files;
+
+# Convert file to RabbidXML
+sub to_xml {
+  my $file = shift;
+
+  my $text = b($file)->slurp;
+
+  my ($end, $content) = (0, 0);
+  my ($prologue, $epilogue, @lines) = ('','');
+
+  # Split lines of text
+  _to_lines($text)->each(
+    sub {
+      if ($_ =~ m!^\*\*\*\s*(?:START|END)!) {
+	unless ($content) {
+	  $content = 1;
+	}
+	else {
+	  $end = 1;
+	}
+      }
+      elsif ($end) {
+	$epilogue .= $_ . "\n";
+      }
+      elsif (!$content) {
+	$prologue .= $_ . "\n";
+      }
+      else {
+	push @lines, $_;
+      };
+    }
+  );
+
+  print << "PROLOG";
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <!--
+$prologue
+  -->
+  <body>
+PROLOG
+
+  _to_paragraph(c(@lines))->each(
+    sub {
+      print $_, "\n";
+    }
+  );
+
+  print << "EPILOGUE";
+  </body>
+  <!--
+$epilogue
+  -->
+</html>
+EPILOGUE
+};
+
+
+# Parse lines
+sub _to_lines {
+  my $text = shift;
+  $text->xml_escape
+    ->split(
+      '[\s\t]*\n+[\s\t]*\n+[\s\t]*'
+    )->map(
+      sub {
+	my $t = shift;
+	$t =~ s![\n\s\t]+! !gs;
+	$t =~ s![\n\s\t]+$!!;
+	$t;
+      }
+    );
+};
+
+
+# Convert to paragraphs
+sub _to_paragraph {
+  return $_[0]->map(
+      sub {
+	my $lines = Rabbid::Util::split_long_paragraph($_);
+	return $lines unless ref $lines eq 'Mojo::Collection'; # Not splitted
+	return '<span>' . $lines->join("</span>\n<span>") . '</span>'; # splitted
+      }
+    )->map(
+      sub {
+	'<p>' . $_ . '</p>';
+      }
+    );
+};
+
+
+__END__
+
+=pod
+
+=head1 SYNOPSIS
+
+  perl convert_guttenberg -f pg5323.txt > pg5323.html
+
+=cut

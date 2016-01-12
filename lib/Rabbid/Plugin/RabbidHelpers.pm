@@ -84,6 +84,7 @@ sub register {
     filter_by => sub {
       my $c = shift;
       my ($key, $value) = @_;
+      return '' unless $value;
       return $c->link_to(
 	$value,
 	$c->url_with->query([
@@ -288,6 +289,46 @@ sub register {
 	$para->{previous} = $para->{para} - 1;
       };
       return $para;
+    }
+  );
+
+  $app->helper(
+    rabbid_import => sub {
+      my $c = shift;
+      my $corpora = $c->config('Corpora');
+
+      unless ($corpora) {
+	$c->app->log->warn('Please define corpora in configuration file');
+	return;
+      };
+
+      my $corpus = shift;
+
+      unless ($corpus = $corpora->{$corpus}) {
+	$c->app->log->warn('Corpus not defined');
+	return;
+      };
+
+      my $schema = $corpus->{schema};
+      my $oro_handle = $corpus->{oro} || 'default';
+
+      # Create new corpus object
+      my $rabbid_corpus = Rabbid::Corpus->new(
+	oro => $c->oro($oro_handle),
+	schema => $schema
+      );
+
+      unless ($rabbid_corpus) {
+	$c->app->log->warn(q!Rabbid::Corpus can't be created!);
+	return;
+      };
+
+      # Add files to corpus
+      foreach (@_) {
+	$rabbid_corpus->add($_) or return;
+      };
+
+      return 1;
     }
   );
 

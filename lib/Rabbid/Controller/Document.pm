@@ -28,12 +28,14 @@ sub overview {
 	['title', process => sub {
 	   my ($c, $row) = @_;
 
+	   return $row->{title} unless $row->{file};
+
 	   return $c->link_to(
 	     $c->url_for('file', file => $row->{file}),
 	     class => 'file', sub {
 	       b('<span>file</span>')
 	     }
-	   ) . ' ' . ($row->{title} || $row->{file});
+	   ) . ' ' . ($row->{title} || $row->{file} || '-');
 	 }],
       'Jahr' =>
 	['year', class => 'integer', process => sub {

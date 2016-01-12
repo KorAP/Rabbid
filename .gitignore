@@ -2,6 +2,7 @@ backup
 sandbox
 example
 rabbid.example.conf
+rabbid.production.conf
 Sandbox
 db
 cache
@@ -14,7 +15,6 @@ Makefile
 pm_to_blib
 blib
 log
-tools
 *~
 *.sqlite
 *.log

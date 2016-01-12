@@ -32,7 +32,7 @@ is($p->content, 'Nichts weiter.', '3rd snippet text');
 ok($p->join, '3rd snippet join');
 ok(!($p->final), '3rd snippet final');
 
-$p = $doc->snippet(3);
+$p = $doc->snippet(4);
 is($p->content, 'Tschüß!', '4th snippet text');
 ok(!($p->join), '4th snippet join');
 ok($p->final, '4th snippet final');

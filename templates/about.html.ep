@@ -12,6 +12,6 @@
     <dd>Nils Diewald</dd>
   </dl>
 
-  <p><%= link_to 'Rabbid' %> ist ein Nebenprojekt von <%= link_to 'KorAP', 'http://korap.ids-mannheim.de/' %>, das in enger Zusammenarbeit mit dem Projekt <%= link_to 'Demokratiediskurs 1918/1925', 'http://www1.ids-mannheim.de/lexik/zeitreflexion18.html' %> entwickelt wurde. Es dient sowohl der prototypenbasierten Weiterentwicklung der KorAP Plattform als auch der optimierten Recherche von Belegstellen in Diskursen.</p>
+  <p><%= link_to 'Rabbid' %> ist ein Nebenprojekt von <%= link_to 'KorAP', 'http://korap.ids-mannheim.de/' %>, das in enger Zusammenarbeit mit dem Projekt <%= link_to 'Demokratiediskurs 1918-1925', 'http://www1.ids-mannheim.de/lexik/zeitreflexion18.html' %> entwickelt wurde. Es dient sowohl der prototypenbasierten Weiterentwicklung der KorAP Plattform als auch der optimierten Recherche von Belegstellen in Diskursen.</p>
   <p>Rabbid bietet - im Gegensatz zu KorAP - nur eingeschränkte Suchoptionen auf kleine, unannotierte Korpora.</p>
 </main>

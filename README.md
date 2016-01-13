@@ -2,9 +2,14 @@
 
 Rabbid is a rapid application development environment for
 [KorAP Corpus Analysis Platform](http://korap.ids-mannheim.de/)
-and used in production for the collection of textual examples for lexicographic work.
+and used in production for the creation and management of
+collections of textual examples in the area
+of discourse analysis and discourse lexicography.
 
 ![Rabbid Screenshot](https://raw.githubusercontent.com/KorAP/Rabbid/master/dev/demo/img/screenshot.png)
+
+Unlike KorAP, Rabbid provides a rather limited set of search operators
+for small, non-annotated corpora.
 
 **! This software is in its early stages and not stable yet! Use it on your own risk!**
 

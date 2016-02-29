@@ -7,7 +7,31 @@ our $VERSION = '0.4.0';
 sub startup {
   my $self = shift;
 
-  $self->plugin('Config');
+  $self->plugin('Config' => {
+    default => {
+      'TagHelpers::Pagination' => {
+	separator => '',
+	ellipsis => '<span class="ellipsis">...</span>',
+	current => '<span class="current">[{current}]</span>',
+	page => '<span class="page-nr">{page}</span>',
+	next => '<span>&gt;</span>',
+	prev => '<span>&lt;</span>'
+      },
+      'Oro::Viewer' => {
+	default_count => 25,
+	max_count => 100
+      },
+      Notifications => {
+	Alertify => 1
+      },
+      CHI => {
+	default => {
+	  driver => 'Memory',
+	  global => 1
+	}
+      }
+    }
+  });
   my $config = $self->config;
 
   $self->secrets($config->{secrets}) if $config->{secrets};

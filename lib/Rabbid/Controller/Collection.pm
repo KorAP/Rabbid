@@ -12,6 +12,8 @@ sub index {
 
   my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
 
+  my $oro = $c->oro or return $c->reply->not_found;
+
   # Retrieve all collections from the user
   my $colls = $c->oro->select(
     [

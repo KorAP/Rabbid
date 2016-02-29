@@ -77,11 +77,11 @@ The easiest way is to start the built-in server:
 $ perl script/rabbid daemon
 ```
 
-Rabbid will then be available at *localhost:3000* in your browser.
+Rabbid will then be available at ```localhost:3000``` in your browser.
 
 ## COPYRIGHT AND LICENSE
 
-### Bundled Software
+### Bundled Software and Data
 
 [ALERTIFY.js](https://fabien-d.github.io/alertify.js/)
 is released under the terms of the MIT License.

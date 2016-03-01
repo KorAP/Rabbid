@@ -1,6 +1,6 @@
 backup
 sandbox
-example
+/example
 *.conf
 !rabbid.conf
 !rabbid.test.conf

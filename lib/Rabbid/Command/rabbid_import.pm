@@ -43,6 +43,8 @@ sub run {
 	$app->log->warn('Unable to import ' . quote($file));
     };
   };
+
+  print "Done.\n\n";
 };
 
 1;

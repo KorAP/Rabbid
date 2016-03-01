@@ -616,23 +616,28 @@ fieldset {
       radius: 3px;
     }
   }
-  label {
-    text-align: middle;
-    line-height: 22pt;
-    margin: 1em;
-    display: block;
-    float: left;
-    clear: both;
-    width: 12em;
-  }
+
+  // MultiUser:
+/*
   .acct-login input[type=submit] {
     position: absolute;
     left: -9999px;
     width: 1px;
     height: 1px;
   }
+*/
   .acct-login input {
     display: inline-block;
+  }
+
+  label {
+    text-align: middle;
+    line-height: 22pt;
+    margin: 1em;
+    display: block;
+    float: left;
+    width: 12em;
+    clear: both;
   }
 
   p {
@@ -643,11 +648,6 @@ fieldset {
     color: $ids-pink-2;
     margin: 0 1em;
   }
-}
-
-a[rel=forgotten] {
-  color: $ids-pink-2;
-  margin: 0 5em;
 }
 
 div.notify {
@@ -693,4 +693,16 @@ li.active span {
 .alertify-log-note {
   background: $ids-pink-1;
   color: $ids-pink-2;
+}
+
+
+// MultiUserOro:
+.oro-acct {
+  a[rel] {
+    color: $ids-pink-2;
+    margin: 0 5em;
+  }
+  .acct-user-actions li {
+    list-style-type: none;
+  }
 }

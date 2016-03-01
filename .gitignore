@@ -1,9 +1,11 @@
 backup
 sandbox
 example
-rabbid.example.conf
-rabbid.production.conf
+*.conf
+!rabbid.conf
+!rabbid.test.conf
 Sandbox
+ext
 db
 cache
 public

@@ -51,6 +51,7 @@ This will probably need administration rights.
 $ cpanm git://github.com/Akron/DBIx-Oro.git
 $ cpanm git://github.com/Akron/Mojolicious-Plugin-Oro.git
 $ cpanm git://github.com/Akron/Mojolicious-Plugin-Oro-Viewer.git
+$ cpanm git://github.com/Akron/Mojolicious-Plugin-TagHelpers-ContentBlock.git
 ```
 
 Then install the dependencies as always and run the test suite.

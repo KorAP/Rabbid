@@ -18,6 +18,7 @@ WriteMakefile(
     'Mojolicious::Plugin::MailException' => 0.19,
     'Mojolicious::Plugin::CHI' => 0.11,
     'Mojolicious::Plugin::TagHelpers::Pagination' => 0.06,
+    'Mojolicious::Plugin::TagHelpers::ContentBlock' => 0.01,
 
     'Cache::FastMmap' => 1.40,
     'Excel::Writer::XLSX' => 0.84,

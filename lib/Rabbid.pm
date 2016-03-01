@@ -7,6 +7,7 @@ our $VERSION = '0.4.0';
 sub startup {
   my $self = shift;
 
+  # Use configuration with default parameter
   $self->plugin('Config' => {
     default => {
       'TagHelpers::Pagination' => {
@@ -32,6 +33,7 @@ sub startup {
       }
     }
   });
+
   my $config = $self->config;
 
   $self->secrets($config->{secrets}) if $config->{secrets};
@@ -83,6 +85,7 @@ sub startup {
   $self->plugin('TagHelpers::Pagination');
   $self->plugin('Oro');
   $self->plugin('Oro::Viewer');
+  $self->plugin('TagHelpers::ContentBlock');
 
   my $me = $config->{MailException};
   if ($me) {
@@ -111,7 +114,7 @@ sub startup {
   $self->plugin('RabbidMulti');
 
   # Collection view
-  $r->get('/')->to('Collection#index', collection => 1)->name('collections');
+  $r->get('/')->to('Collection#index', collection => 1)->name('home');
   $r->get('/collection/:coll_id')->to(
     'Collection#collection', collection => 1
   )->name('collection');

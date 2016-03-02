@@ -55,16 +55,23 @@ $ cpanm git://github.com/Akron/Mojolicious-Plugin-TagHelpers-ContentBlock.git
 ```
 
 Then install the dependencies as always and run the test suite.
-There is no need to install Rabbid on your system.
 
 ```
+$ cpanm --installdeps .
 $ perl Makefile.PL
 $ make test
 ```
 
-### Start Example Server
+There is no need to install Rabbid on your system,
+but you have to initialize the database before you can start.
 
-First import the example corpus from ```t/example/```:
+```
+$ perl script/rabbid rabbid_init
+```
+
+### Start Server
+
+First you may want to import the example corpus from ```t/example/```:
 
 ```
 $ perl script/rabbid rabbid_import -c example -d t/example

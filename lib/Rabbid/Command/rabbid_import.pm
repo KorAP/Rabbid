@@ -90,29 +90,29 @@ from L<Mojolicious::Command> and implements the following new ones.
 
 =head2 description
 
-  my $description = $chi->description;
-  $chi = $chi->description('Foo!');
+  my $description = $cmd->description;
+  $cmd = $cmd->description('Foo!');
 
 Short description of this command, used for the command list.
 
 
 =head2 usage
 
-  my $usage = $chi->usage;
-  $chi = $chi->usage('Foo!');
+  my $usage = $cmd->usage;
+  $cmd = $cmd->usage('Foo!');
 
 Usage information for this command, used for the help screen.
 
 
 =head1 METHODS
 
-L<Rabbid::Command::rabbid_import> inherits all methods from
+L<Rabbid::Command::rabbid_init> inherits all methods from
 L<Mojolicious::Command> and implements the following new ones.
 
 
 =head2 run
 
-  $chi->run;
+  $cmd->run;
 
 Run this command.
 

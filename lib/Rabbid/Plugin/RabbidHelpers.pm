@@ -11,13 +11,27 @@ require Rabbid::Analyzer;
 sub register {
   my ($plugin, $app) = @_;
 
-  # On database init
-  # TODO: THIS IS TEMPORARY
+  # On rabbid init
   $app->hook(
-    'on_oro_init' => sub {
-      my $oro = shift;
-      _init_corpus_db($oro);
-      _init_collection_db($oro);
+    on_rabbid_init => sub {
+      unless (_init_corpus_db($app->oro)) {
+	$app->log->error('Unable to initialize corpus database');
+      };
+    }
+  );
+
+  $app->hook(
+    on_rabbid_init => sub {
+      unless (_init_collection_db($app->oro)) {
+	$app->log->error('Unable to initialize collection database');
+      };
+    }
+  );
+
+  # Initialize rabbid databases
+  $app->helper(
+    rabbid_init => sub {
+      $app->plugins->emit_hook('on_rabbid_init');
     }
   );
 
@@ -348,7 +362,7 @@ sub _init_collection_db {
     sub {
       # Create collection table
       $oro->do(<<'SQL') or return -1;
-CREATE TABLE Collection (
+CREATE TABLE coll.Collection (
   coll_id       INTEGER PRIMARY KEY,
   user_id       INTEGER,
   last_modified INTEGER,
@@ -359,16 +373,16 @@ SQL
       # Indices on collection table
       foreach (qw/coll_id user_id q last_modified/) {
 	$oro->do(<<"SQL") or return -1;
-CREATE INDEX IF NOT EXISTS ${_}_i ON Collection ($_)
+CREATE INDEX IF NOT EXISTS coll.${_}_i ON Collection ($_)
 SQL
       };
       $oro->do(<<"SQL") or return -1;
-CREATE UNIQUE INDEX IF NOT EXISTS coll_i ON Collection (user_id, q)
+CREATE UNIQUE INDEX IF NOT EXISTS coll.coll_i ON Collection (user_id, q)
 SQL
 
       # Create snippet table
       $oro->do(<<'SQL') or return -1;
-CREATE TABLE Snippet (
+CREATE TABLE coll.Snippet (
   in_coll_id INTEGER,
   in_doc_id  INTEGER,
   para       INTEGER,
@@ -381,15 +395,17 @@ SQL
       # Indices on snippet table
       foreach (qw/in_doc_id in_coll_id para/) {
 	$oro->do(<<"SQL") or return -1;
-CREATE INDEX IF NOT EXISTS ${_}_i ON Snippet ($_)
+CREATE INDEX IF NOT EXISTS coll.${_}_i ON Snippet ($_)
 SQL
       };
       $oro->do(<<"SQL") or return -1;
-CREATE UNIQUE INDEX IF NOT EXISTS all_i ON Snippet (in_doc_id, para, in_coll_id)
+CREATE UNIQUE INDEX IF NOT EXISTS coll.all_i ON Snippet (in_doc_id, para, in_coll_id)
 SQL
 
     }
-  ) or return -1;
+  ) or return;
+
+  return 1;
 };
 
 
@@ -427,7 +443,9 @@ CREATE INDEX IF NOT EXISTS ${_}_i ON Doc ($_)
 SQL
       }
     }
-  ) or return -1;
+  ) or return;
+
+  return 1;
 };
 
 

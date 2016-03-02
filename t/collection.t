@@ -13,6 +13,9 @@ my $t = Test::Mojo->new('Rabbid');
 
 # Add example data
 my $app = $t->app;
+
+$t->app->rabbid_init;
+
 my @files = ();
 foreach (qw/text1 text2/) {
   push @files, catfile(dirname(__FILE__), 'data', $_ . '.html');

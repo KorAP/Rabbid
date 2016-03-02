@@ -22,7 +22,7 @@ sub register {
 
   $app->hook(
     on_rabbid_init => sub {
-      unless (_init_collection_db($app->oro)) {
+      unless (_init_collection_db($app->oro('coll') // $app->oro)) {
 	$app->log->error('Unable to initialize collection database');
       };
     }
@@ -362,7 +362,7 @@ sub _init_collection_db {
     sub {
       # Create collection table
       $oro->do(<<'SQL') or return -1;
-CREATE TABLE coll.Collection (
+CREATE TABLE Collection (
   coll_id       INTEGER PRIMARY KEY,
   user_id       INTEGER,
   last_modified INTEGER,
@@ -373,16 +373,16 @@ SQL
       # Indices on collection table
       foreach (qw/coll_id user_id q last_modified/) {
 	$oro->do(<<"SQL") or return -1;
-CREATE INDEX IF NOT EXISTS coll.${_}_i ON Collection ($_)
+CREATE INDEX IF NOT EXISTS ${_}_i ON Collection ($_)
 SQL
       };
       $oro->do(<<"SQL") or return -1;
-CREATE UNIQUE INDEX IF NOT EXISTS coll.coll_i ON Collection (user_id, q)
+CREATE UNIQUE INDEX IF NOT EXISTS coll_i ON Collection (user_id, q)
 SQL
 
       # Create snippet table
       $oro->do(<<'SQL') or return -1;
-CREATE TABLE coll.Snippet (
+CREATE TABLE Snippet (
   in_coll_id INTEGER,
   in_doc_id  INTEGER,
   para       INTEGER,
@@ -395,11 +395,11 @@ SQL
       # Indices on snippet table
       foreach (qw/in_doc_id in_coll_id para/) {
 	$oro->do(<<"SQL") or return -1;
-CREATE INDEX IF NOT EXISTS coll.${_}_i ON Snippet ($_)
+CREATE INDEX IF NOT EXISTS ${_}_i ON Snippet ($_)
 SQL
       };
       $oro->do(<<"SQL") or return -1;
-CREATE UNIQUE INDEX IF NOT EXISTS coll.all_i ON Snippet (in_doc_id, para, in_coll_id)
+CREATE UNIQUE INDEX IF NOT EXISTS all_i ON Snippet (in_doc_id, para, in_coll_id)
 SQL
 
     }

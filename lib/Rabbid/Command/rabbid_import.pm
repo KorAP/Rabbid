@@ -23,8 +23,12 @@ sub run {
   my $app = $self->app;
 
   if ($file) {
-    $app->rabbid_import($corpus => $file) or
+    if ($app->rabbid_import($corpus => $file)) {
+      print 'Import ' . quote($file) . qq!.\n!;
+    }
+    else {
       $app->log->warn('Unable to import ' . quote($file));
+    };
   };
 
   if ($dir) {
@@ -38,9 +42,13 @@ sub run {
       return;
     };
 
-    foreach (grep { -f } @files) {
-      $app->rabbid_import($corpus => $_) or
+    foreach $file (grep { -f } @files) {
+      if ($app->rabbid_import($corpus => $file)) {
+	print 'Import ' . quote($file) . qq!.\n!;
+      }
+      else {
 	$app->log->warn('Unable to import ' . quote($file));
+      };
     };
   };
 

@@ -40,7 +40,6 @@ foreach (qw/text1 text2/) {
 };
 ok($app->rabbid_import('example' => @files), 'Import example data');
 
-
 $t->get_ok('/corpus')
   ->status_is(200)
   ->text_is('table.oro-view thead tr th:nth-of-type(1) a', 'ID')

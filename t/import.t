@@ -1,6 +1,7 @@
 use Mojo::Base -strict;
 use Test::More;
 use Test::Mojo;
+use CHI;
 use utf8;
 use Data::Dumper;
 use lib '../lib', 'lib';
@@ -22,6 +23,7 @@ use_ok('Rabbid::Corpus');
 
 ok(my $corpus = Rabbid::Corpus->new(
   oro => DBIx::Oro->new,
+  chi => CHI->new( driver => 'Memory', global => 1 ),
   schema => {
     year   => 'INTEGER',
     author => 'TEXT'

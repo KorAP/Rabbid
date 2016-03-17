@@ -95,6 +95,7 @@ sub startup {
       subject => 'Rabbid crashed!'
     });
   };
+  $self->plugin('RabbidCorpus');
   $self->plugin('RabbidHelpers');
 
   # Rabbid can be configured for multiple users and corpora,

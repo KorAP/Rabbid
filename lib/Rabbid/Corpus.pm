@@ -5,6 +5,7 @@ use Mojo::Base -base;
 use Scalar::Util 'blessed';
 
 has 'oro';
+has 'chi';
 has 'schema';
 
 # Add files to the database
@@ -14,8 +15,7 @@ sub add {
   return unless $self->oro;
 
   # Initialize database
-  if ($self->oro->created &&
-	!$self->{_initialized}) {
+  if ($self->oro->created) {
     $self->_initialize or return;
   };
 
@@ -66,6 +66,9 @@ sub add {
     }
   ) or return;
 
+  # Clean associated cache
+  $self->chi->clear;
+
   return $inserts;
 };
 
@@ -73,9 +76,12 @@ sub add {
 # Initialize Corpus database
 sub _initialize {
   my $self = shift;
+
+  return 1 if $self->{_initialized};
+
   my $schema = $self->schema;
 
-  return $self->oro->txn(
+  $self->oro->txn(
     sub {
       my $oro = shift;
 
@@ -110,7 +116,10 @@ CREATE INDEX IF NOT EXISTS ${_}_i ON Doc ($_)
 SQL
       };
     }
-  );
+  ) or return;
+
+  $self->{_initialized} = 1;
+  return 1;
 };
 
 1;

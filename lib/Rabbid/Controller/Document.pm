@@ -11,14 +11,21 @@ require Rabbid::Analyzer;
 # This action will render a template
 sub overview {
   my $c = shift;
-  # Show all docs sorted
 
+  # Show all docs sorted
+  my $corpus = $c->stash('corpus');
+  my $cache_handle = 'default';
+
+  # corpus environment
+  if ($corpus && ($corpus = $c->config('Corpora')->{$corpus})) {
+    $cache_handle = $corpus->{cache_handle};
+  };
 
   # TODO: Make this configurable
   my $oro_table = {
     table => 'Doc',
     cache => {
-      chi => $c->chi,
+      chi => $c->chi($cache_handle),
       expires_in => '60min'
     },
     display => [

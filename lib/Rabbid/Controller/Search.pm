@@ -103,6 +103,8 @@ sub kwic {
       $args{scalar $c->param('filterBy')} = scalar $c->param('filterValue');
     };
 
+    # TODO: Use corpus-object for searching!
+
     # Search Fulltext
     $result = $oro->select(
       [

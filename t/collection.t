@@ -138,6 +138,7 @@ $t->get_ok('/collection/1')
   ->status_is(200)
   ->text_is('h3', 'Kollektion "tschüß"')
   ->element_count_is('ol.kwic li', 2)
+  ->element_exists('input[name=q][value=tschüß]');
   ;
 
 done_testing;

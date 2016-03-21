@@ -1,7 +1,8 @@
 package Rabbid::Controller::Collection;
 use Mojo::Base 'Mojolicious::Controller';
-use Mojo::Util qw/quote unquote/;
+use Mojo::Util qw/quote unquote encode/;
 use Mojo::ByteStream 'b';
+use Mojo::Collection 'c';
 use RTF::Writer;
 require Rabbid::Analyzer;
 
@@ -32,7 +33,11 @@ sub index {
   # Show all collections
   return $c->render(
     template   => 'collections',
-    collection => $colls
+    collection => c(@$colls)->map(
+      sub {
+	$_->{q} = b($_->{q})->decode;
+	$_;
+      })
   );
 };
 
@@ -55,7 +60,7 @@ sub collection {
   return $c->reply->not_found unless $coll;
 
   # Get query from collection
-  my $query = $coll->{q};
+  my $query = b($coll->{q})->decode;
 
   # Retrieve all snippets
   my $result = $oro->select(

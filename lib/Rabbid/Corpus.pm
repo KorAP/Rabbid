@@ -2,6 +2,7 @@ package Rabbid::Corpus;
 use Rabbid::Document;
 use Rabbid::Analyzer;
 use Mojo::Base -base;
+use Mojo::ByteStream 'b';
 use Scalar::Util 'blessed';
 
 has 'oro';
@@ -13,11 +14,6 @@ has 'schema';
 sub add {
   my $self = shift;
   return unless $self->oro;
-
-  # Initialize database
-  if ($self->oro->created) {
-    $self->_initialize or return;
-  };
 
   my @docs = @_;
   my $inserts = 0;
@@ -72,9 +68,8 @@ sub add {
   return $inserts;
 };
 
-
 # Initialize Corpus database
-sub _initialize {
+sub init {
   my $self = shift;
 
   return 1 if $self->{_initialized};
@@ -104,8 +99,8 @@ SQL
       # local_id is numerical to ensure the next/previous paragraph can be retrieved.
       # use with: SELECT * FROM Paragraph WHERE content MATCH '"der Aufbruch"';
       $oro->do(<<'FTS') or return -1;
-CREATE VIRTUAL TABLE IF NOT EXISTS Text USING fts4 (
- in_doc_id, para, content, tokenize=perl 'Rabbid::Analyzer::tokenize'
+CREATE VIRTUAL TABLE Text USING fts4 (
+  in_doc_id, para, content, tokenize=perl 'Rabbid::Analyzer::tokenize'
 )
 FTS
 
@@ -125,3 +120,6 @@ SQL
 1;
 
 __END__
+
+
+

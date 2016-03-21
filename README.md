@@ -57,7 +57,7 @@ $ cpanm git://github.com/Akron/Mojolicious-Plugin-TagHelpers-ContentBlock.git
 Then install the dependencies as always and run the test suite.
 
 ```
-$ cpanm --installdeps .
+$ SQLITE_ENABLE_FTS3_TOKENIZER=1 cpanm --installdeps .
 $ perl Makefile.PL
 $ make test
 ```
@@ -86,6 +86,16 @@ $ perl script/rabbid daemon
 ```
 
 Rabbid will then be available at ```localhost:3000``` in your browser.
+
+### Bugs and Caveats
+
+New versions of ```DBD::SQLite``` do not include support
+for fulltext search tokenizers by default.
+To compile SQLite with supprt, use
+
+```
+$ SQLITE_ENABLE_FTS3_TOKENIZER=1 cpanm DBD::SQLite --force
+```
 
 ## COPYRIGHT AND LICENSE
 

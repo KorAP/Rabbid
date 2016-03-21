@@ -8,12 +8,15 @@ use Lingua::Stem::UniNE::DE qw/stem_de/;
 sub tokenize {
   return Search::Tokenizer->new(
     # Words are word characters plus "'" and "-"
-    regex =>  qr/\p{Word}+(?:[-']\p{Word}+)*/,
+    # regex =>  qr/\p{Word}+(?:[-']\p{Word}+)*/,
+    regex => qr/[a-zA-ZöüäÖÜÄß]+(?:[-'][a-zA-ZöüäÖÜÄß]+)*/,
 
     # Simple stemming and seperator removal
     filter => sub {
       my $t = shift;
-      if ($t =~ /[a-z0-9äöüßÖÜÄ]/i) {
+      return unless $t;
+      # 0-9
+      if ($t =~ /[a-zäöüßÖÜÄ]/i) {
 	$t =~ y/-//ds;
 	return stem_de $t;
       };
@@ -27,8 +30,6 @@ sub tokenize {
   );
 };
 
-
 1;
-
 
 __END__

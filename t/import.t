@@ -32,6 +32,8 @@ ok(my $corpus = Rabbid::Corpus->new(
 
 ok($corpus->oro, 'Oro is initialized');
 
+ok($corpus->init, 'Initialize corpus');
+
 ok($corpus->add($file), 'Added document');
 
 my $text = $corpus->oro->select('Text');

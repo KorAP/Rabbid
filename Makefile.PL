@@ -30,7 +30,7 @@ WriteMakefile(
     'Encode' => 2.73,
     'Getopt::Long' => 0,
 
-    'DBIx::Oro' => 0.31_3, # GitHub
+    'DBIx::Oro' => 0.31_9, # GitHub
     'Mojolicious::Plugin::Oro' => 0.06, # GitHub
     'Mojolicious::Plugin::Oro::Viewer' => 0.03 #GitHub
   },

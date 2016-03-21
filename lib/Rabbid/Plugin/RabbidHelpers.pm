@@ -1,7 +1,7 @@
 package Rabbid::Plugin::RabbidHelpers;
 use Mojo::Base 'Mojolicious::Plugin';
 use Mojo::ByteStream 'b';
-use Mojo::Util qw/xml_escape/;
+use Mojo::Util qw/xml_escape encode decode/;
 use DBIx::Oro;
 use Lingua::Stem::UniNE::DE qw/stem_de/;
 use Rabbid::Corpus;
@@ -10,15 +10,6 @@ require Rabbid::Analyzer;
 # Register plugin to establish helpers
 sub register {
   my ($plugin, $app) = @_;
-
-  # On rabbid init
-  $app->hook(
-    on_rabbid_init => sub {
-      unless (_init_corpus_db($app->oro)) {
-	$app->log->error('Unable to initialize corpus database');
-      };
-    }
-  );
 
   $app->hook(
     on_rabbid_init => sub {
@@ -215,27 +206,30 @@ sub register {
 	  my $offset = ref $para->{marks} ? $para->{marks} :
 	    $job->($para->{marks});
 
+	  # SQLite FTS uses byte offsets instead of character offsets -
+	  # so all range specific operations need byte prefix
 	  foreach (reverse @{$offset}) {
 	    # TODO: Prepend and append '_' symbols with the numbers
 	    # of offset characters before you mark everything in the substring.
 	    # -> remove _ before showing.
+	    if (bytes::length($text) >= ($_->[2] + $_->[3])) {
 
-	    if (length($text) >= ($_->[2] + $_->[3])) {
+	      # Set end and start marker of matches
+	      bytes::substr($text, $_->[2] + $_->[3], 0, '#!#/mark#!~');
+	      bytes::substr($text, $_->[2], 0, '#!#mark#!~');
 
-	      # This fixes a characters2byte bug
-	      # TODO: needs to be tested though!
-	      # Remove the string including the end
-	      my $remove = substr($text, $_->[2], $_->[3] + 10, '');
-#	      use bytes;
-	      # Add the marker
-	      substr($remove, $_->[3], 0, '#!#/mark#!~');
-#	      no bytes;
-	      substr($text, $_->[2], 0, $remove);
-	      substr($text, $_->[2], 0, '#!#mark#!~');
+	      # # This fixes a characters2byte bug
+	      # # TODO: needs to be tested though!
+	      # # Remove the string including the end
+	      # my $remove = bytes::substr($text, $_->[2], $_->[3] + 10, '');
+	      # # Add the marker
+	      # bytes::substr($remove, $_->[3], 0, '#!#/mark#!~');
+	      # bytes::substr($text, $_->[2], 0, $remove);
+	      # bytes::substr($text, $_->[2], 0, '#!#mark#!~');
 	    };
 	  };
 
-	  $text = xml_escape $text;
+	  $text = xml_escape b($text)->decode;
 	  $text =~ s/#!#/</g;
 	  $text =~ s/#!~/>/g;
 
@@ -362,46 +356,6 @@ SQL
 CREATE UNIQUE INDEX IF NOT EXISTS all_i ON Snippet (in_doc_id, para, in_coll_id)
 SQL
 
-    }
-  ) or return;
-
-  return 1;
-};
-
-
-sub _init_corpus_db {
-  my $oro = shift;
-
-  $oro->txn(
-    sub {
-      # Create document table
-      $oro->do(<<'SQL') or return -1;
-CREATE TABLE Doc (
-  doc_id  INTEGER PRIMARY KEY,
-  author  TEXT,
-  year    INTEGER,
-  title   TEXT,
-  domain  TEXT,
-  genre   TEXT,
-  polDir  TEXT,
-  file    TEXT
-)
-SQL
-
-      # Create paragraph table
-      # local_id is numerical to ensure the next/previous paragraph can be retrieved.
-      # use with: SELECT * FROM Paragraph WHERE content MATCH '"der Aufbruch"';
-      $oro->do(<<'FTS') or return -1;
-CREATE VIRTUAL TABLE Text USING fts4 (
- in_doc_id, para, content, tokenize=perl 'Rabbid::Analyzer::tokenize'
-)
-FTS
-
-      foreach (qw/doc_id genre polDir domain year/) {
-	$oro->do(<<"SQL") or return -1;
-CREATE INDEX IF NOT EXISTS ${_}_i ON Doc ($_)
-SQL
-      }
     }
   ) or return;
 

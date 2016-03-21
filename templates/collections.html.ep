@@ -7,7 +7,7 @@
 
 <ol class="collection">
 %   foreach (@$collection) {
-  <li><%= link_to $_->{q}, url_with('collection', coll_id => $_->{id})->query([q => $_->{q}]) %> (<%= $_->{samples} %> Belegstelle<% if ($_->{samples} > 1) { %>n<% } %>)</li>
+  <li><%= link_to b($_->{q})->decode, url_with('collection', coll_id => $_->{id})->query([q => $_->{q}]) %> (<%= $_->{samples} %> Belegstelle<% if ($_->{samples} > 1) { %>n<% } %>)</li>
 %   }
 </ol>
 % } else {

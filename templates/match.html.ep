@@ -12,7 +12,7 @@
 <%== $m->{content} %>
 %#      </span>
     </div>
-    <p class="ref"><%= $m->{author} %>: <%= $m->{title} %>
+    <p class="ref"><%= b($m->{author})->decode %>: <%= b($m->{title})->decode %>
 <% if ($m->{year}) { %> (<%= $m->{year} %>)<% } =%>;
 <% if ($m->{polDir}) { %><%= filter_by(polDir => $m->{polDir}) =%>, <% } %>
 <% if ($m->{genre}) { %><%= filter_by(genre => $m->{genre}) =%>, <% } %>

@@ -93,7 +93,7 @@ sub register {
       my ($key, $value) = @_;
       return '' unless $value;
       return $c->link_to(
-	$value,
+	b($value)->decode,
 	$c->url_with->query([
 	  startPage   => 1,
 	  filterBy    => $key,

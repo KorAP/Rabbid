@@ -1,7 +1,7 @@
 package Rabbid::Util;
 use Mojo::Base -strict;
 use Mojo::Collection 'c';
-
+use POSIX 'ceil';
 
 # Split long paragraphs in short snippets
 sub split_long_paragraph {
@@ -43,5 +43,13 @@ sub split_long_paragraph {
 
   return c(@lines);
 };
+
+# Get total pages
+sub total_pages {
+  my ($total_results, $items_per_page) = @_;
+  return 0 if $total_results <= 0;
+  return ceil($total_results / ($items_per_page || 1));
+};
+
 
 1;

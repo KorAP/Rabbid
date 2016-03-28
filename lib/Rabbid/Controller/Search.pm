@@ -1,7 +1,7 @@
 package Rabbid::Controller::Search;
 use Mojo::Base 'Mojolicious::Controller';
 use Mojo::Util 'quote';
-use POSIX 'ceil';
+use Rabbid::Util;
 require Rabbid::Analyzer;
 
 my $items = 20;
@@ -65,13 +65,6 @@ sub _count {
   return (0,0);
 };
 
-# Get total pages
-sub _total_pages {
-  my ($total_results, $items_per_page) = @_;
-  return 0 if $total_results <= 0;
-  return ceil($total_results / ($items_per_page || 1));
-};
-
 sub kwic {
   my $c = shift;
   my $q = $c->param('q');
@@ -87,7 +80,7 @@ sub kwic {
     $c->stash(totalResults => $count);
     $c->stash(totalDocs    => $doc_count);
     $c->stash(itemsPerPage => $items);
-    $c->stash(totalPages   => _total_pages($count, $items));
+    $c->stash(totalPages   => Rabbid::Util::total_pages($count, $items));
 
     my %args = (
       -limit => $items

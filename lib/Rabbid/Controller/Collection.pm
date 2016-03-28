@@ -3,9 +3,22 @@ use Mojo::Base 'Mojolicious::Controller';
 use Mojo::Util qw/quote unquote encode/;
 use Mojo::ByteStream 'b';
 use Mojo::Collection 'c';
+use Rabbid::Util;
 use RTF::Writer;
 require Rabbid::Analyzer;
 
+my $items = 20;
+
+sub _count {
+  my $c = shift;
+  my $coll_id = shift;
+
+  return $c->oro->count(
+    Snippet => {
+      in_coll_id => $coll_id
+    }
+  );
+};
 
 # View all collections
 sub index {
@@ -51,6 +64,7 @@ sub collection {
   my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
 
   # Get collection based on id
+  # This is only to ensure the user has this collection
   my $coll = $oro->load(Collection => [qw/q/] => {
     coll_id => $coll_id,
     user_id => $user_id
@@ -61,6 +75,22 @@ sub collection {
 
   # Get query from collection
   my $query = b($coll->{q})->decode;
+
+  my $count = $c->_count($coll_id);
+  $c->stash(totalResults => $count);
+  $c->stash(itemsPerPage => $items);
+  $c->stash(totalPages => Rabbid::Util::total_pages($count, $items));
+
+  my %args = (
+    -limit => $items
+  );
+
+  # Set paging
+  if ($c->param('page')) {
+    $args{-offset} = ($c->param('page') * $items) - $items,
+  };
+
+  # TODO: Use filtering!
 
   # Retrieve all snippets
   my $result = $oro->select(
@@ -78,7 +108,8 @@ sub collection {
       }
     ] => {
       in_coll_id => $coll_id,
-      -order => [qw/in_doc_id para/]
+      -order => [qw/in_doc_id para/],
+      %args
     });
 
   $c->extend_result($result);

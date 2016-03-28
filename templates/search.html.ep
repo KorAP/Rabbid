@@ -3,8 +3,10 @@
 %= include 'filter';
 
 % if (stash('collection')) {
+
 <h3>Kollektion &quot;<%= stash('q') %>&quot;</h3>
 <p class="export">Exportieren nach <%= link_to url_with->query(format => 'xlsx'), class => 'excel', title => 'Excel', begin %><span>Excel</span><% end %> <%= link_to url_with->query(format => 'rtf'), class => 'rtf', title => 'Rich Text Format', begin %><span>RTF</span><% end %></p>
+<p>Filter werden derzeit ignoriert!</p>
 % } elsif (param('q')) {
 <h3>Suche nach &quot;<%= param 'q' %>&quot;</h3>
 % } else {
@@ -18,9 +20,12 @@ top.query = "<%= param('q') %>";
 % if (stash('kwic') && @{stash('kwic')} > 0) {
 % if (defined stash('totalResults')) {
   <p class="total-results"><span><%= stash 'totalResults' %></span>
-    Treffer in
-    <span><%= stash 'totalDocs' %></span>
-    Dokument<% if (stash('totalDocs') != 1) { %>en<% } %></p>
+    Treffer
+    % if (stash('totalDocs')) {
+      in <span><%= stash 'totalDocs' %></span>
+      Dokument<% if (stash('totalDocs') != 1) { %>en<% } %>
+    % }
+    </p>
 % };
 
   <ol class="kwic">
@@ -36,14 +41,12 @@ top.query = "<%= param('q') %>";
 % };
 </div>
 
-% unless (stash('collection')) {
-  % my $url = $c->url_with('search');
-  % $url->query([ page => '{page}']);
-  <div class="pagination">
+% my $url = $c->url_with(stash('collection') ? 'collection' : 'search');
+% $url->query([ page => '{page}']);
+<div class="pagination">
   % if (stash('totalResults')) {
   %= pagination scalar(param('page') // 1), stash('totalPages') => $url;
   % } else {
   %= pagination scalar(param('page') // 1), -1 => $url;
   % };
-  </div>
-% }
+</div>

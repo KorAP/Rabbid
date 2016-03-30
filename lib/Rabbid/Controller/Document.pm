@@ -4,10 +4,6 @@ use Mojo::ByteStream 'b';
 use IO::File;
 require Rabbid::Analyzer;
 
-# my $left_offset = 100;
-# my $right_offset = 100;
-
-
 # This action will render a template
 sub overview {
   my $c = shift;
@@ -29,20 +25,27 @@ sub overview {
       expires_in => '60min'
     },
     display => [
-      'ID' => 'doc_id',
-      'Verfasser' => 'author',
+      'ID' =>
+	['doc_id', process => sub {
+	   my ($c, $row) = @_;
+	   return $c->filter_by(doc_id => $row->{doc_id});
+	 }],
+      'Verfasser' =>
+	['author' => process => sub {
+	   return b(pop->{author})->decode;
+	 }],
       'Titel' =>
 	['title', process => sub {
 	   my ($c, $row) = @_;
 
-	   return $row->{title} unless $row->{file};
+	   return b($row->{title})->decode unless $row->{file};
 
 	   return $c->link_to(
 	     $c->url_for('file', file => $row->{file}),
 	     class => 'file', sub {
 	       b('<span>file</span>')
 	     }
-	   ) . ' ' . ($row->{title} || $row->{file} || '-');
+	   ) . ' ' . b($row->{title} || $row->{file} || '-')->decode;
 	 }],
       'Jahr' =>
 	['year', class => 'integer', process => sub {

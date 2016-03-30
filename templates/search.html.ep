@@ -3,10 +3,7 @@
 %= include 'filter';
 
 % if (stash('collection')) {
-
 <h3>Kollektion &quot;<%= stash('q') %>&quot;</h3>
-<p class="export">Exportieren nach <%= link_to url_with->query(format => 'xlsx'), class => 'excel', title => 'Excel', begin %><span>Excel</span><% end %> <%= link_to url_with->query(format => 'rtf'), class => 'rtf', title => 'Rich Text Format', begin %><span>RTF</span><% end %></p>
-<p>Filter werden derzeit ignoriert!</p>
 % } elsif (param('q')) {
 <h3>Suche nach &quot;<%= param 'q' %>&quot;</h3>
 % } else {
@@ -18,6 +15,11 @@
 top.query = "<%= param('q') %>";
 % end
 % if (stash('kwic') && @{stash('kwic')} > 0) {
+
+% if (stash('collection')) {
+<p class="export"><%= link_to url_with->query(format => 'xlsx'), class => 'excel', title => 'Excel', begin %><span>Excel</span><% end %> <%= link_to url_with->query(format => 'rtf'), class => 'rtf', title => 'Rich Text Format', begin %><span>RTF</span><% end %></p>
+% }
+
 % if (defined stash('totalResults')) {
   <p class="total-results"><span><%= stash 'totalResults' %></span>
     Treffer

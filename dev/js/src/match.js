@@ -83,6 +83,7 @@ define({
     };
 
     var ext = this._element.getElementsByClassName('extend');
+
     // Extend snippet
     for (var i = 0; i < ext.length; i++) {
       ext[i].addEventListener('click', function (e) {

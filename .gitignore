@@ -12,6 +12,7 @@ public
 public2
 todo.org
 node_modules
+script/hypnotoad.pid
 MYMETA*
 lib/Rabbid/Plugin/RabbidMultiOro.pm
 Makefile

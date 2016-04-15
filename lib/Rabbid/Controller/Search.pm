@@ -1,6 +1,7 @@
 package Rabbid::Controller::Search;
 use Mojo::Base 'Mojolicious::Controller';
 use Mojo::Util 'quote';
+use Mojo::ByteStream 'b';
 use Rabbid::Util;
 require Rabbid::Analyzer;
 
@@ -193,9 +194,13 @@ sub snippet {
     }
   );
 
-  return $c->render(
-    json => $c->prepare_paragraph($match)
-  ) if $match;
+
+  if ($match) {
+    $match->{content} = b($match->{content})->decode;
+    return $c->render(
+      json => $c->prepare_paragraph($match)
+    );
+  };
 
   return $c->reply->not_found;
 };

@@ -217,15 +217,6 @@ sub register {
 	      # Set end and start marker of matches
 	      bytes::substr($text, $_->[2] + $_->[3], 0, '#!#/mark#!~');
 	      bytes::substr($text, $_->[2], 0, '#!#mark#!~');
-
-	      # # This fixes a characters2byte bug
-	      # # TODO: needs to be tested though!
-	      # # Remove the string including the end
-	      # my $remove = bytes::substr($text, $_->[2], $_->[3] + 10, '');
-	      # # Add the marker
-	      # bytes::substr($remove, $_->[3], 0, '#!#/mark#!~');
-	      # bytes::substr($text, $_->[2], 0, $remove);
-	      # bytes::substr($text, $_->[2], 0, '#!#mark#!~');
 	    };
 	  };
 

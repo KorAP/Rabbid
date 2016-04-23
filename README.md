@@ -92,8 +92,8 @@ Rabbid will then be available at ```localhost:3000``` in your browser.
 The input format of Rabbid is a simplified XHTML document.
 The ```<head />``` contains the ```<title />``` of the document,
 further meta data fields like ```doc_id``` are given as ```<meta />```
-elements. In the body only ```<p />``` elements are of relevance
-- they divide the text body into snippets used by Rabbid.
+elements. In the body only ```<p />``` elements are of relevance -
+they divide the text body into snippets used by Rabbid.
 Optional ```<span />``` elements can be used to subdivide long paragraphs
 in shorter snippets.
 An example document may look like this:

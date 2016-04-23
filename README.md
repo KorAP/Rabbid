@@ -87,6 +87,41 @@ $ perl script/rabbid daemon
 
 Rabbid will then be available at ```localhost:3000``` in your browser.
 
+### Format
+
+The input format of Rabbid is a simplified XHTML document.
+The ```<head />``` contains the ```<title />``` of the document,
+further meta data fields like ```doc_id``` are given as ```<meta />```
+elements. In the body only ```<p />``` elements are of relevance
+- they divide the text body into snippets used by Rabbid.
+Optional ```<span />``` elements can be used to subdivide long paragraphs
+in shorter snippets.
+An example document may look like this:
+
+``` html
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Example 1</title>
+    <meta name="doc_id" content="5" />
+    <meta name="author" content="John Doe" />
+    <meta name="year" content="1919" />
+  </head>
+  <body>
+    <p>This is an example text.</p>
+    <p>Each paragraph resembles one snippet in Rabbid's view.</p>
+    <p>
+	  <span>Long paragraphs can be subdivided.</span>
+	  <span>By using the span element, each span makes one snippet.</span>
+	</p>
+    <p>The End.</p>
+  </body>
+</html>
+
+```
+
+
 ### Bugs and Caveats
 
 New versions of ```DBD::SQLite``` do not include support

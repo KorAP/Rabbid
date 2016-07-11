@@ -4,6 +4,7 @@ sandbox
 *.conf
 !rabbid.conf
 !rabbid.test.conf
+/t/data/hidden.i5
 Sandbox
 ext
 db

@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE idsCorpus PUBLIC "-//IDS//DTD IDS-I5 1.0//EN" "http://corpora.ids-mannheim.de/I5/DTD/i5.dtd">
+<idsCorpus version="1.0" TEIform="teiCorpus.2">
+  <idsHeader type="corpus" pattern="allesaußerZtg/Zschr" status="new" version="1.1" TEIform="teiHeader">
+    <fileDesc>
+      <titleStmt>
+        <korpusSigle>REI</korpusSigle>
+        <c.title>Reden und Interviews</c.title>
+      </titleStmt>
+      <publicationStmt>
+        <distributor>		Institut für Deutsche Sprache		</distributor>
+        <pubAddress>		Postfach 10 16 21, D-68016 Mannheim	</pubAddress>
+        <telephone>		+49 (0)621 1581 0			</telephone>
+        <availability region="world">CC-BY-SA</availability>
+        <pubDate/>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <monogr>
+            <h.title type="main"/>
+            <imprint/>
+          </monogr>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc/>
+      <samplingDecl/>
+      <editorialDecl>
+        <transduction>		TraDuCES - Korpus-Transformationscompiler, Version 3.6.3,
+		Eric Seubert, IDS Mannheim, 5. Mai 2010
+		Optionen bei der Konvertierung:
+		- Dubletten-Modus:
+		  Entfernung aller als Dubletten klassifizierten Texte.
+		- Indexierungsmodus für COSMAS II:
+		  Erzeugung von Ersatzreferenzen für ausführliche Zitierung.
+		  Erzeugung von Ersatzreferenzen für Kurzzitierung.
+		  Erzeugung von übergeordneten Dokument-Referenzen, falls die
+		  jeweiligen Dokumente nur einen einzigen selbstständigen Text enthalten.
+		  Entfernung aller Deklarationen für Dubletten.
+		  Entfernung von Texten mit Sperrvermerken.
+		  Entfernung von Texten mit minimalem Inhalt.</transduction>
+        <transduction>$Id: fixPreXCES.l 1194 2008-04-30 14:16:53Z kupietz $</transduction>
+        <transduction>$Id: idsces2idsxces 1843 2011-09-13 14:52:21Z kupietz $</transduction>
+        <pagination type="no"/>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy id="topic">
+          <h.bibl>Thementaxonomie (siehe http://www.ids-mannheim.de/kl/projekte/methoden/te.html)</h.bibl>
+          <category id="topic.fiktion">
+            <catDesc>Fiktion</catDesc>
+            <category id="topic.fiktion.vermischtes">
+              <catDesc>Fiktion:Vermischtes</catDesc>
+            </category>
+          </category>
+          <category id="topic.freizeit-unterhaltung">
+            <catDesc>Freizeit_Unterhaltung</catDesc>
+            <category id="topic.freizeit-unterhaltung.reisen">
+              <catDesc>Freizeit_Unterhaltung:Reisen</catDesc>
+            </category>
+            <category id="topic.freizeit-unterhaltung.rundfunk">
+              <catDesc>Freizeit_Unterhaltung:Rundfunk</catDesc>
+            </category>
+            <category id="topic.freizeit-unterhaltung.vereine-veranstaltungen">
+              <catDesc>Freizeit_Unterhaltung:Vereine_Veranstaltungen</catDesc>
+            </category>
+          </category>
+          <category id="topic.gesundheit-ernaehrung">
+            <catDesc>Gesundheit_Ernaehrung</catDesc>
+            <category id="topic.gesundheit-ernaehrung.ernaehrung">
+              <catDesc>Gesundheit_Ernaehrung:Ernaehrung</catDesc>
+            </category>
+            <category id="topic.gesundheit-ernaehrung.gesundheit">
+              <catDesc>Gesundheit_Ernaehrung:Gesundheit</catDesc>
+            </category>
+          </category>
+          <category id="topic.kultur">
+            <catDesc>Kultur</catDesc>
+            <category id="topic.kultur.bildende-kunst">
+              <catDesc>Kultur:Bildende Kunst</catDesc>
+            </category>
+            <category id="topic.kultur.darstellende-kunst">
+              <catDesc>Kultur:Darstellende Kunst</catDesc>
+            </category>
+            <category id="topic.kultur.film">
+              <catDesc>Kultur:Film</catDesc>
+            </category>
+            <category id="topic.kultur.literatur">
+              <catDesc>Kultur:Literatur</catDesc>
+            </category>
+            <category id="topic.kultur.mode">
+              <catDesc>Kultur:Mode</catDesc>
+            </category>
+            <category id="topic.kultur.musik">
+              <catDesc>Kultur:Musik</catDesc>
+            </category>
+          </category>
+          <category id="topic.natur-umwelt">
+            <catDesc>Natur_Umwelt</catDesc>
+            <category id="topic.natur-umwelt.garten">
+              <catDesc>Natur_Umwelt:Garten</catDesc>
+            </category>
+            <category id="topic.natur-umwelt.tiere">
+              <catDesc>Natur_Umwelt:Tiere</catDesc>
+            </category>
+            <category id="topic.natur-umwelt.wetter-klima">
+              <catDesc>Natur_Umwelt:Wetter_Klima</catDesc>
+            </category>
+          </category>
+          <category id="topic.politik">
+            <catDesc>Politik</catDesc>
+            <category id="topic.politik.ausland">
+              <catDesc>Politik:Ausland</catDesc>
+            </category>
+            <category id="topic.politik.inland">
+              <catDesc>Politik:Inland</catDesc>
+            </category>
+            <category id="topic.politik.kommunalpolitik">
+              <catDesc>Politik:Kommunalpolitik</catDesc>
+            </category>
+          </category>
+          <category id="topic.rest">
+            <catDesc>Rest</catDesc>
+            <category id="topic.rest.boersenkurse">
+              <catDesc>Rest:boersenkurse</catDesc>
+            </category>
+            <category id="topic.rest.geburt-tod-heirat">
+              <catDesc>Rest:geburt_tod_heirat</catDesc>
+            </category>
+            <category id="topic.rest.impressum">
+              <catDesc>Rest:impressum</catDesc>
+            </category>
+            <category id="topic.rest.inhaltsverzeichnisse">
+              <catDesc>Rest:inhaltsverzeichnisse</catDesc>
+            </category>
+            <category id="topic.rest.ligatabellen">
+              <catDesc>Rest:ligatabellen</catDesc>
+            </category>
+            <category id="topic.rest.tabellen">
+              <catDesc>Rest:tabellen</catDesc>
+            </category>
+            <category id="topic.rest.veranstaltungshinweise">
+              <catDesc>Rest:veranstaltungshinweise</catDesc>
+            </category>
+          </category>
+          <category id="topic.sport">
+            <catDesc>Sport</catDesc>
+            <category id="topic.sport.ballsport">
+              <catDesc>Sport:Ballsport</catDesc>
+            </category>
+            <category id="topic.sport.fussball">
+              <catDesc>Sport:Fussball</catDesc>
+            </category>
+            <category id="topic.sport.motorsport">
+              <catDesc>Sport:Motorsport</catDesc>
+            </category>
+            <category id="topic.sport.radsport">
+              <catDesc>Sport:Radsport</catDesc>
+            </category>
+            <category id="topic.sport.tennis">
+              <catDesc>Sport:Tennis</catDesc>
+            </category>
+            <category id="topic.sport.vermischtes">
+              <catDesc>Sport:Vermischtes</catDesc>
+            </category>
+            <category id="topic.sport.wintersport">
+              <catDesc>Sport:Wintersport</catDesc>
+            </category>
+          </category>
+          <category id="topic.staat-gesellschaft">
+            <catDesc>Staat_Gesellschaft</catDesc>
+            <category id="topic.staat-gesellschaft.arbeit-und-beruf">
+              <catDesc>Staat_Gesellschaft:Arbeit_und_Beruf</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.bildung">
+              <catDesc>Staat_Gesellschaft:Bildung</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.biographien-interviews">
+              <catDesc>Staat_Gesellschaft:Biographien_Interviews</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.drittes-reich-rechtsextremismus">
+              <catDesc>Staat_Gesellschaft:Drittes_Reich_Rechtsextremismus</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.familie-geschlecht">
+              <catDesc>Staat_Gesellschaft:Familie_Geschlecht</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.kirche">
+              <catDesc>Staat_Gesellschaft:Kirche</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.recht">
+              <catDesc>Staat_Gesellschaft:Recht</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.tod">
+              <catDesc>Staat_Gesellschaft:Tod</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.verbrechen">
+              <catDesc>Staat_Gesellschaft:Verbrechen</catDesc>
+            </category>
+          </category>
+          <category id="topic.technik-industrie">
+            <catDesc>Technik_Industrie</catDesc>
+            <category id="topic.technik-industrie.edv-elektronik">
+              <catDesc>Technik_Industrie:EDV_Elektronik</catDesc>
+            </category>
+            <category id="topic.technik-industrie.kfz">
+              <catDesc>Technik_Industrie:Kfz</catDesc>
+            </category>
+            <category id="topic.technik-industrie.transport-verkehr">
+              <catDesc>Technik_Industrie:Transport_Verkehr</catDesc>
+            </category>
+            <category id="topic.technik-industrie.umweltschutz">
+              <catDesc>Technik_Industrie:Umweltschutz</catDesc>
+            </category>
+            <category id="topic.technik-industrie.unfaelle">
+              <catDesc>Technik_Industrie:Unfaelle</catDesc>
+            </category>
+          </category>
+          <category id="topic.wirtschaft-finanzen">
+            <catDesc>Wirtschaft_Finanzen</catDesc>
+            <category id="topic.wirtschaft-finanzen.banken">
+              <catDesc>Wirtschaft_Finanzen:Banken</catDesc>
+            </category>
+            <category id="topic.wirtschaft-finanzen.bilanzen">
+              <catDesc>Wirtschaft_Finanzen:Bilanzen</catDesc>
+            </category>
+            <category id="topic.wirtschaft-finanzen.oeffentliche-finanzen">
+              <catDesc>Wirtschaft_Finanzen:Oeffentliche_Finanzen</catDesc>
+            </category>
+            <category id="topic.wirtschaft-finanzen.sozialprodukt">
+              <catDesc>Wirtschaft_Finanzen:Sozialprodukt</catDesc>
+            </category>
+            <category id="topic.wirtschaft-finanzen.waehrung">
+              <catDesc>Wirtschaft_Finanzen:Waehrung</catDesc>
+            </category>
+          </category>
+          <category id="topic.wissenschaft">
+            <catDesc>Wissenschaft</catDesc>
+            <category id="topic.wissenschaft.populaerwissenschaft">
+              <catDesc>Wissenschaft:Populaerwissenschaft</catDesc>
+            </category>
+          </category>
+          <category id="topic.unklassifizierbar">
+            <catDesc>Text ist thematisch nicht klassifizierbar.</catDesc>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language id="de" usage="100">Deutsch</language>
+      </langUsage>
+      <textDesc/>
+    </profileDesc>
+  </idsHeader>
+  <idsDoc type="text" version="1.0" TEIform="TEI.2">
+    <idsHeader type="document" pattern="text" status="new" version="1.1" TEIform="teiHeader">
+      <fileDesc>
+        <titleStmt>
+          <dokumentSigle>REI/BNG</dokumentSigle>
+          <d.title>Reden der Bundestagsfraktion Bündnis 90/DIE GRÜNEN, (2002-2006)</d.title>
+        </titleStmt>
+        <publicationStmt>
+          <distributor/>
+          <pubAddress/>
+          <availability region="world">CC-BY-SA</availability>
+          <pubDate/>
+        </publicationStmt>
+        <sourceDesc>
+          <biblStruct>
+            <monogr>
+              <h.title type="main"/>
+              <imprint/>
+            </monogr>
+          </biblStruct>
+        </sourceDesc>
+      </fileDesc>
+    </idsHeader>
+    <idsText version="1.0">
+      <idsHeader type="text" pattern="text" status="new" version="1.1" TEIform="teiHeader">
+        <fileDesc>
+          <titleStmt>
+            <textSigle>REI/BNG.00001</textSigle>
+            <t.title assemblage="external">REI/BNG.00001 Hustedt, Michaele: Energiewirtschaft. Rede im Deutschen Bundestag am 19.01.2002, Hrsg: Bundestagsfraktion Bündnis 90/DIE GRÜNEN</t.title>
+          </titleStmt>
+          <publicationStmt>
+            <distributor/>
+            <pubAddress/>
+            <availability region="world">CC-BY-SA</availability>
+            <pubDate/>
+          </publicationStmt>
+          <sourceDesc>
+            <biblStruct>
+              <monogr>
+                <h.title type="main">Energiewirtschaft</h.title>
+                <h.title type="sub">Rede im Deutschen Bundestag am 19.01.2002</h.title>
+                <h.title type="abbr" level="m"/>
+                <h.author>Hustedt, Michaele</h.author>
+                <editor/>
+                <edition>
+                  <further/>
+                  <kind/>
+                  <appearance/>
+                </edition>
+                <imprint>
+                  <publisher/>
+                  <pubDate type="year">2002</pubDate>
+                  <pubDate type="month">01</pubDate>
+                  <pubDate type="day">19</pubDate>
+         <pubPlace key="DE">Berlin</pubPlace>
+                </imprint>
+                <biblScope type="subsume"/>
+                <biblScope type="pp"/>
+                <biblScope type="vol"/>
+                <biblScope type="volume-title"/>
+              </monogr>
+            </biblStruct>
+            <reference type="complete" assemblage="regular">REI/BNG.00001 Hustedt, Michaele: Energiewirtschaft. Rede im Deutschen Bundestag am 19.01.2002, Hrsg: Bundestagsfraktion Bündnis 90/DIE GRÜNEN [Ausführliche Zitierung nicht verfügbar]</reference>
+            <reference type="short" assemblage="regular">REI/BNG.00001 Hustedt, Michaele: Energiewirtschaft. Rede im Deutschen Bundestag am 19.01.2002, Hrsg: Bundestagsfraktion Bündnis 90/DIE GRÜNEN [Kurzzitierung nicht verfügbar]</reference>
+          </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+          <samplingDecl/>
+          <tagsDecl>
+            <tagUsage gi="ptr" occurs="1"/>
+            <tagUsage gi="p" occurs="11"/>
+            <tagUsage gi="s" occurs="49"/>
+          </tagsDecl>
+        </encodingDesc>
+        <profileDesc>
+          <creation>
+            <creatDate>2002.01.19</creatDate>
+            <creatRef/>
+            <creatRefShort/>
+          </creation>
+          <textClass>
+            <catRef n="1" target="topic.politik.inland" scheme="topic"/>
+          </textClass>
+          <textDesc>
+            <textDomain/>
+          </textDesc>
+        </profileDesc>
+      </idsHeader>
+      <text>
+        <front>
+          <titlePage id="bng.00001-0-titlepage">
+            <docTitle>
+              <titlePart type="unspecified">
+                <s>Michaele Hustedt, Energiewirtschaft</s>
+              </titlePart>
+              <titlePart type="sub">
+                <s>19. Januar 2002</s>
+              </titlePart>
+            </docTitle>
+          </titlePage>
+        </front>
+        <body>
+          <div n="0" complete="y" type="Rede">
+            <ptr type="aligning" targType="head" targOrder="u" target="bng.00001-0-titlepage"/>
+            <p>
+              <s>
+                <hi rend="bo">Rede zu Protokoll</hi>
+              </s>
+            </p>
+            <p><s><hi rend="bo">Michaele Hustedt</hi> (BÜNDNIS 90/DIE GRÜNEN): Wir bringen heute das Energiewirtschaftsgesetz in unveränderter Form neu ein.</s>
+<s>Die Grünen erweisen sich damit als verlässlicher Koalitionspartner, die Koalition als verlässlicher Partner gegenüber der Stromwirtschaft und den Verbänden.</s>
+<s>Die schnelle Verabschiedung dieses Gesetzes ist notwendig, da wir immer noch säumig sind in der Umsetzung der EU-Gasrichtlinie.</s>
+<s>Frankreich ist schon verurteilt.</s>
+<s>Wir sind angeklagt.</s>
+<s>Das kann teuer werden.</s></p>
+            <p><s>Zudem setzen wir den Sofortvollzug des Kartellamts um.</s>
+<s>Ein wichtiger Punkt, das Kartellamt zu stärken und in strittigen Fällen die Entscheidungen zu beschleunigen.</s>
+<s>Darüber hinaus verrechtlichen wir die Verbändevereinbarungen Strom und Gas. Daran gibt es Kritik.</s>
+<s>- Verständlich!</s>
+<s>-, da insbesondere die Verbändevereinbarung Gas bei weitem nicht einen echten und fairen Wettbewerb ermöglicht.</s>
+<s>Allerdings werden diese Verbändevereinbarungen nur bis Ende 2003 verrechtlicht.</s>
+<s>Damit sagen wir deutlich: Soll es bei dem verhandelten Netzzugang bleiben, muss es hier zu sehr weitgehenden Verbesserungen kommen.</s></p>
+            <p><s>Ich will auch nicht meine Besorgnis verhehlen über den Stand des Wettbewerbs in Deutschland.</s>
+<s>Im Gasbereich gibt es ihn schlichtweg noch gar nicht.</s>
+<s>Es ist bisher nur zu vereinzelten Durchleitungen gekommen.</s>
+<s>Notwendig ist ein Paradigmenwechsel wie beim Strom: Wir brauchen Durchleitungsbedingungen, die von der konkreten Transaktion unabhängig sind.</s>
+<s>Und die Zeit drängt: Die EU will 2005 den Erfahrungsbericht von Deutschland auswerten, inwieweit der Weg des verhandelten Netzzugangs zu gleich guten Ergebnissen führte wie der regulierte, den alle anderen Länder in der EU praktizieren.</s>
+<s>Wir müssen den Nachweis erbringen, dass auch so eine faire und kostengünstige Durchleitung durch die Gas- und Stromnetze möglich ist.</s>
+<s>Für diesen Erfahrungsbericht müssen wir Erfahrungen sammeln.</s>
+<s>In Konsequenz bedeutet das, dass die neue Verbändevereinbarung schon im April und nicht erst im September 2003 unter Dach und Fach sein muss.</s></p>
+            <p>
+              <s>In diesem Zusammenhang möchte ich darauf hinweisen, dass es wesentlich mehr Vertrauen zu der Verbändevereinbarung vonseiten der Politik und auch der Gesellschaft geben würde, wenn nicht nur die Energiewirtschaft mit der Großindustrie verhandeln würde, sondern auch die neuen Anbieter, die Händler, der Mittelstand und die Verbraucher mit am Tisch säßen.</s>
+            </p>
+            <p><s>Der Wettbewerb in der Gaswirtschaft hat noch gar nicht begonnen, in der Stromwirtschaft ist er stark rückläufig.</s>
+<s>Zwar ist der Markt rechtlich schon bis zum Endkunden geöffnet, faktisch ist er aber fast genau so abgeschottet wie in Frankreich.</s>
+<s>Das Endkundengeschäft ist gescheitert, neue Akteure ziehen sich zurück, durch Fusionen schlittern wir in ein Oligo- bzw. Monopol.</s>
+<s>Folge: Die Gewinne der Stromkonzerne wachsen wieder auf Monopolniveau, die Preise für Verbraucher und Industrie liegen wieder über dem Niveau vor der Liberalisierung.</s></p>
+            <p><s>Der VIK hat die Entgelte der deutschen Stromnetzbetreiber für die Benutzung ihrer Netze untersucht und dabei festgestellt, dass 28 Prozent der Hoch-, 9 Prozent der Mittel- und 13 Prozent der Niederspannungsnetzbetreiber zu teuer sind.</s>
+<s>Als Kriterien dienen die Strukturklassen der VVII plus.</s>
+<s>Aus diesem Grund hat das Kartell amt gegen zehn Netzbetreiber auch Verfahren eingeleitet.</s>
+<s>Es gibt also guten Grund, anzunehmen, dass hier immer noch überhöhte Netzentgelte genommen werden, schlimmer noch, dass es auch zu Quersubventionierungen kommt und damit zu Wettbewerbsverzerrungen.</s></p>
+            <p><s>Zu Recht schaut deshalb die EU-Kommission skeptisch auf Deutschland (und nicht nur auf Frankreich).</s>
+<s>Die neue EU-Richtlinie, die am 25. November 2002 beschlossen wurde, stellt uns deshalb vor die Herausforderung, auch in Deutschland nachzulegen.</s>
+<s>Das Strom- und Gasnetz sind die natürlichen Monopole, von denen jeder Lieferant abhängig ist.</s>
+<s>Die Strom- und Gasnetze organisatorisch von den Produzenten und Lieferanten zu trennen, ist deshalb der unbürokratischste Weg zum fairen Netzzugang.</s>
+<s>Der Beschluss der EU-Minister wird wieder Wettbewerbsdynamik in die Gas- und Strommärkte bringen.</s>
+<s>Davon profitieren Verbraucher und Industrie.</s></p>
+            <p><s>Wir werden die EnWG-Novelle aus der letzten Legislaturperiode unverändert zügig beschließen.</s>
+<s>Darin enthalten ist ein unbefristeter Sofortvollzug für das Kartellamt und eine auf Ende 2003 befristete Verrechtlichung der Verbändevereinbarungen.</s>
+<s>Wenn bei den Verhandlungen zu den nachfolgenden Verbändevereinbarungen kein deutlicher Fortschritt erzielt wird bzw. sie sogar zum Beispiel im Gasbereich scheitern, werden wir um eine stärkere staatliche Regulierung ex ante nicht herum kommen.</s>
+<s>Deshalb wächst die Debatte über das "Wie" einer gegebenenfalls nötigen Regulierung.</s></p>
+            <p><s>Unbundling ist ein unbürokratischer Weg, fairen Netzzugang zu gewährleisten, weil damit die Möglichkeit zur Quersubventionierung von Netzgebühren zur Produktion reduziert bzw. abgeschafft wird.</s>
+<s>Deshalb senkt es auch das Misstrauen, dass Netzgebühren überhöht sind.</s>
+<s>Eine wichtige Voraussetzung dafür, dass Zukunftsinvestionen ins Netz refinanziert werden können.</s></p>
+            <p><s>Die Ausnahme für die Stadtwerke bis 100 000 Endkunden macht Sinn, da ab einer gewissen Organisationsgröße die Trennung von Netz und Produktion/Vertrieb zu übermäßigen Kosten führen würde.</s>
+<s>Damit hat sich aber dann auch das Argument erledigt, dass Deutschland eine andere Struktur in der Energiewirtschaft als andere Länder hat.</s></p>
+            <p>
+              <s>Ich gehe deshalb abschließend davon aus, dass wir noch in dieser Legislaturperiode ein zweites Mal das Energiewirtschaftsgesetz novellieren müssen, um mehr Wettbewerbsintensität in den Markt zu bringen.</s>
+            </p>
+          </div>
+        </body>
+        <back/>
+      </text>
+    </idsText>
+    <idsText version="1.0">
+      <idsHeader type="text" pattern="text" status="new" version="1.1" TEIform="teiHeader">
+        <fileDesc>
+          <titleStmt>
+            <textSigle>REI/BNG.00002</textSigle>
+            <t.title assemblage="external">REI/BNG.00002 Scheel, Christine: Insolvenzantrag Kirch Media AG. Rede im Deutschen Bundestag am 17.04.2002, Hrsg: Bundestagsfraktion Bündnis 90/DIE GRÜNEN</t.title>
+          </titleStmt>
+          <publicationStmt>
+            <distributor/>
+            <pubAddress/>
+            <availability region="world">CC-BY-SA</availability>
+            <pubDate/>
+          </publicationStmt>
+          <sourceDesc>
+            <biblStruct>
+              <monogr>
+                <h.title type="main">Insolvenzantrag Kirch Media AG</h.title>
+                <h.title type="sub">Rede im Deutschen Bundestag am 17.04.2002</h.title>
+                <h.title type="abbr" level="m"/>
+                <h.author>Scheel, Christine</h.author>
+                <editor/>
+                <edition>
+                  <further/>
+                  <kind/>
+                  <appearance/>
+                </edition>
+                <imprint>
+                  <publisher/>
+                  <pubDate type="year">2002</pubDate>
+                  <pubDate type="month">04</pubDate>
+                  <pubDate type="day">17</pubDate>
+         <pubPlace key="DE">Berlin</pubPlace>
+                </imprint>
+                <biblScope type="subsume"/>
+                <biblScope type="pp"/>
+                <biblScope type="vol"/>
+                <biblScope type="volume-title"/>
+              </monogr>
+            </biblStruct>
+            <reference type="complete" assemblage="regular">REI/BNG.00002 Scheel, Christine: Insolvenzantrag Kirch Media AG. Rede im Deutschen Bundestag am 17.04.2002, Hrsg: Bundestagsfraktion Bündnis 90/DIE GRÜNEN [Ausführliche Zitierung nicht verfügbar]</reference>
+            <reference type="short" assemblage="regular">REI/BNG.00002 Scheel, Christine: Insolvenzantrag Kirch Media AG. Rede im Deutschen Bundestag am 17.04.2002, Hrsg: Bundestagsfraktion Bündnis 90/DIE GRÜNEN [Kurzzitierung nicht verfügbar]</reference>
+          </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+          <samplingDecl/>
+          <tagsDecl>
+            <tagUsage gi="ptr" occurs="10"/>
+            <tagUsage gi="note" occurs="9"/>
+            <tagUsage gi="p" occurs="22"/>
+            <tagUsage gi="s" occurs="52"/>
+          </tagsDecl>
+        </encodingDesc>
+        <profileDesc>
+          <creation>
+            <creatDate>2002.04.17</creatDate>
+            <creatRef/>
+            <creatRefShort/>
+          </creation>
+          <textClass>
+            <catRef n="1" target="topic.politik.inland" scheme="topic"/>
+          </textClass>
+          <textDesc>
+            <textDomain/>
+          </textDesc>
+        </profileDesc>
+      </idsHeader>
+      <text>
+        <front>
+          <titlePage id="bng.00002-0-titlepage">
+            <docTitle>
+              <titlePart type="unspecified">
+                <s>Christine Scheel, Insolvenzantrag Kirch Media AG</s>
+              </titlePart>
+              <titlePart type="sub">
+                <s>17. April 2002</s>
+              </titlePart>
+            </docTitle>
+          </titlePage>
+        </front>
+        <body>
+          <div n="0" complete="y" type="Rede">
+            <ptr type="aligning" targType="head" targOrder="u" target="bng.00002-0-titlepage"/>
+            <p>
+              <s><hi rend="bo">Vizepräsidentin Petra Bläss:</hi> Nächste Rednerin in der Aktuellen Stunde ist die Kollegin Christine Scheel für die Fraktion des Bündnisses 90/Die Grünen.</s>
+            </p>
+            <p><s><hi rend="bo">Christine Scheel</hi> (BÜNDNIS 90/DIE GRÜNEN): Frau Präsidentin!</s>
+<s>Verehrte Kolleginnen und Kollegen!</s>
+<s>Herr Wiesheu, es gibt anscheinend einige größere Unterschiede zwischen dem Bayerischen Landtag und diesem Parlament.</s>
+<s>Die betreffen nicht nur die Redezeit.</s>
+<s>Normalerweise reden wir hier in diesem Hause über die Sache,</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00002-0-f1"/>
+            <p><s>darüber, wer für etwas zuständig ist, und darüber, wer, wenn eine Pleite stattgefunden hat, dafür die Verantwortung trägt.</s>
+<s>Darüber haben Sie leider kein einziges Wort verloren.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00002-0-f2"/>
+            <p><s>Wir sprechen hier heute über ein Lehrstück vor allem der bayerischen Wirtschaftspolitik.</s>
+<s>Am Beispiel Kirch ist nämlich besonders plastisch geworden, wie die bayerischen Kompetenzen in der Wirtschaftspolitik wirklich aussehen.</s>
+<s>Es ist schon eigenartig, Herr Wiesheu: 1997 haben Sie über die LfA versucht, einen Kredit für Leo Kirch durchzubringen, der damit zu 100 Prozent von der bayerischen Regierung getragen worden wäre, haben aber 1998 die Kompetenz für diesen Bereich entzogen bekommen.</s>
+<s>Die Kompetenz für diesen Bereich ist in die Staatskanzlei zu Minister Huber und zu Herrn Stoiber abgewandert.</s>
+<s>Jetzt, da der Karren im Dreck steckt, werden Sie wieder hervorgezaubert; die anderen tauchen ab.</s>
+<s>Das ist die Realität, wie in Bayern debattiert wird und welche Möglichkeiten die Einzelnen in Bayern haben.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00002-0-f3"/>
+            <p><s>Wir haben es hier - das ist eine sehr ernste Sache - mit einem der größten Unternehmenszusammenbrüche in der deutschen Nachkriegsgeschichte zu tun.</s>
+<s>Es ist, gemessen an den Schulden in einer Größenordnung von mittlerweile 7,2 Milliarden Euro, die größte Pleite.</s>
+<s>Diese Summe ist für einen normalen Menschen kaum vorstellbar.</s>
+<s>Wenn man sich anschaut, wie das Ganze abgelaufen ist, dann muss man feststellen, dass in Bayern Großunternehmen - dazu gehört das Unternehmen Kirch - auf Kosten des Mittelstandes hofiert worden sind, und zwar jahrelang.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00002-0-f4"/>
+            <p><s>Es wurden über Jahre hinweg großzügig Kredite in Milliardenhöhe an den Großkunden Kirch vergeben.</s>
+<s>Dieses Geld aus der Schatulle der Bayerischen Landesbank stand damit dem Mittelstand und den kleinen Handwerkern nicht mehr zu Verfügung.</s>
+<s>Man muss sich also die gesamte Situation hinsichtlich der Vergabekriterien anschauen.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00002-0-f5"/>
+            <p><s>Wenn man sich weiterhin anschaut, wer in dem Vergabegremium der Bayerischen Landesbank sitzt, dann findet man von Umweltminister Schnappauf über Herrn Staatsminister Wiesheu und Innenminister Beckstein das halbe Kabinett.</s>
+<s>Man braucht sich also nicht darüber zu wundern, wie die bayerische Wirtschaftspolitik funktioniert.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00002-0-f6"/>
+            <p>
+              <s>Angesichts dieser Situation müssen wir feststellen, dass es eine ganz enge Verknüpfung von Staat und Wirtschaft gibt.</s>
+            </p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00002-0-f7"/>
+            <p><s>Herr Stoiber höchstpersönlich geriert sich als oberster Medienplaner des Landes.</s>
+<s>Auch er jettet in der weltweiten High Society umher und hat sich als Tête-à-tête mit Murdoch getroffen.</s>
+<s>Lassen Sie doch diese wunderbaren Erzählungen über andere, die Sie uns präsentiert haben!</s>
+<s>Auch Herr Stoiber hat Herrn Murdoch in den Vereinigten Staaten kontaktiert und hat Seilschaften zugunsten seines Busenfreundes Kirch geknüpft.</s></p>
+            <p><s>Wenn wir untersuchen, wie versucht worden ist, an Geld zu kommen, dann erkennen wir, dass es noch eigenartiger wird.</s>
+<s>Man wusste anscheinend, dass das Risiko vor allem hinsichtlich der Formel 1 verdammt hoch ist.</s>
+<s>Deswegen hat man unter an deren mit der Hypo-Vereinsbank versucht, dieses Kreditrisiko etwas breiter zu streuen.</s>
+<s>Die Hypo-Vereinsbank ist aber nicht darauf eingegangen.</s>
+<s>Darum hat die Bayerische Landesbank den Kredit trotz des hohen Risikos gewährt.</s>
+<s>Das spiegelt das ausgeklügelte System wider, das sich in Bayern jahrzehntelang "bewährt" hat.</s></p>
+            <p>
+              <s>Wenn man sich schließlich anschaut, dass Herr Stoiber immer wieder öffentlich die Monstranz der freien Marktwirtschaft vor sich herträgt, aber in Hinterzimmern herummauschelt, dann muss man sagen: In Bayern haben wir mittlerweile eher eine Planwirtschaft als eine freie Marktwirtschaft.</s>
+            </p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00002-0-f8"/>
+            <p><s>Es bleiben die Fragen offen, ob es in dem Spiel Verlierer gibt und wer die bayerische Amigowirtschaft bezahlt.</s>
+<s>Die Antwort ist längst bekannt: Der Steuerzahler zahlt die Rechnung, und das gleich zweifach, nämlich einmal über eine politisch motivierte Kreditvergabe ohne belastbare Sicherheiten, die sich im Insolvenzverfahren höchstwahrscheinlich zulasten der Bayerischen Landesbank in Luft auflösen und infolgedessen natürlich wiederum den Steuerzahler bzw. die Steuerzahlerin belasten, und zum Zweiten über die Steuerausfälle, wenn die privaten Banken ihre Kredite, die sie im Medienmoloch versenkt haben, von der Steuer absetzen.</s></p>
+            <p><s>Ich muss Ihnen klar sagen, dass wir daraus folgendes Fazit ziehen: Herr Stoiber hat auf der ganzen Linie versagt, und zwar als Wirtschaftspolitiker, als Medienpolitiker und letztendlich auch als Landeschef.</s>
+<s>So jemand ist Kandidat für die Bundestagswahl!</s>
+<s>Wir können erahnen, was auf uns zukäme.</s></p>
+            <p>
+              <s>Danke schön.</s>
+            </p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00002-0-f9"/>
+          </div>
+        </body>
+        <back>
+          <div n="1" complete="y" type="footnotes">
+            <note id="bng.00002-0-f1" place="foot">
+              <p>
+                <s>(Zustimmung beim BÜNDNIS 90/DIE GRÜNEN und bei der SPD)</s>
+              </p>
+            </note>
+            <note id="bng.00002-0-f2" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN und bei der SPD)</s>
+              </p>
+            </note>
+            <note id="bng.00002-0-f3" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN, bei der SPD und der PDS)</s>
+              </p>
+            </note>
+            <note id="bng.00002-0-f4" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN und bei der SPD)</s>
+              </p>
+            </note>
+            <note id="bng.00002-0-f5" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN und bei der SPD - Zuruf von der CDU/CSU: Was für ein Blödsinn!)</s>
+              </p>
+            </note>
+            <note id="bng.00002-0-f6" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN und bei der SPD)</s>
+              </p>
+            </note>
+            <note id="bng.00002-0-f7" place="foot">
+              <p>
+                <s>(Zuruf von der SPD: Eine Verfilzung!)</s>
+              </p>
+            </note>
+            <note id="bng.00002-0-f8" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN sowie bei Abgeordneten der SPD)</s>
+              </p>
+            </note>
+            <note id="bng.00002-0-f9" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN und bei der SPD - Zuruf von der CDU/CSU: Ach du lieber Gott!)</s>
+              </p>
+            </note>
+          </div>
+        </back>
+      </text>
+    </idsText>
+    <idsText version="1.0">
+      <idsHeader type="text" pattern="text" status="new" version="1.1" TEIform="teiHeader">
+        <fileDesc>
+          <titleStmt>
+            <textSigle>REI/BNG.00003</textSigle>
+            <t.title assemblage="external">REI/BNG.00003 Bettin, Grietje: Insolvenzantrag Kirch Media AG. Rede im Deutschen Bundestag am 17.04.2002, Hrsg: Bundestagsfraktion Bündnis 90/DIE GRÜNEN</t.title>
+          </titleStmt>
+          <publicationStmt>
+            <distributor/>
+            <pubAddress/>
+            <availability region="world">CC-BY-SA</availability>
+            <pubDate/>
+          </publicationStmt>
+          <sourceDesc>
+            <biblStruct>
+              <monogr>
+                <h.title type="main">Insolvenzantrag Kirch Media AG</h.title>
+                <h.title type="sub">Rede im Deutschen Bundestag am 17.04.2002</h.title>
+                <h.title type="abbr" level="m"/>
+                <h.author>Bettin, Grietje</h.author>
+                <editor/>
+                <edition>
+                  <further/>
+                  <kind/>
+                  <appearance/>
+                </edition>
+                <imprint>
+                  <publisher/>
+                  <pubDate type="year">2002</pubDate>
+                  <pubDate type="month">04</pubDate>
+                  <pubDate type="day">17</pubDate>
+         <pubPlace key="DE">Berlin</pubPlace>
+                </imprint>
+                <biblScope type="subsume"/>
+                <biblScope type="pp"/>
+                <biblScope type="vol"/>
+                <biblScope type="volume-title"/>
+              </monogr>
+            </biblStruct>
+            <reference type="complete" assemblage="regular">REI/BNG.00003 Bettin, Grietje: Insolvenzantrag Kirch Media AG. Rede im Deutschen Bundestag am 17.04.2002, Hrsg: Bundestagsfraktion Bündnis 90/DIE GRÜNEN [Ausführliche Zitierung nicht verfügbar]</reference>
+            <reference type="short" assemblage="regular">REI/BNG.00003 Bettin, Grietje: Insolvenzantrag Kirch Media AG. Rede im Deutschen Bundestag am 17.04.2002, Hrsg: Bundestagsfraktion Bündnis 90/DIE GRÜNEN [Kurzzitierung nicht verfügbar]</reference>
+          </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+          <samplingDecl/>
+          <tagsDecl>
+            <tagUsage gi="ptr" occurs="7"/>
+            <tagUsage gi="note" occurs="6"/>
+            <tagUsage gi="p" occurs="19"/>
+            <tagUsage gi="s" occurs="51"/>
+          </tagsDecl>
+        </encodingDesc>
+        <profileDesc>
+          <creation>
+            <creatDate>2002.04.17</creatDate>
+            <creatRef/>
+            <creatRefShort/>
+          </creation>
+          <textClass>
+            <catRef n="1" target="topic.politik.inland" scheme="topic"/>
+          </textClass>
+          <textDesc>
+            <textDomain/>
+          </textDesc>
+        </profileDesc>
+      </idsHeader>
+      <text>
+        <front>
+          <titlePage id="bng.00003-0-titlepage">
+            <docTitle>
+              <titlePart type="unspecified">
+                <s>Grietje Bettin, Insolvenzantrag Kirch Media AG</s>
+              </titlePart>
+              <titlePart type="sub">
+                <s>17. April 2002</s>
+              </titlePart>
+            </docTitle>
+          </titlePage>
+        </front>
+        <body>
+          <div n="0" complete="y" type="Rede">
+            <ptr type="aligning" targType="head" targOrder="u" target="bng.00003-0-titlepage"/>
+            <p>
+              <s><hi rend="bo">Vizepräsidentin Petra Bläss:</hi> Das Wort für die Fraktion des Bündnisses 90/Die Grünen hat die Kollegin Grietje Bettin.</s>
+            </p>
+            <p><s><hi rend="bo">Grietje Bettin</hi> (BÜNDNIS 90/DIE GRÜNEN): Frau Präsidentin!</s>
+<s>Liebe Kolleginnen und Kollegen!</s>
+<s>Eigentlich dürfte die Kirch-Pleite niemanden wirklich überrascht haben.</s>
+<s>Denn wer sich in den letzten Jahren nur ein wenig mit dieser Materie befasst hat, hätte wissen müssen, dass allein der Pay-TV-Sender Premiere World täglich - wohlgemerkt: täglich - rund 2 Millionen Euro Verlust eingefahren hat.</s>
+<s>Das entspricht einem Minus von mehr als 700 Millionen Euro pro Jahr, von den anderen defizitären Sendern wie Sat 1, Kabel 1, N 24 und DSF ganz zu schweigen.</s>
+<s>Nein, die Pleite von Kirch-Media kam wirklich nicht überraschend.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00003-0-f1"/>
+            <p>
+              <s>Dieser Kollaps war vorprogrammiert.</s>
+            </p>
+            <p><s>Als Außenstehende fragt man sich allerdings schon, welchen bayerischen oder außer-bayerischen Amigo-Freundschaften Leo Kirch immer wieder Bankkredite zu verdanken hatte.</s>
+<s>Wer konnte oder wollte dort das drohende finanzielle Fiasko nicht sehen oder wahrhaben?</s>
+<s>Die Frage, die sich fast schon automatisch stellt, ist: Hat es möglicherweise erhebliche Unwägbarkeiten im Kreditgeschäft der beteiligten Banken gegeben?</s>
+<s>Eine Sonderprüfung durch das Bundesaufsichtsamt für das Kreditwesen bei den größeren Kreditgebern ist hier sicherlich geboten.</s></p>
+            <p><s>Inzwischen ist wohl jedem klar: Der Kirch-Konzern ist in seiner bisherigen Form nicht mehr zu retten.</s>
+<s>Jetzt steht für uns die Sorge um die deutsche Medienlandschaft und die Arbeitsplätze im Vordergrund.</s>
+<s>Es geht nicht nur um die Beschäftigten bei Kirch selbst, sondern auch um externe Produktionsfirmen und Zulieferer.</s>
+<s>Entscheidend ist für uns, dass es zu einem zukunftsfähigen Sanierungskonzept für die Kirch-Gruppe kommt.</s>
+<s>Weitere Kredite dürfen nur unter der Voraussetzung gewährt werden, dass damit langfristig die Firma Kirch und die Arbeitsplätze gesichert werden.</s>
+<s>Es darf nicht dazu kommen, dass durch neue Kredite der Konkurs nur verschleppt wird und sich bei der nächsten großen Zahlungsverpflichtung im Oktober das gleiche Problem stellt.</s></p>
+            <p><s>Eine pauschale Zerschlagung der Kirch-Gruppe, bei der sich Banken und andere Beteiligte die Rosinen wie die Free-TV-Sender oder die Formel-1-Rechte herauspicken, lehnen wir ab.</s>
+<s>Wir fordern eine Gesamtlösung für die Kirch-Gruppe, die allerdings nicht von der Politik und schon gar nicht im Alleingang zu leisten ist, sondern im Zusammenspiel zwischen den Banken, den Investoren und dem Unternehmen zu gewährleisten ist.</s></p>
+            <p><s>Neben den finanzpolitischen Konsequenzen erfordert die Krise um Kirch natürlich auch medienpolitische Konsequenzen.</s>
+<s>Denn es reicht bei weitem nicht mehr, die nationalen Medienmärkte isoliert zu betrachten.</s>
+<s>Andere Medienmogule, auch die jetzt immer wieder als Kirch-Erben genannten Murdoch und Berlusconi, verfügen ebenfalls über vielfältige Beteiligungen auf dem europäischen Kontinent.</s>
+<s>Diese Beteiligungen beschränken sich bekannterweise nicht nur auf den Rundfunksektor, sondern umfassen mitunter den gesamten Medienbereich.</s>
+<s>Monopole wie in Großbritannien oder Italien, die wahrscheinlich schon eine Gefahr für die Demokratie darstellen können, müssen in Deutschland verhindert werden.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00003-0-f2"/>
+            <p><s>Das gilt insbesondere für den Einstieg von Berlusconi, auch und gerade aufgrund seines politischen Gewichts in Italien.</s>
+<s>Auch Rupert Murdoch ist sicherlich allein aufgrund seiner aggressiven Boulevardpresse kein Waisenknabe.</s>
+<s>Aber das deutsche Medienrecht ist umfassend und nicht mit dem von Großbritannien zu vergleichen.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00003-0-f3"/>
+            <p><s>Es gibt in Deutschland vielfältige Instrumente und Möglichkeiten, um Meinungsmacht und Medienkonzentration zu begrenzen.</s>
+<s>In Deutschland existieren gesetzliche Grundlagen zur Medienkontrolle und zur Vielfaltssicherung, die auch einem Rupert Murdoch und einem Silvio Berlusconi Grenzen setzen würden.</s></p>
+            <p><s>Liebe Kolleginnen und Kollegen, es geht nicht darum, ausländische Medienbeteiligungen in Deutschland grund-sätzlich zu verhindern.</s>
+<s>Solche Beteiligungen gibt es jetzt schon, so gehören zum Beispiel 50 Prozent von Super RTL dem amerikanischen Disney-Konzern.</s>
+<s>Diese können und dürfen auch zukünftig, zumindest als Minderheitsbeteiligungen, nicht ausgeschlossen werden.</s>
+<s>Vielmehr geht es darum - auch das ist eine Lehre aus der Kirch-Pleite -, dass die Kontrollmechanismen insgesamt noch verbessert werden müssen.</s>
+<s>Das ist ein ganz entscheidender Punkt.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00003-0-f4"/>
+            <p><s>Deshalb fordern wir die Einrichtung einer europäischen Kommission zur Ermittlung der Konzentration im Medienbereich.</s>
+<s>Dabei sollen auch Cross-Ownership-Regelungen berücksichtigt werden.</s>
+<s>Rundfunk, Print, Online und weitere publizistische Beteiligungen lassen sich heutzutage nicht mehr getrennt betrachten.</s>
+<s>Die Schaffung eines koordinierenden Medien- und Kommunikationsrates auf Bundesebene würde unserer Meinung nach ebenfalls helfen, zukünftige Pleiten und Verflechtungen auf dem Mediensektor zu verhindern.</s></p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00003-0-f5"/>
+            <p>
+              <s>Dazu müssen allerdings die verantwortlichen Institutionen, die Landesmedienanstalten, die KEK oder auch das Bundeskartellamt, enger als bisher zusammenarbeiten können.</s>
+            </p>
+            <p><s>Liebe Kolleginnen und Kollegen, schlussendlich zeigt der Fall Kirch einmal mehr, wie wichtig eine kartellrechtliche und politische Aufsichtsfunktion im Medienbereich ist; denn lässt man einem Unternehmen zu viele Freiheiten, Herr Kollege Otto, verliert es auf den differenzierten Märkten selbst die Übersicht.</s>
+<s>Medienpolitik muss daher immer über den Tellerrand hinaus schauen, sie muss gegebenenfalls Standortpolitik entlarven, Marktanteile im Auge behalten und darf bei den einzelnen Verwertungsketten nicht die Übersicht verlieren.</s></p>
+            <p>
+              <s>Ich danke für Ihre Aufmerksamkeit.</s>
+            </p>
+            <ptr type="aligning" targType="note" targOrder="u" target="bng.00003-0-f6"/>
+          </div>
+        </body>
+        <back>
+          <div n="1" complete="y" type="footnotes">
+            <note id="bng.00003-0-f1" place="foot">
+              <p>
+                <s>(Hans-Joachim Otto [Frankfurt] [FDP]: Ja, Strukturprobleme!)</s>
+              </p>
+            </note>
+            <note id="bng.00003-0-f2" place="foot">
+              <p>
+                <s>(Hans-Joachim Otto [Frankfurt] [FDP]: Was ist Ihr Vorschlag?)</s>
+              </p>
+            </note>
+            <note id="bng.00003-0-f3" place="foot">
+              <p>
+                <s>(Hans-Joachim Otto [Frankfurt] [FDP]: Was ist ihr Vorschlag?)</s>
+              </p>
+            </note>
+            <note id="bng.00003-0-f4" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN und bei der SPD - Hans-Joachim Otto [Frankfurt] [FDP]: Noch mehr Kontrolle?)</s>
+              </p>
+            </note>
+            <note id="bng.00003-0-f5" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN und bei der SPD)</s>
+              </p>
+            </note>
+            <note id="bng.00003-0-f6" place="foot">
+              <p>
+                <s>(Beifall beim BÜNDNIS 90/DIE GRÜNEN und bei der SPD)</s>
+              </p>
+            </note>
+          </div>
+        </back>
+      </text>
+    </idsText>
+  </idsDoc>
+</idsCorpus>

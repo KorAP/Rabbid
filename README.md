@@ -126,7 +126,7 @@ An example document may look like this:
 
 New versions of ```DBD::SQLite``` do not include support
 for fulltext search tokenizers by default.
-To compile SQLite with supprt, use
+To compile SQLite with support, use
 
 ```
 $ SQLITE_ENABLE_FTS3_TOKENIZER=1 cpanm DBD::SQLite --force
@@ -148,7 +148,7 @@ is released under the terms of the BSD License.
 by Dave Gandy
 is released under the terms of the
 [SIL OFL 1.1](http://scripts.sil.org/OFL).
-The Example corpus is released under the
+The Example Corpus is released under the
 [Project Gutenberg License](http://gutenberg.net/license):
 "This eBook is for the use of anyone anywhere at no cost and with almost no restrictions whatsoever. You may copy it, give it away or re-use it under the terms of the Project Gutenberg License included with this eBook or online at www.gutenberg.net"
 
@@ -157,7 +157,7 @@ The Example corpus is released under the
 
 Copyright (C) 2015-2016, [IDS Mannheim](http://www.ids-mannheim.de/)<br>
 Author: [Nils Diewald](http://nils-diewald.de/),
-[Ruth Maria Mell](http://ruth-mell.de)
+[Ruth Maria Mell](http://www.ruth-mell.de)
 
 Rabbid is developed as part of the [KorAP](http://korap.ids-mannheim.de/)
 and

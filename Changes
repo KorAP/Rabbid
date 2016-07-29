@@ -1,5 +1,6 @@
-0.4.3 2016-04-17
+0.4.3 2016-07-29
         - Fixed unicode in extensions.
+	- Fixed support for Mojolicious 7.
 
 0.4.2 2016-03-21
         - Fixed unicode handling.

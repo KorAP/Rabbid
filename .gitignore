@@ -6,6 +6,7 @@ sandbox
 !rabbid.test.conf
 /t/data/hidden.i5
 /t/data/goe-example.i5
+/t/data/rei-example.i5
 Sandbox
 ext
 db

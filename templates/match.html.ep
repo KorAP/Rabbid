@@ -4,7 +4,9 @@
  data-para="<%= $m->{para} %>"\
  data-marks="<%= $m->{marks} %>"\
  data-left-ext="<%= $m->{left_ext} // 0 %>"\
- data-right-ext="<%= $m->{right_ext} // 0 %>">
+ data-right-ext="<%= $m->{right_ext} // 0 %>"\
+ data-start-page="<%= $m->{start_page} // 0 %>"\
+ data-end-page="<%= $m->{end_page} // 0 %>">
   <div>
     <div class="flag"></div>
     <div class="snippet">

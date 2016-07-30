@@ -44,7 +44,10 @@ sub add {
 
 	  # Some special flag markers
 	  $content .= ' '; # Whitespace for the tokenizer
-	  $content .= '~#' . $_->start_page . '#~' if $_->start_page;
+	  if ($_->start_page || $_->end_page) {
+	    $content .= '~#' . ($_->start_page // 0) . '|' . ($_->end_page // 0) . '#~';
+	  };
+
 	  $content .= '~~~' if $_->join;
 	  $content .= '###' if $_->final;
 

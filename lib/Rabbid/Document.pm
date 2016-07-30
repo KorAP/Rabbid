@@ -96,6 +96,10 @@ sub new {
 		  # page of the snippet
 		  $p->start_page($pages[0]);
 
+		  # The last page around is the end
+		  # page of the snippet
+		  $p->end_page($pages[-1]);
+
 		  # Remember the last page only
 		  @pages = ($pages[-1]);
 		};
@@ -164,6 +168,10 @@ sub new {
 	  # The first page around is the start
 	  # page of the snippet
 	  $p->start_page($pages[0]);
+
+	  # The last page around is the end
+	  # page of the snippet
+	  $p->end_page($pages[-1]);
 
 	  # Remember the last page only
 	  @pages = ($pages[-1]);
@@ -273,6 +281,12 @@ sub final {
 sub start_page {
   $_[0]->[4] = $_[1] if defined $_[1];
   $_[0]->[4];
+};
+
+# The end page, if defined
+sub end_page {
+  $_[0]->[5] = $_[1] if defined $_[1];
+  $_[0]->[5];
 };
 
 1;

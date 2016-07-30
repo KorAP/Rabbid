@@ -21,6 +21,7 @@ my $c = Rabbid::Convert::I5->new(
 );
 
 my @files = $c->convert;
+
 is(scalar @files, 3, 'Three documents converted');
 
 my $x = 0;
@@ -48,17 +49,44 @@ is($dom->at('title')->text, 'Insolvenzantrag Kirch Media AG');
 ok($dom->at('meta[name=doc_id][content=2]'), 'Doc id');
 is($dom->find('p')->[5]->text, encode('UTF-8', 'Herr Wiesheu, es gibt anscheinend einige größere Unterschiede zwischen dem Bayerischen Landtag und diesem Parlament.'), 'Text');
 
-
-
 # Goethe mit pagebreaks
-#my $file = catfile(dirname(__FILE__), 'data', 'goe-example.i5');
-#$c = Rabbid::Convert::I5->new(
-#  input => $file,
-#  output => $temp_out
-#);
+$file = catfile(dirname(__FILE__), 'data', 'goe-example.i5');
+$c = Rabbid::Convert::I5->new(
+  input => $file,
+  output => $temp_out,
+  id_offset => 4
+);
 
+@files = $c->convert;
+is(scalar @files, 2, 'Two documents converted');
 
+$x = 0;
+foreach (@files) {
+  $x++ if (-e $_);
+};
+is($x, 2, 'Three documents loadable');
 
+$dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]);
+ok($dom, 'File is parsed');
+is($dom->at('title')->text, 'Maximen und Reflexionen');
+ok($dom->at('meta[name=corpus_sigle][content=GOE]'), 'Element exists');
+ok($dom->at('meta[name=doc_id][content=4]'), 'Element exists');
+ok($dom->at('meta[name=author][content=Goethe, Johann Wolfgang von]'), 'Element exists');
+
+ok(my $body = $dom->at('body'), 'Defined body');
+
+is($dom->find('p')->[0],
+   '<p><br class="pb" data-after="365" />Maximen und Reflexionen</p>', 'Text');
+
+is($dom->find('p')->[1],
+   '<p>Gott und Natur.</p>', 'Text');
+
+is($dom->find('p')->[2],
+   encode('utf-8',
+	  '<p>&quot;ich glaube einen Gott!&quot; dies ist ein schönes löbliches Wort; '.
+	    'aber Gott anerkennen, wo und wie er sich offenbare, '.
+	      'das ist eigentlich die Seligkeit auf Erden.</p>'
+	    ), 'Text');
 
 use_ok('Rabbid::Command::rabbid_convert');
 

@@ -6,7 +6,8 @@ use XML::Twig;
 use KorAP::XML::Meta::I5;
 use Mojo::DOM;
 use Mojo::Log;
-use Mojo::Util qw!slurp xml_escape encode!;
+use Mojo::Util qw!slurp xml_escape encode trim!;
+use Data::Dumper;
 
 # Constructor
 sub new {
@@ -31,6 +32,10 @@ sub convert {
 
   # Collect generated files in an array
   my @files = ();
+
+  my $sentence_context = 0;
+  my @sentences = ();
+  my $text_data;
 
   my $twig = XML::Twig->new(
     output_filter => XML::Twig::encode_convert( 'utf-8'),
@@ -92,14 +97,25 @@ sub convert {
 
 	# Check if file can be opened
 	if (open(FILE, '>', $new_file)) {
-	  my @sentences = $data->get_xpath(".//s");
-
 	  # Generate RabbidML file
 	  print FILE _prologue($text);
+
 	  foreach (@sentences) {
-	    print FILE '    <p>' . xml_escape(encode('UTF-8', $_->text)) . "</p>\n";
+
+	    # Get text data
+	    my $s = xml_escape(encode('UTF-8', $_));
+
+	    # Convert Pagebreaks
+	    $s =~ s!\#\.\#PB=(\d+)\#\.\#!<br class="pb" data-after="$1" />!g;
+
+	    # Print to file
+	    print FILE "    <p>$s</p>\n";
 	  };
+
 	  print FILE _epilogue();
+
+	  # Reset sentences
+	  @sentences = ();
 
 	  $log->debug("File $new_file converted");
 
@@ -118,6 +134,65 @@ sub convert {
 	else {
 	  $log->warn('Unable to open ' . $new_file);
 	};
+      }
+    },
+
+    start_tag_handlers => {
+
+      # Sentence context starts
+      s => sub {
+	$sentence_context = 1;
+      },
+
+      # Pagebreak start
+      pb => sub {
+	my ($twig, $elt) = @_;
+	my $n = $elt->att('n') or return;
+	$text_data .= '#.#PB=' . $n . '#.#';
+      }
+    },
+
+    # Treat character data
+    char_handler => sub {
+      my $pcdata = shift;
+      if ($sentence_context) {
+	$text_data .= $pcdata;
+      };
+      return $pcdata;
+    },
+
+    # Treat ending elements
+    twig_handlers => {
+      s => sub {
+
+	# Push sentence data
+	if ($text_data) {
+	  push @sentences, trim($text_data);
+	  $text_data = '';
+	};
+
+	# Reset sentence context
+	$sentence_context = 0;
+      }
+    }
+  );
+
+  # Parse input file
+  $twig->parsefile($self->{input});
+
+  return @files;
+
+
+  $twig = XML::Twig->new(
+    output_filter => XML::Twig::encode_convert( 'utf-8'),
+    twig_roots => {
+
+      # Parse all headers
+      idsHeader => sub {
+      },
+
+      # Parse all texts
+      idsText => sub {
       }
     }
   );

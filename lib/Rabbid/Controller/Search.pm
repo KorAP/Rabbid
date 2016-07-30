@@ -198,7 +198,7 @@ sub snippet {
   if ($match) {
     $match->{content} = b($match->{content})->decode;
     return $c->render(
-      json => $c->prepare_paragraph($match)
+      json => $c->convert_pagebreaks($c->prepare_paragraph($match))
     );
   };
 
@@ -248,78 +248,3 @@ sub doc {
 
 
 __END__
-
-    # Search Fulltext
-    $result = $oro->select(
-      [
-	Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
-	Text => [
-	  'content',
-	  'in_doc_id',
-	  'para',
-	  'offsets(Text):marks'
-	] => { in_doc_id => 1 }
-      ],
-      {
-	content => {
-	  match => quote($q)
-	},
-	-order => [qw/in_doc_id para/],
-	-cache => {
-	  chi => $c->chi,
-	  expires_in => '30min'
-	},
-	%args
-      }
-    );
-
-
-# SELECT Doc.author AS `author`, Doc.year AS `year`, Doc.title AS `title`, Doc.domain AS `domain`, Doc.genre AS `genre`, Doc.polDir AS `poldir`, Doc.file AS `file`, Text.content AS `content`, Text.in_doc_id AS `in_doc_id`, Text.para AS `para`, offsets(Text.Text) AS `marks` FROM Doc, Text WHERE Doc.doc_id = Text.in_doc_id AND Text.content MATCH ? ORDER BY in_doc_id, para LIMIT ? -- From Cache1 at lib/Rabbid/Controller/Search.pm line 56, <DATA> line 260.
-
-    my $q = $c->param('q');
-    my ($rv, $sth) = $oro->prep_and_exec(<<'SQL', [quote($q), $q, $c->rabbid_acct->id, $items],'cached');
-SELECT
-  Doc.author AS `author`,
-  Doc.year AS `year`,
-  Doc.title AS `title`,
-  Doc.domain AS `domain`,
-  Doc.genre AS `genre`,
-  Doc.polDir AS `poldir`,
-  Doc.file AS `file`,
-  Text.content AS `content`,
-  Text.in_doc_id AS `in_doc_id`,
-  Text.para AS `para`,
-  offsets(Text.Text) AS `marks`,
-  Snippet.left_ext AS `leftExt`,
-  Snippet.right_ext AS `rightExt`,
-  Snippet.marks AS `marked`
-FROM
-  Text,
-  Collection,
-  User,
-  Snippet
-  LEFT OUTER JOIN
-  Doc
-ON
-  Snippet.in_doc_id = Doc.doc_id
-  AND
-  Snippet.para = Text.para
-  AND
-  Snippet.in_coll_id = Collection.coll_id
-WHERE
-  Doc.doc_id = Text.in_doc_id
-  AND
-  Text.content MATCH ?
-  AND
-  Collection.q = ?
-  AND
-  Collection.user_id = ?
-ORDER BY
-  in_doc_id, para LIMIT ?
-SQL
-    if ($rv) {
-      $result = [];
-      while (my $row = $sth->fetchrow_hashref) {
-	push(@$result, $row);
-      };
-    };

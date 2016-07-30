@@ -42,6 +42,9 @@ sub add {
 	foreach ($doc->snippet->each) {
 	  my $content = $_->content;
 
+	  # Some special flag markers
+	  $content .= ' '; # Whitespace for the tokenizer
+	  $content .= '~#' . $_->start_page . '#~' if $_->start_page;
 	  $content .= '~~~' if $_->join;
 	  $content .= '###' if $_->final;
 
@@ -51,8 +54,8 @@ sub add {
 	  # Insert Paragraph to database
 	  $oro->insert(Text => {
 	    in_doc_id => \$doc_id,
-	    para => \$para_pos,
-	    content => $content
+	    para      => \$para_pos,
+	    content   => $content
 	  }) or return -1;
 	};
 

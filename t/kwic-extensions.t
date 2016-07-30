@@ -28,16 +28,15 @@ $t->get_ok('/corpus/3/0')
   ->json_is('/para', 0)
   ->json_is('/next', 1)
   ->json_is('/in_doc_id', 3)
-  ->json_is('/content', q{»Liebe Effi! ... So fängt es nämlich immer an, und manchmal nennt er mich auch seine 'kleine Eva'.«})
+  ->json_is('/content', q{<span class="pb" title="1"></span><span class="pb" title="2"></span>»Liebe Effi! ... So fängt es nämlich immer an, und manchmal nennt er mich auch seine 'kleine Eva'.«<span class="pb" title="3"></span>})
   ;
 
 $t->get_ok('/corpus/3/1')
   ->json_is('/para', 1)
   ->json_is('/next', 2)
   ->json_is('/in_doc_id', 3)
-  ->json_is('/content', q{»Freilich ist das die Hauptsache, 'Weiber weiblich, Männer männlich' - das ist, wie ihr wißt, einer von Papas Lieblingssätzen. Und nun helft mir erst Ordnung schaffen auf dem Tisch hier, sonst gibt es wieder eine Strafpredigt.«})
+  ->json_is('/content', q{»Freilich ist das die Hauptsache, 'Weiber weiblich, Männer männlich' - das ist, wie ihr wißt, einer von Papas Lieblingssätzen. Und nun helft mir erst Ordnung schaffen auf dem Tisch hier, sonst gibt es wieder eine Strafpredigt.«<span class="pb" title="4"></span>})
   ;
-
 
 done_testing;
 

@@ -100,6 +100,8 @@ sub kwic {
     # TODO: Use corpus-object for searching!
 
     # Search Fulltext
+    # Todo: Use schema!
+
     $result = $oro->select(
       [
 	Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },

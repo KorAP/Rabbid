@@ -79,7 +79,8 @@ sub register {
 
       # Add files to corpus
       foreach (@_) {
-	$rabbid_corpus->add($_) or return;
+	my $inserts = $rabbid_corpus->add($_) or return;
+	$c->app->log->info('Imported ' . $_);
       };
 
       return 1;

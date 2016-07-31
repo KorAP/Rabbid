@@ -27,10 +27,10 @@ $t->get_ok('/search?q=tschüß')
   ->status_is(200)
   ->element_exists('ol.kwic li[data-id=1] div.snippet')
   ->text_is('ol.kwic li[data-id=1] div.snippet span.match mark', 'Tschüß')
-  ->text_like('ol.kwic li[data-id=1] p.ref', qr!^Max Mustermann: Example 1[\s\n]*\(1919\);!)
+  ->text_like('ol.kwic li[data-id=1] p.ref', qr!^Max Mustermann:\s*Example 1[\s\n]*\(1919\);!)
   ->element_exists('ol.kwic li[data-id=2] div.snippet')
   ->text_is('ol.kwic li[data-id=2] div.snippet span.match mark', 'Tschüß')
-  ->text_like('ol.kwic li[data-id=2] p.ref', qr!^Theodor Fontane: Example 2[\s\n]*\(1894\);!)
+  ->text_like('ol.kwic li[data-id=2] p.ref', qr!^Theodor Fontane:\s*Example 2[\s\n]*\(1894\);!)
   ->text_is('p.total-results > span', 2);
 
 # Store in collection
@@ -220,6 +220,13 @@ $t->get_ok('/collection/3?page=2&q=ist')
   ->text_is('a[href][rel=prev]', '<')
   ;
 
+
+# Check export
+$t->get_ok('/collection/3?format=rtf')
+  ->status_is(200)
+  ->header_is('Content-Type', 'application/rtf;name="Belegstellen-ist.rtf"')
+  ->content_like(qr!title Belegstellen-ist!)
+  ;
 
 done_testing;
 __END__

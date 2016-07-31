@@ -17,12 +17,13 @@ sub new {
 
   my $dom = Mojo::DOM->new(xml => 1)->parse($data->decode);
 
+  # Parse meta data
+  my %meta;
+
   # Get title
   my $title = $dom->at('title')->all_text //
     $dom->at('body h1')->all_text;
 
-  # Parse meta data
-  my %meta;
   $dom->at('head')->find('meta[name][content]')->each(
     sub {
       my $e = shift;
@@ -219,9 +220,25 @@ sub _set_page_number {
 
 
 # Metadata field of the document
+# Returns the meta field for a given key,
+# the meta hash in case no key is given,
+# and a filtered meta object, in case a
+# schema is passed.
 sub meta {
   my $self = shift;
   my $cat = shift;
+
+  if (ref $cat) {
+    # Cat is either an array or a hash reference
+    my $array = (ref($cat) eq 'HASH') ? [keys %$cat] : $cat;
+    push @$array, 'doc_id';
+    my %new_meta;
+    foreach (@$array) {
+      $new_meta{$_} = $self->{meta}->{$_} if $self->{meta}->{$_};
+    }
+    return \%new_meta;
+  };
+
   if ($cat) {
     return $self->{meta}->{$cat} // '';
   };

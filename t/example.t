@@ -32,6 +32,7 @@ $t->get_ok('/search?q=Liebe')
   ->text_like('li[data-id=4] p.ref', qr/Georg Büchner/)
   ->text_is('li[data-id=4] p.ref a:nth-of-type(1)', 'revolutionär');
 
+
 # Effi Briest
 ok($app->rabbid_import('example' => _p('pg5323')), 'Import example data');
 

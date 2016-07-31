@@ -1,5 +1,9 @@
 window.RabbidAPI = window.RabbidAPI || '';
 
+/*
+ * Todo: Pangerange doesn't adjust in case of shrinking.
+ */
+
 define({
   create : function (match) {
     return Object.create(this)._init(match);
@@ -32,8 +36,10 @@ define({
       this.marked   = match.classList.contains('marked');
       this.leftExt  = parseInt(match.getAttribute('data-left-ext')  || '0');
       this.rightExt = parseInt(match.getAttribute('data-right-ext') || '0');
-    };
 
+      this.pageStart = parseInt(match.getAttribute('data-start-page') || '0');
+      this.pageEnd   = parseInt(match.getAttribute('data-end-page')   || '0');
+    };
 
     var that = this;
 
@@ -122,6 +128,19 @@ define({
 	      span.classList.add('nobr');
 	    };
 
+	    // Readjust pagerange
+	    if (obj["start_page"] !== undefined || obj["end_page"]  !== undefined) {
+	      var sp = parseInt(obj["start_page"]);
+	      var ep = parseInt(obj["end_page"]);
+	      if (before && !that.pageStart || that.pageStart > sp) {
+		that.pageStart = sp;
+	      }
+	      else if (!that.pageEnd || that.pageEnd < ep) {
+		that.pageEnd = ep;
+	      };
+	      that.setPageRange();
+	    };
+
 	    // Add text content
 	    span.appendChild(
 	      document.createTextNode(obj.content)
@@ -183,6 +202,29 @@ define({
     this._element.setAttribute('data-right-ext', this.rightExt);
   },
 
+  /**
+   * Set pagerange in reference view.
+   */
+  setPageRange : function () {
+
+    if (this.pageStart !== 0 && this.pageEnd !== 0) {
+      console.log('Set Pagerange to ' + this.pageStart + ' - ' + this.pageEnd);
+      var data = '';
+      if (this.pageStart === this.pageEnd) {
+	data = this.pageStart;
+      }
+      else {
+	data = this.pageStart + '-' + this.pageEnd;
+      };
+
+      this._pageRange.textContent = ' (S. ' + data + ') ';
+      this._pageRange.style.display = 'inline';
+    }
+    else {
+      this._pageRange.display = 'none';
+    }
+  },
+
   open : function () {
     
     // Add actions unless it's already activated
@@ -198,6 +240,24 @@ define({
       
     // Add active class to element
     element.classList.add('active');
+
+    // Add pageRange
+    if (this._pageRange === undefined) {
+      this._pageRange = document.createElement('span');
+      this._pageRange.style.display = 'none';
+      var ref = this._element.getElementsByClassName('ref');
+      if (ref !== null && ref[0] !== null) {
+
+	// Insert into match view
+	ref[0].insertBefore(
+	  this._pageRange,
+	  ref[0].getElementsByTagName('span')[0]
+	);
+      };
+
+      // View page range possibly
+      this.setPageRange();
+    };
 
     return true;
   },

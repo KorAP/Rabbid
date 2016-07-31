@@ -26,7 +26,8 @@ ok(my $corpus = Rabbid::Corpus->new(
   chi => CHI->new( driver => 'Memory', global => 1 ),
   schema => {
     year   => 'INTEGER',
-    author => 'TEXT'
+    author => 'TEXT',
+    title => 'TEXT'
   }
 ), 'New Import');
 

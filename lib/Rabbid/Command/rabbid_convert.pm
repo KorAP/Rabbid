@@ -60,7 +60,7 @@ Rabbid::Command::rabbid_convert - Convert to RabbidML files
 
   usage: perl script/rabbid rabbid_convert -f file -o directory
 
-  Convert (currently) I5 files to RabbiDML.
+  Convert (exclusively for the moment) I5 files to RabbidML.
 
   Expects the following parameters
 

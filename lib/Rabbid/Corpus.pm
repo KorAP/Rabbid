@@ -3,6 +3,7 @@ use Rabbid::Document;
 use Rabbid::Analyzer;
 use Mojo::Base -base;
 use Mojo::ByteStream 'b';
+use Data::Dumper;
 use Scalar::Util 'blessed';
 
 has 'oro';
@@ -13,6 +14,7 @@ has 'schema';
 # Accepts Rabbid::Document objects and file names
 sub add {
   my $self = shift;
+
   return unless $self->oro;
 
   my @docs = @_;
@@ -28,11 +30,12 @@ sub add {
 
 	# Make doc an object
 	unless (blessed $doc) {
+
 	  $doc = Rabbid::Document->new($doc) or return -1;
 	};
 
 	# Add meta information
-	$oro->insert(Doc => $doc->meta) or return -1;
+	$oro->insert(Doc => $doc->meta($self->schema)) or return -1;
 
 	my $para = 0;
 
@@ -86,7 +89,7 @@ sub init {
     sub {
       my $oro = shift;
 
-      my @keys = qw(title TEXT);
+      my @keys = ();
       foreach (keys %$schema) {
 	push @keys, $_ . ' ' . $schema->{$_};
       };

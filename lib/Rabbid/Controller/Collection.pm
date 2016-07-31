@@ -7,6 +7,8 @@ use Rabbid::Util;
 use RTF::Writer;
 require Rabbid::Analyzer;
 
+# TODO: Export page numbers
+
 my $items = 20;
 
 sub _count {

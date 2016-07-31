@@ -297,8 +297,8 @@ sub register {
 
       # Has a page number
       if ($para->{content} =~ s/~#(\d+)\|(\d+)#~$//) {
-	$para->{start_page} = $1;
-	$para->{end_page} = $2;
+	$para->{start_page} = $1 + 0;
+	$para->{end_page} = $2 + 0;
       };
 
       # Remove the final whitespace, added for the tokenizer

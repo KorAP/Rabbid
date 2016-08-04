@@ -1,5 +1,5 @@
-0.4.3 2016-08-04
-        - Fixed unicode in extensions.
+0.4.3 2016-08-05
+        - Fixed unicode in extensions (retrieve and store).
 	- Fixed support for Mojolicious 7.
 	- Introduced test suite for JavaScript.
 

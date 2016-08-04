@@ -49,7 +49,7 @@ is($text->[1]->{para}, 1, 'Paragraph');
 
 is($text->[2]->{in_doc_id}, 1, 'doc id');
 is($text->[2]->{content},
-   'Nichts weiter. ~~~', 'content');
+   'Nichts weiter - öhrlich! ~~~', 'content');
 is($text->[2]->{para}, 2, 'Paragraph');
 
 is($text->[4]->{in_doc_id}, 1, 'doc id');

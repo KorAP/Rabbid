@@ -28,7 +28,7 @@ ok(!($p->join), '2nd snippet join');
 ok(!($p->final), '2nd snippet final');
 
 $p = $doc->snippet(2);
-is($p->content, 'Nichts weiter.', '3rd snippet text');
+is($p->content, 'Nichts weiter - öhrlich!', '3rd snippet text');
 ok($p->join, '3rd snippet join');
 ok(!($p->final), '3rd snippet final');
 

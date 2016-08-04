@@ -100,7 +100,7 @@ $t->get_ok('/corpus/1/1')
 
 $t->get_ok('/corpus/1/2')
   ->status_is(200)
-  ->json_is('/content', 'Nichts weiter.')
+  ->json_is('/content', 'Nichts weiter - öhrlich!')
   ->json_is('/previous', 1)
   ->json_is('/next', 3)
   ->json_is('/para', 2)
@@ -142,6 +142,19 @@ $t->get_ok('/collection/1')
   ->element_exists('input[name=q][value=tschüß]')
   ->text_is('div.pagination a[rel=self]', '[1]')
   ;
+
+$t->get_ok('/collection/2')
+  ->status_is(200)
+  ->text_is('h3', 'Kollektion "Rabbid"')
+  ->element_count_is('ol.kwic li', 1)
+  ->element_exists('input[name=q][value=Rabbid]')
+  ->text_is('div.pagination a[rel=self]', '[1]')
+  ->text_is('li[data-id=1] span mark', 'Rabbid')
+  ->text_is('li[data-id=1] span.ext', 'Nichts weiter - öhrlich!')
+  ;
+
+
+
 
 # Example for large collection
 ok($app->rabbid_import('example' => catfile(dirname(__FILE__), 'example', 'pg38780.html')), 'Import example data');

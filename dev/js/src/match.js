@@ -25,10 +25,11 @@ define({
     // Match defined as a node
     if (match instanceof Node) {
       this._element  = match;
-      
+
       // Circular reference !!
       match["_match"] = this;
-      
+
+      // Parse data information
       this.ID       = parseInt(match.getAttribute('data-id')),
       this.para     = parseInt(match.getAttribute('data-para'));
       this.marks    = match.getAttribute('data-marks');
@@ -184,22 +185,22 @@ define({
 
   incrLeftExt : function () {
     this.leftExt++;
-    this._element.setAttribute('data-left-ext', this.leftExt);
+//    this._element.setAttribute('data-left-ext', this.leftExt);
   },
 
   incrRightExt : function () {
     this.rightExt++;
-    this._element.setAttribute('data-right-ext', this.rightExt);
+//    this._element.setAttribute('data-right-ext', this.rightExt);
   },
 
   decrLeftExt : function () {
     this.leftExt--;
-    this._element.setAttribute('data-left-ext', this.leftExt);
+//    this._element.setAttribute('data-left-ext', this.leftExt);
   },
 
   decrRightExt : function () {
     this.rightExt--;
-    this._element.setAttribute('data-right-ext', this.rightExt);
+//    this._element.setAttribute('data-right-ext', this.rightExt);
   },
 
   /**
@@ -225,6 +226,10 @@ define({
     }
   },
 
+
+  /**
+   * Open the match.
+   */
   open : function () {
     
     // Add actions unless it's already activated
@@ -262,8 +267,12 @@ define({
     return true;
   },
 
+  /**
+   * Close the match.
+   */
   close : function () {
     this._element.classList.remove('active');
+    return true;
     /* if (this._info !== undefined) {
      *   this._info.destroy();
      * };

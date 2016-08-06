@@ -40,10 +40,14 @@ define({
 
       this.pageStart = parseInt(match.getAttribute('data-start-page') || '0');
       this.pageEnd   = parseInt(match.getAttribute('data-end-page')   || '0');
+
+      extensionButtons = this._element.getElementsByClassName('extend');
+      this.leftExtendB = extensionButtons[0];
+      this.rightExtendB = extensionButtons[1];
     };
 
     var that = this;
-
+    
     // Close the match
     var close = this._element.getElementsByClassName('close');
     close[0].addEventListener('click', function (e) {
@@ -183,6 +187,124 @@ define({
     return this;
   },
 
+  /**
+   * Get a specific paragraph from the API.
+   */
+  getPara : function (para, cb) {
+    this.getJSON(
+      window.RabbidAPI + '/corpus/' + this.ID + '/' + para,
+      function (obj) {
+	obj["start_page"] = parseInt(obj["start_page"]);
+	obj["end_page"] = parseInt(obj["end_page"]);
+	cb(obj);
+      }
+    )
+  },
+
+  // Create extension object
+  _createPara : function (obj) {
+    // Create new extension element
+    var span = document.createElement('span');
+    span.classList.add('ext');
+    if (obj["nobr"] !== undefined) {
+      span.classList.add('nobr');
+    };
+
+    // Add text content
+    span.appendChild(
+      document.createTextNode(obj.content)
+    );
+    
+    return span;
+  },
+  
+  /**
+   * Extend the current match to the left.
+   */
+  extendLeft : function () {
+    var before = true;
+
+    // Get a para some positions before the current one
+    var para = this.para;
+    para -= this.leftExt + 1;
+
+    // If the para is out of the range, throw an error
+    if (para < 0) {
+      alertify.log("Keine weitere Erweiterungen", "note", 3000);
+      return;
+    };
+    
+    // Get the paragraph object
+    this.getPara(para, function (paraObj) {
+
+      // Create an element based on the paragraph
+      var paraElem = this._createPara(paraObj);
+
+      // Prepend to the current node (after the collapseLeftB)
+      var p = this.leftExtendB.parentNode;
+      p.parentNode.insertBefore(
+	paraElem,
+	p.nextSibling
+      );
+
+      // Readjust pagerange
+      if (paraObj["start_page"] !== undefined || paraObj["end_page"]  !== undefined) {
+	var sp = paraObj["start_page"];
+	var ep = paraobj["end_page"];
+
+	// Todo: Make a stack!
+	if (!this.pageStart || this.pageStart > sp) {
+	  this.pageStart = sp;
+	};
+      };
+
+      // Increment the left extension
+      this.incrLeftExt();
+    }.bind(this));
+
+    return true;
+  },
+
+    /*
+
+
+	// Readjust pagerange
+	if (obj["start_page"] !== undefined || obj["end_page"]  !== undefined) {
+	  var sp = parseInt(obj["start_page"]);
+	  var ep = parseInt(obj["end_page"]);
+	  if (before && !that.pageStart || that.pageStart > sp) {
+	    that.pageStart = sp;
+	  }
+	  else if (!that.pageEnd || that.pageEnd < ep) {
+	    that.pageEnd = ep;
+	  };
+	  that.setPageRange();
+	};
+
+	// left extension - Prepend snippet
+	if (before) {
+	      
+	  // Todo: Make obj disabled
+	  //  if (obj['previous'] === undefined)
+	  //  element.parentNode.removeChild(element);
+	}
+	
+	// Append snippet
+	else {
+	  p.parentNode.insertBefore(
+	    span,
+	    p
+	  );
+	  
+	  //  Todo: Make obj disable
+	  //  if (obj['next'] === undefined)
+	  //  element.parentNode.removeChild(element);
+	  
+	};
+      }
+    );
+       */
+  
   incrLeftExt : function () {
     this.leftExt++;
 //    this._element.setAttribute('data-left-ext', this.leftExt);

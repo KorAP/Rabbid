@@ -42,34 +42,25 @@ define(["snippet"], function (snippetClass) {
 	this.leftExt  = parseInt(match.getAttribute('data-left-ext')  || '0');
 	this.rightExt = parseInt(match.getAttribute('data-right-ext') || '0');
 
+	this._leftContext = this._element.getElementsByClassName('context-left')[0];
+	this._rightContext = this._element.getElementsByClassName('context-right')[0];
+	this._ref = this._element.getElementsByClassName('ref')[0];
+
 	this.pageStart = parseInt(match.getAttribute('data-start-page') || '0');
 	this.pageEnd   = parseInt(match.getAttribute('data-end-page')   || '0');
-      };
-
-      this._leftContext = this._element.getElementsByClassName('context-left')[0];
-      this._rightContext = this._element.getElementsByClassName('context-right')[0];
-      
-      var that = this;
-    
-      // Close the match
-      var close = this._element.getElementsByClassName('close');
-      close[0].addEventListener('click', function (e) {
-	that.close();
-	e.halt();
-      });
-
-      // Save the snippet
-      var store = this._element.getElementsByClassName('store');
-      if (store.length > 0) {
-	store[0].addEventListener('click', function (e) {
-	  that.store();
-	  e.halt();
-	});
       };
 
       return this;
     },
 
+    getLeftSnippet : function (idx) {
+      return this._leftExt[idx];
+    },
+
+    getRightSnippet : function (idx) {
+      return this._rightExt[idx];
+    },
+    
     createLeftButtons : function () {
       var button = document.createElement('span');
       button.classList.add('buttons');
@@ -103,8 +94,38 @@ define(["snippet"], function (snippetClass) {
 
       return button;
     },
-    
-    
+
+    createActionButtons : function () {
+      var button = document.createElement('span');
+      button.classList.add('buttons');
+
+      // Store button
+      var store = button.appendChild(document.createElement('span'));
+      store.classList.add('store');
+      store.setAttribute('title', 'Speichern');
+      store.appendChild(document.createElement('span')).appendChild(
+	document.createTextNode('Speichern')
+      );
+      store.addEventListener('click', this.store.bind(this));
+
+      // Close button
+      var closeB = button.appendChild(document.createElement('span'));
+      closeB.classList.add('close');
+      closeB.setAttribute('title', 'Schließen');
+      closeB.appendChild(document.createElement('span')).appendChild(
+	document.createTextNode('Schließen')
+      );
+      closeB.addEventListener('click', this.close.bind(this));
+
+      return button;
+    },
+
+    createPageRange : function () {
+      var pageRange = document.createElement('span');
+      pageRange.classList.add('pageRange');
+      return pageRange;
+    },
+
     /**
      * Get a specific paragraph from the API.
      */
@@ -189,12 +210,13 @@ define(["snippet"], function (snippetClass) {
     
     // Prepend extension
     prependExtension : function (ext) {
-
+      this.open();
+      
       var before;
       if (this._leftExt.length > 0)
 	before = this._leftExt[this._leftExt.length-1].element();
       else
-	before = this._leftContext;
+	before = this._leftExtButtons.nextSibling;
       
       this._leftExt.push(ext);
 
@@ -207,18 +229,14 @@ define(["snippet"], function (snippetClass) {
 
     // Prepend extension
     appendExtension : function (ext) {
-      var after;
-      if (this._rightExt.length > 0)
-	after = this._rightExt[this._rightExt.length-1].element();
-      else
-	after = this._rightContext;
+      this.open();
       
       this._rightExt.push(ext);
 
       // Append to the rightest extension
-      after.parentNode.insertBefore(
+      this._rightExtButtons.parentNode.insertBefore(
 	ext.element(),
-	after.nextSibling
+	this._rightExtButtons
       );
     },
 
@@ -283,21 +301,21 @@ define(["snippet"], function (snippetClass) {
     /**
      * Open the match.
      */
-    open : function () {
+    open : function (e) {
+      if (e !== undefined) e.halt();
 
       // Add actions unless it's already activated
-      var element = this._element;
-
       // There is no element to open
       if (this._element === undefined || this._element === null)
 	return false;
-      
+
+
       // The element is already opened
-      if (element.classList.contains('active'))
+      if (this._element.classList.contains('active'))
 	return false;
       
       // Add active class to element
-      element.classList.add('active');
+      this._element.classList.add('active');
 
       // Add pageRange
       /*
@@ -319,32 +337,69 @@ define(["snippet"], function (snippetClass) {
       };
       */
 
-      // Add buttons
-      this._leftContext.insertBefore(
-	this.createLeftButtons(),
-	this._leftContext.firstChild
-      );
-      this._rightContext.appendChild(
-	this.createRightButtons()
-      );
+      // Initialize match view, unless it is already initialized
+      if (this._initialized === undefined) {
 
+	var i;
+	var leftExtSnippets = this._leftContext.getElementsByClassName("ext");
+	var rightExtSnippets = this._rightContext.getElementsByClassName("ext");
+
+	// Create snippet from snippetClass
+	for (i = leftExtSnippets.length -1; i >= 0; i--) {
+	  this._leftExt.push(
+	    snippetClass.create(leftExtSnippets[i])
+	  );
+	};
+	
+	for (i = 0; i < rightExtSnippets.length; i++) {
+	  this._rightExt.push(
+	    snippetClass.create(rightExtSnippets[i])
+	  );
+	};
+	
+	// Add buttons
+	this._leftExtButtons = this.createLeftButtons();
+	this._leftContext.insertBefore(
+	  this._leftExtButtons,
+	  this._leftContext.firstChild
+	);
+	this._rightExtButtons = this._rightContext.appendChild(
+	  this.createRightButtons()
+	);
+	var action = this._ref.appendChild(
+	  this.createActionButtons()
+	);
+	
+	// Add page range
+	this._pageRangeElement = this._ref.insertBefore(
+	  this.createPageRange(),
+	  action
+	);
+
+	// The view is initialized
+	this._initialized = true;
+      };
+
+      return true;
+    },
+
+    
+    /**
+     * Close the match.
+     */
+    close : function (e) {
+      if (e !== undefined) e.halt();
+
+      this._element.classList.remove('active');
       return true;
     },
 
     /**
-     * Close the match.
+     * Store the match.
      */
-    close : function () {
-      this._element.classList.remove('active');
-      return true;
-      /* if (this._info !== undefined) {
-       *   this._info.destroy();
-       * };
-       */
-    },
+    store : function (e) {
+      if (e !== undefined) e.halt();
 
-    store : function () {
-      var that = this;
       this.sendJSON(
 	window.RabbidAPI + '/corpus/' + this.ID + '/' + this.para,
 	{
@@ -353,12 +408,15 @@ define(["snippet"], function (snippetClass) {
 	  "leftExt" : this.leftExt,
 	  "marks" : this.marks
 	}, function () {
-	  alertify.log("Beleg gespeichert","success",3000);
-	  that.marked = true;
-	  that._element.classList.add('marked');
-	});
+	  alertify.log("Beleg gespeichert","success", 3000);
+	  this.marked = true;
+	  this._element.classList.add('marked');
+	}.bind(this));
     },
 
+    /**
+     * Send a json object to endpoint.
+     */
     sendJSON : function (url, obj, onload) {
       var str = JSON.stringify(obj);
 
@@ -383,6 +441,9 @@ define(["snippet"], function (snippetClass) {
       req.send(str);
     },
 
+    /**
+     * Get a json response from endpoint.
+     */
     getJSON : function (url, onload) {
       var req = new XMLHttpRequest();
 

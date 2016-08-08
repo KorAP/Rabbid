@@ -1,7 +1,8 @@
-0.4.3 2016-08-05
+0.4.4 2016-08-08
         - Fixed unicode in extensions (retrieve and store).
 	- Fixed support for Mojolicious 7.
 	- Introduced test suite for JavaScript.
+	- Made action buttons dynamic.
 
 0.4.2 2016-03-21
         - Fixed unicode handling.

@@ -372,14 +372,24 @@ li.active {
       content: "\f0da"; // '\f03c';
     }
   }
-  span.buttons, span.button {
+
+  span.close::after {
+    font-family: 'FontAwesome';
+    content: '\f00d';
+  }
+  span.store::after {
+    font-family: 'FontAwesome';
+    content: '\f005';
+  }
+
+  span.buttons {
     background-color: $ids-pink-2;
     color: $ids-pink-1;
     border-radius: 5px;
     margin: 0 4pt;
   }
 
-  span.button, span.buttons > span {
+  span.buttons > span {
     border-radius: 5px;
     display: inline-block;
     cursor: pointer;
@@ -391,19 +401,9 @@ li.active {
     }
   }
 
-  span.button {
-    &.close::after {
-      font-family: 'FontAwesome';
-      content: '\f00d';
-    }
-    &.store::after {
-      font-family: 'FontAwesome';
-      content: '\f005';
-    }
-    > span {
-      position: absolute;
-      margin-left: -3000px;
-    }
+  span.buttons > span > span {
+    position: absolute;
+    margin-left: -3000px;
   }
 }
 

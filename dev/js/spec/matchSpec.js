@@ -4,44 +4,37 @@ function matchLiFactory () {
 '  <div>' +
 '    <div class="flag"></div>' +
 '    <div class="snippet">' +
-    '<span class="context-left">aaa </span><span class="match"><mark>bbb</mark></span><span class="context-right"> ccc</span>' +
-    // <span class="buttons"><span class="extend left"></span><span class="collapse left"></span></span>
-    // <span class="buttons"><span class="collapse right"></span><span class="extend right"></span></span>
-    
+'    <span class="context-left">aaa </span><span class="match"><mark>bbb</mark></span><span class="context-right"> ccc</span>' +
 '    </div>' +
 '    <p class="ref">Theodor Fontane: Effi Briest' +
 ' (1894);' +
 '<a href="/search?q=Versuch&amp;startPage=1&amp;filterBy=polDir&amp;filterOp=equals&amp;filterValue=radikal-demokratisch">radikal-demokratisch</a>, ' +
 '<a href="/search?q=Versuch&amp;startPage=1&amp;filterBy=genre&amp;filterOp=equals&amp;filterValue=Roman">Roman</a>, ' +
-'<a href="/search?q=Versuch&amp;startPage=1&amp;filterBy=domain&amp;filterOp=equals&amp;filterValue=Belletristik">Belletristik</a>, ' +
-'      <span style="display: none;"></span><span class="button store" title="Speichern"><span>Speichern</span></span>' +
-'      <span class="button close" title="Schließen"><span>Schließen</span></span>' +
+'<a href="/search?q=Versuch&amp;startPage=1&amp;filterBy=domain&amp;filterOp=equals&amp;filterValue=Belletristik">Belletristik</a>' +
 '    </p>' +
 '  </div>' +
 '</li>';
   return matchUl.getElementsByTagName('li')[0];
 };
 
-/*
-<li tabindex="0" class="flip "
- data-id="1" data-para="317" data-marks="2 0 77 7" data-left-ext="0" data-right-ext="2" data-start-page="0" data-end-page="0">
-  <div>
-    <div class="flag"></div>
-    <div class="snippet">
-<span class="context-left"><span class="buttons"><span class="extend left"></span><span class="collapse left"></span></span>Und damit verließ Johanna das Zimmer, während Effi noch einen Blick in den </span><span class="match"><mark>Spiegel</mark></span><span class="context-right"> tat und dann über den Flur fort, der bei der Tagesbeleuchtung viel von seinem Zauber vom Abend vorher eingebüßt hatte, bei Geert eintrat.<span class="ext">Dieser saß an seinem Schreibtisch, einem etwas schwerfälligen Zylinderbüro, das er aber, als Erbstück aus dem elterlichen Hause, nicht missen mochte.</span><span class="ext">Effi stand hinter ihm und umarmte und küßte ihn, noch eh euch von seinem Platz erheben konnte.</span><span class="buttons"><span class="collapse right"></span><span class="extend right"></span></span></span>
-    </div>
-    <p class="ref">Theodor Fontane: Effi Briest
- (1894);
-<a href="/collection/2?q=Spiegel&amp;startPage=1&amp;filterBy=polDir&amp;filterOp=equals&amp;filterValue=radikal-demokratisch">radikal-demokratisch</a>, 
-<a href="/collection/2?q=Spiegel&amp;startPage=1&amp;filterBy=genre&amp;filterOp=equals&amp;filterValue=Roman">Roman</a>, 
-<a href="/collection/2?q=Spiegel&amp;startPage=1&amp;filterBy=domain&amp;filterOp=equals&amp;filterValue=Belletristik">Belletristik</a>, 
-
-      <span title="Speichern" class="button store"><span>Speichern</span></span>
-      <span title="Schließen" class="button close"><span>Schließen</span></span>
-    </p>
-  </div>
-</li>
-*/
+function matchLiFactory2 () {
+  var matchUl = document.createElement('div').appendChild(document.createElement('ul'));
+  matchUl.innerHTML = '<li tabindex="0" class="flip" data-id="1" data-para="317" data-marks="2 0 77 7" data-left-ext="1" data-right-ext="2" data-start-page="0" data-end-page="0">'+
+    '  <div>'+
+    '    <div class="flag"></div>'+
+    '    <div class="snippet">'+
+    '      <span class="context-left"><span class="ext" class="nobr">abc</span>Und damit verließ Johanna das Zimmer, während Effi noch einen Blick in den </span><span class="match"><mark>Spiegel</mark></span><span class="context-right"> tat und dann über den Flur fort, der bei der Tagesbeleuchtung viel von seinem Zauber vom Abend vorher eingebüßt hatte, bei Geert eintrat.<span class="ext">abc</span><span class="ext">def</span></span>'+
+    '    </div>'+
+    '    <p class="ref">Theodor Fontane: Effi Briest'+
+    ' (1894);'+
+    '<a href="/collection/2?q=Spiegel&amp;startPage=1&amp;filterBy=polDir&amp;filterOp=equals&amp;filterValue=radikal-demokratisch">radikal-demokratisch</a>, '+
+    '<a href="/collection/2?q=Spiegel&amp;startPage=1&amp;filterBy=genre&amp;filterOp=equals&amp;filterValue=Roman">Roman</a>, '+
+    '<a href="/collection/2?q=Spiegel&amp;startPage=1&amp;filterBy=domain&amp;filterOp=equals&amp;filterValue=Belletristik">Belletristik</a>'+
+    '    </p>'+
+    '  </div>'+
+    '</li>';
+  return matchUl.getElementsByTagName('li')[0];
+};
 
 /*
   for (var prop in defaults) {
@@ -84,9 +77,26 @@ define(['match', 'snippet'], function (matchClass, snippetClass) {
       expect(match.open()).toBeTruthy();
       expect(match._element.classList.contains('active')).toBeTruthy();
       expect(match.close()).toBeTruthy();
-      expect(match._element.classList.contains('active')).toBeFalsy();
+      expect(match.open()).toBeTruthy();
 
       // This should show pagerange
+    });
+
+    it('should have buttons', function () {
+      var matchLi = matchLiFactory();
+      var match = matchClass.create(matchLi);
+      expect(match.open()).toBeTruthy();
+      expect(matchLi.getElementsByClassName('buttons').length).toEqual(3);
+      expect(matchLi.querySelector('span.extend.left')).toBeTruthy();
+      expect(matchLi.querySelector('span.extend.right')).toBeTruthy();
+      expect(matchLi.querySelector('span.collapse.left')).toBeTruthy();
+      expect(matchLi.querySelector('span.collapse.right')).toBeTruthy();
+      expect(matchLi.querySelector('span.close')).toBeTruthy();
+      expect(matchLi.querySelector('span.store')).toBeTruthy();
+
+      expect(match.close()).toBeTruthy();
+      expect(match.open()).toBeTruthy();
+      expect(matchLi.getElementsByClassName('buttons').length).toEqual(3);
     });
     
     it('should have incremental extensions', function () {
@@ -129,13 +139,16 @@ define(['match', 'snippet'], function (matchClass, snippetClass) {
 
       expect(match.extendLeft()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("abc[723]aaa bbb ccc    ");
+	.toEqual("    abc[723]aaa bbb ccc    ");
       expect(match.extendLeft()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("abc[722]abc[723]aaa bbb ccc    ");
+	.toEqual("    abc[722]abc[723]aaa bbb ccc    ");
       expect(match.extendLeft()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("abc[721]abc[722]abc[723]aaa bbb ccc    ");
+	.toEqual("    abc[721]abc[722]abc[723]aaa bbb ccc    ");
+
+      expect(matchLi.querySelector("div.snippet > span:first-of-type").classList.contains('context-left')).toBeTruthy();
+      expect(matchLi.querySelector("div.snippet > span:first-of-type > span:first-of-type").classList.contains('buttons')).toBeTruthy();
     });
 
     it('should extend right correctly', function () {
@@ -156,13 +169,16 @@ define(['match', 'snippet'], function (matchClass, snippetClass) {
 
       expect(match.extendRight()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb cccabc[725]    ");
+	.toEqual("    aaa bbb cccabc[725]    ");
       expect(match.extendRight()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb cccabc[725]abc[726]    ");
+	.toEqual("    aaa bbb cccabc[725]abc[726]    ");
       expect(match.extendRight()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb cccabc[725]abc[726]abc[727]    ");
+	.toEqual("    aaa bbb cccabc[725]abc[726]abc[727]    ");
+
+      expect(matchLi.querySelector("div.snippet > span:last-of-type").classList.contains('context-right')).toBeTruthy();
+      expect(matchLi.querySelector("div.snippet > span:last-of-type > span:last-of-type").classList.contains('buttons')).toBeTruthy();
     });
 
     it('should collapse left correctly', function () {
@@ -184,21 +200,21 @@ define(['match', 'snippet'], function (matchClass, snippetClass) {
       expect(match.extendLeft()).toBeTruthy();
       expect(match.extendLeft()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("abc[721]abc[722]abc[723]aaa bbb ccc    ");
+	.toEqual("    abc[721]abc[722]abc[723]aaa bbb ccc    ");
 
       expect(match.collapseLeft()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("abc[722]abc[723]aaa bbb ccc    ");
+	.toEqual("    abc[722]abc[723]aaa bbb ccc    ");
 
       expect(match.collapseLeft()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("abc[723]aaa bbb ccc    ");
+	.toEqual("    abc[723]aaa bbb ccc    ");
       expect(match.collapseLeft()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb ccc    ");
+	.toEqual("    aaa bbb ccc    ");
       expect(match.collapseLeft()).toBeFalsy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb ccc    ");
+	.toEqual("    aaa bbb ccc    ");
     });
 
     it('should collapse right correctly', function () {
@@ -219,21 +235,43 @@ define(['match', 'snippet'], function (matchClass, snippetClass) {
       expect(match.extendRight()).toBeTruthy();
       expect(match.extendRight()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb cccabc[725]abc[726]abc[727]    ");
+	.toEqual("    aaa bbb cccabc[725]abc[726]abc[727]    ");
 
       expect(match.collapseRight()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb cccabc[725]abc[726]    ");
+	.toEqual("    aaa bbb cccabc[725]abc[726]    ");
       expect(match.collapseRight()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb cccabc[725]    ");
+	.toEqual("    aaa bbb cccabc[725]    ");
       expect(match.collapseRight()).toBeTruthy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb ccc    ");
+	.toEqual("    aaa bbb ccc    ");
       expect(match.collapseRight()).toBeFalsy();
       expect(matchLi.querySelector("div.snippet").textContent)
-	.toEqual("aaa bbb ccc    ");     
+	.toEqual("    aaa bbb ccc    ");     
     });    
+
+   it('should be created from element with extensions', function () {
+      var matchLi = matchLiFactory2();
+     var match = matchClass.create(matchLi);
+     /*
+      match.sendJSON = function () {};
+      match.getSnippet = function (paraNumber, cb) {
+	cb(snippetClass.create({
+	  "content" : "abc[" + paraNumber + "]",
+	  "in_doc_id" : 1,
+	  "para" : paraNumber,
+	  "next" : paraNumber + 1,
+	  "previous" : paraNumber - 1
+	}));
+      };
+     */
+     expect(match.leftExt).toEqual(1);
+     expect(match.rightExt).toEqual(2);
+     expect(match.open()).toBeTruthy();
+     expect(match.getRightSnippet(1)).toBeTruthy();
+   });
+    
   });
 
 
@@ -274,18 +312,7 @@ define(['match', 'snippet'], function (matchClass, snippetClass) {
       expect(snippet.previous).toEqual(3);
       expect(snippet.content).toEqual("abc[1]");
     });
-
-    xit('should be created from element correctly', function () {
-     /*
- var span = document.createElement('span');
-      span.setAttribute('class', 'ext');
-      span.setAttribute('data-');
-      var snippet = snippetClass.create(
-
-      );
-*/
-    });
-    
+   
     it('should create element correctly', function () {
       var snippet = snippetClass.create({
       	"content" : "abc",

@@ -228,10 +228,10 @@ sub register {
 	  # Extend to the left
 	  my $left = '<span class="context-left">';
 	  # if ($para->{previous}) {
-	  $left .= '<span class="buttons">';
-	  $left .= '<span class="extend left"></span>';
-	  $left .= '<span class="collapse left"></span>';
-	  $left .= '</span>';
+#	  $left .= '<span class="buttons">';
+#	  $left .= '<span class="extend left"></span>';
+#	  $left .= '<span class="collapse left"></span>';
+#	  $left .= '</span>';
 	  # };
 	  if ($para->{left}) {
 	    # $left .= '<span class="collapse left button"></span>';
@@ -249,10 +249,10 @@ sub register {
 	    # $right .= '<span class="collapse right button"></span>';
 	  };
 	  # if ($para->{next}) {
-	  $right .= '<span class="buttons">';
-	  $right .= '<span class="collapse right"></span>';
-	  $right .= '<span class="extend right"></span>';
-	  $right .= '</span>';
+#	  $right .= '<span class="buttons">';
+#	  $right .= '<span class="collapse right"></span>';
+#	  $right .= '<span class="extend right"></span>';
+#	  $right .= '</span>';
 	  #}
 	  #else {
 	  $right .= '</span>';

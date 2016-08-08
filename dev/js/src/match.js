@@ -18,9 +18,9 @@ define(["snippet"], function (snippetClass) {
       
       // No match defined
       if (arguments.length < 1 ||
-	  match === null ||
-	  match === undefined) {
-	throw new Error('Missing parameters');
+					match === null ||
+					match === undefined) {
+				throw new Error('Missing parameters');
       };
 
       this._leftExt = new Array();
@@ -28,40 +28,53 @@ define(["snippet"], function (snippetClass) {
 
       // Match defined as a node
       if (match instanceof Node) {
-	this._element  = match;
+				this._element  = match;
+				
+				// Circular reference !!
+				match["_match"] = this;
 
-	// Circular reference !!
-	match["_match"] = this;
+				// Parse data information
+				this.ID       = parseInt(match.getAttribute('data-id')),
+				this.para     = parseInt(match.getAttribute('data-para'));
+				this.marks    = match.getAttribute('data-marks');
 
-	// Parse data information
-	this.ID       = parseInt(match.getAttribute('data-id')),
-	this.para     = parseInt(match.getAttribute('data-para'));
-	this.marks    = match.getAttribute('data-marks');
+				this.marked   = match.classList.contains('marked');
+				
+				this._leftContext = this._element.getElementsByClassName('context-left')[0];
+				this._rightContext = this._element.getElementsByClassName('context-right')[0];
+				this._ref = this._element.getElementsByClassName('ref')[0];
 
-	this.marked   = match.classList.contains('marked');
-	this.leftExt  = parseInt(match.getAttribute('data-left-ext')  || '0');
-	this.rightExt = parseInt(match.getAttribute('data-right-ext') || '0');
-
-	this._leftContext = this._element.getElementsByClassName('context-left')[0];
-	this._rightContext = this._element.getElementsByClassName('context-right')[0];
-	this._ref = this._element.getElementsByClassName('ref')[0];
-
-	this.pageStart = parseInt(match.getAttribute('data-start-page') || '0');
-	this.pageEnd   = parseInt(match.getAttribute('data-end-page')   || '0');
-      };
+				this.pageStart = parseInt(match.getAttribute('data-start-page') || '0');
+				this.pageEnd   = parseInt(match.getAttribute('data-end-page')   || '0');
+			};
 
       return this;
     },
 
+		element : function () {
+			return this._element;
+		},
+		
     getLeftSnippet : function (idx) {
       return this._leftExt[idx];
     },
 
+		getLeftestSnippet : function () {
+			return this._leftExt[this._leftExt.length - 1];
+		},
+
     getRightSnippet : function (idx) {
       return this._rightExt[idx];
     },
-    
-    createLeftButtons : function () {
+
+		getRightestSnippet : function () {
+			return this._rightExt[this._rightExt.length - 1];
+		},
+		
+    /**
+     * Create extension buttons left
+     */
+    _createLeftButtons : function () {
       var button = document.createElement('span');
       button.classList.add('buttons');
 
@@ -77,8 +90,11 @@ define(["snippet"], function (snippetClass) {
 
       return button;
     },
-    
-    createRightButtons : function () {
+
+    /**
+     * Create extension buttons right
+     */
+    _createRightButtons : function () {
       var button = document.createElement('span');
       button.classList.add('buttons');
 
@@ -95,7 +111,10 @@ define(["snippet"], function (snippetClass) {
       return button;
     },
 
-    createActionButtons : function () {
+    /**
+     * Create buttons to store and close
+     */
+    _createActionButtons : function () {
       var button = document.createElement('span');
       button.classList.add('buttons');
 
@@ -104,7 +123,7 @@ define(["snippet"], function (snippetClass) {
       store.classList.add('store');
       store.setAttribute('title', 'Speichern');
       store.appendChild(document.createElement('span')).appendChild(
-	document.createTextNode('Speichern')
+				document.createTextNode('Speichern')
       );
       store.addEventListener('click', this.store.bind(this));
 
@@ -113,14 +132,17 @@ define(["snippet"], function (snippetClass) {
       closeB.classList.add('close');
       closeB.setAttribute('title', 'Schließen');
       closeB.appendChild(document.createElement('span')).appendChild(
-	document.createTextNode('Schließen')
+				document.createTextNode('Schließen')
       );
       closeB.addEventListener('click', this.close.bind(this));
 
       return button;
     },
 
-    createPageRange : function () {
+    /**
+     * Create pageRange span
+     */
+    _createPageRange : function () {
       var pageRange = document.createElement('span');
       pageRange.classList.add('pageRange');
       return pageRange;
@@ -131,11 +153,11 @@ define(["snippet"], function (snippetClass) {
      */
     getSnippet : function (para, cb) {
       this.getJSON(
-	window.RabbidAPI + '/corpus/' + this.ID + '/' + para,
-	function (obj) {
-	  if (obj !== null)
-	    cb(snippetClass.create(obj));
-	}
+				window.RabbidAPI + '/corpus/' + this.ID + '/' + para,
+				function (obj) {
+					if (obj !== null)
+						cb(snippetClass.create(obj));
+				}
       )
     },
 
@@ -146,21 +168,20 @@ define(["snippet"], function (snippetClass) {
 
       // Get a para some positions before the current one
       var para = this.para;
-      para -= this.leftExt + 1;
+      para -= this._leftExt.length + 1;
 
       // If the para is out of the range, throw an error
       if (para < 0) {
-	alertify.log("Keine weitere Erweiterungen", "note", 3000);
-	return;
+				alertify.log("Keine weitere Erweiterungen", "note", 3000);
+				return;
       };
       
       // Get the paragraph object
       this.getSnippet(para, function (snippet) {
-	this.prependExtension(snippet);
-	// Increment the left extension
-	this.incrLeftExt();
+				this.prependExtension(snippet);
+				this.updatePageRange();
       }.bind(this));
-
+			
       return true;
     },
 
@@ -170,41 +191,37 @@ define(["snippet"], function (snippetClass) {
     extendRight : function () {
       // Get a para some positions before the current one
       var para = this.para;
-      para += this.rightExt + 1;
+      para += this._rightExt.length + 1;
 
       // Get the paragraph object
       this.getSnippet(para, function (snippet) {
-	this.appendExtension(snippet);
-
-	// Increment the left extension
-	this.incrRightExt();
+				this.appendExtension(snippet);
+				this.updatePageRange();
       }.bind(this));
-
+			
       return true;
     },
 
     collapseLeft : function () {
       if (this._leftExt.length < 1)
-	return false;
+				return false;
 
       var toRemove = this._leftExt.pop().element();
-
       toRemove.parentNode.removeChild(toRemove);
-      this.decrLeftExt();
+			this.updatePageRange();
+
       return true;
-      // this.updatePageRange()
     },
 
     collapseRight : function () {
       if (this._rightExt.length < 1)
-	return false;
+				return false;
 
       var toRemove = this._rightExt.pop().element();
-
       toRemove.parentNode.removeChild(toRemove);
-      this.decrRightExt();
-      return true;
-      // this.updatePageRange()
+			this.updatePageRange();
+
+			return true;
     },
     
     
@@ -214,16 +231,16 @@ define(["snippet"], function (snippetClass) {
       
       var before;
       if (this._leftExt.length > 0)
-	before = this._leftExt[this._leftExt.length-1].element();
+				before = this.getLeftestSnippet().element();
       else
-	before = this._leftExtButtons.nextSibling;
+				before = this._leftExtButtons.nextSibling;
       
       this._leftExt.push(ext);
 
       // Prepend to the leftest extension
       before.parentNode.insertBefore(
-	ext.element(),
-	before
+				ext.element(),
+				before
       );
     },
 
@@ -235,69 +252,38 @@ define(["snippet"], function (snippetClass) {
 
       // Append to the rightest extension
       this._rightExtButtons.parentNode.insertBefore(
-	ext.element(),
-	this._rightExtButtons
+				ext.element(),
+				this._rightExtButtons
       );
     },
 
     // Update page range
     updatePageRange : function () {
-      var start, end;
+      var start, end;			
       if (this._leftExt.length > 0)
-	start = this._leftExt[this._leftExt.length-1].pageStart;
+				start = this.getLeftestSnippet().pageStart;
       else
-	start = this.pageStart;
+				start = this.pageStart;
 
       if (this._rightExt.length > 0)
-	end = this._rightExt[this._rightExt.length-1].pageEnd;
+				end = this.getRightestSnippet().pageEnd;
       else
-	end = this.pageEnd;
+				end = this.pageEnd;
+
+			if ((start === null || start === 0) &&
+				(end === null || end === 0))
+				return false;
+			
+			var range = start;
+			if (end !== start)
+				range += "-" + end;
+
+			// Send data to view
+			this._pageRangeElement.textContent = range;
+
+			return true;
     },
-        
-    incrLeftExt : function () {
-      this.leftExt++;
-      //    this._element.setAttribute('data-left-ext', this.leftExt);
-    },
-
-    incrRightExt : function () {
-      this.rightExt++;
-      //    this._element.setAttribute('data-right-ext', this.rightExt);
-    },
-
-    decrLeftExt : function () {
-      this.leftExt--;
-      //    this._element.setAttribute('data-left-ext', this.leftExt);
-    },
-
-    decrRightExt : function () {
-      this.rightExt--;
-      //    this._element.setAttribute('data-right-ext', this.rightExt);
-    },
-
-    /**
-     * Set pagerange in reference view.
-     */
-    setPageRange : function () {
-
-      if (this.pageStart !== 0 && this.pageEnd !== 0) {
-	console.log('Set Pagerange to ' + this.pageStart + ' - ' + this.pageEnd);
-	var data = '';
-	if (this.pageStart === this.pageEnd) {
-	  data = this.pageStart;
-	}
-	else {
-	  data = this.pageStart + '-' + this.pageEnd;
-	};
-
-	this._pageRange.textContent = ' (S. ' + data + ') ';
-	this._pageRange.style.display = 'inline';
-      }
-      else {
-	this._pageRange.display = 'none';
-      }
-    },
-
-
+		
     /**
      * Open the match.
      */
@@ -307,77 +293,60 @@ define(["snippet"], function (snippetClass) {
       // Add actions unless it's already activated
       // There is no element to open
       if (this._element === undefined || this._element === null)
-	return false;
+				return false;
 
 
       // The element is already opened
       if (this._element.classList.contains('active'))
-	return false;
+				return false;
       
       // Add active class to element
       this._element.classList.add('active');
 
-      // Add pageRange
-      /*
-      if (this._pageRange === undefined) {
-	this._pageRange = document.createElement('span');
-	this._pageRange.style.display = 'none';
-	var ref = this._element.getElementsByClassName('ref');
-	if (ref !== null && ref[0] !== null) {
-
-	  // Insert into match view
-	  ref[0].insertBefore(
-	    this._pageRange,
-	    ref[0].getElementsByTagName('span')[0]
-	  );
-	};
-
-	// View page range possibly
-	this.setPageRange();
-      };
-      */
-
       // Initialize match view, unless it is already initialized
       if (this._initialized === undefined) {
 
-	var i;
-	var leftExtSnippets = this._leftContext.getElementsByClassName("ext");
-	var rightExtSnippets = this._rightContext.getElementsByClassName("ext");
+				var i;
+				var leftExtSnippets = this._leftContext.getElementsByClassName("ext");
+				var rightExtSnippets = this._rightContext.getElementsByClassName("ext");
 
-	// Create snippet from snippetClass
-	for (i = leftExtSnippets.length -1; i >= 0; i--) {
-	  this._leftExt.push(
-	    snippetClass.create(leftExtSnippets[i])
-	  );
-	};
-	
-	for (i = 0; i < rightExtSnippets.length; i++) {
-	  this._rightExt.push(
-	    snippetClass.create(rightExtSnippets[i])
-	  );
-	};
-	
-	// Add buttons
-	this._leftExtButtons = this.createLeftButtons();
-	this._leftContext.insertBefore(
-	  this._leftExtButtons,
-	  this._leftContext.firstChild
-	);
-	this._rightExtButtons = this._rightContext.appendChild(
-	  this.createRightButtons()
-	);
-	var action = this._ref.appendChild(
-	  this.createActionButtons()
-	);
-	
-	// Add page range
-	this._pageRangeElement = this._ref.insertBefore(
-	  this.createPageRange(),
-	  action
-	);
+				// Create snippet from snippetClass
+				for (i = leftExtSnippets.length -1; i >= 0; i--) {
+					this._leftExt.push(
+						snippetClass.create(leftExtSnippets[i])
+					);
+				};
+				
+				for (i = 0; i < rightExtSnippets.length; i++) {
+					this._rightExt.push(
+						snippetClass.create(rightExtSnippets[i])
+					);
+				};
+				
+				// Add buttons
+				this._leftExtButtons = this._createLeftButtons();
+				this._leftContext.insertBefore(
+					this._leftExtButtons,
+					this._leftContext.firstChild
+				);
+				this._rightExtButtons = this._rightContext.appendChild(
+					this._createRightButtons()
+				);
+				var action = this._ref.appendChild(
+					this._createActionButtons()
+				);
+				
+				// Add page range
+				this._pageRangeElement = this._ref.insertBefore(
+					this._createPageRange(),
+					action
+				);
 
-	// The view is initialized
-	this._initialized = true;
+				// View page range
+				this.updatePageRange();
+
+				// The view is initialized
+				this._initialized = true;
       };
 
       return true;
@@ -401,17 +370,17 @@ define(["snippet"], function (snippetClass) {
       if (e !== undefined) e.halt();
 
       this.sendJSON(
-	window.RabbidAPI + '/corpus/' + this.ID + '/' + this.para,
-	{
-	  "q" : top.query,
-	  "rightExt" : this.rightExt,
-	  "leftExt" : this.leftExt,
-	  "marks" : this.marks
-	}, function () {
-	  alertify.log("Beleg gespeichert","success", 3000);
-	  this.marked = true;
-	  this._element.classList.add('marked');
-	}.bind(this));
+				window.RabbidAPI + '/corpus/' + this.ID + '/' + this.para,
+				{
+					"q" : top.query,
+					"rightExt" : this._rightExt.length,
+					"leftExt" : this._leftExt.length,
+					"marks" : this.marks
+				}, function () {
+					alertify.log("Beleg gespeichert","success", 3000);
+					this.marked = true;
+					this._element.classList.add('marked');
+				}.bind(this));
     },
 
     /**
@@ -428,15 +397,15 @@ define(["snippet"], function (snippetClass) {
       req.setRequestHeader("Content-type", "application/json");
       req.setRequestHeader("Content-length", str.length);
       req.onreadystatechange = function () {
-	if (this.readyState == 4) {
-	  if (this.status === 200)
-	    onload(JSON.parse(this.responseText));
-	  else
-	    console.log(this.status, this.statusText);
-	}
+				if (this.readyState == 4) {
+					if (this.status === 200)
+						onload(JSON.parse(this.responseText));
+					else
+						console.log(this.status, this.statusText);
+				}
       };
       req.ontimeout = function () {
-	console.log('Request Timeout');
+				console.log('Request Timeout');
       };
       req.send(str);
     },
@@ -451,23 +420,23 @@ define(["snippet"], function (snippetClass) {
       req.setRequestHeader("Accept", "application/json");
       req.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); 
       req.onreadystatechange = function () {
-	/*
-	  States:
-	  0 - unsent (prior to open)
-	  1 - opened (prior to send)
-	  2 - headers received
-	  3 - loading (responseText has partial data)
-	  4 - done
-	*/
-	if (this.readyState == 4) {
-	  if (this.status === 200)
-	    onload(JSON.parse(this.responseText));
-	  else
-	    alertify.log("Keine weitere Erweiterungen", "note", 3000);
-	}
+				/*
+				 * States:
+				 * 0 - unsent (prior to open)
+				 * 1 - opened (prior to send)
+				 * 2 - headers received
+				 * 3 - loading (responseText has partial data)
+				 * 4 - done
+				 */
+				if (this.readyState == 4) {
+					if (this.status === 200)
+						onload(JSON.parse(this.responseText));
+					else
+						alertify.log("Keine weitere Erweiterungen", "note", 3000);
+				}
       };
       req.ontimeout = function () {
-	console.log('Request Timeout');
+				console.log('Request Timeout');
       };
       req.send();
     }

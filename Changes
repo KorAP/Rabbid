@@ -1,16 +1,18 @@
 0.4.4 2016-08-08
         - Fixed unicode in extensions (retrieve and store).
-	- Fixed support for Mojolicious 7.
-	- Introduced test suite for JavaScript.
-	- Made action buttons dynamic.
+				- Fixed support for Mojolicious 7.
+				- Introduced test suite for JavaScript.
+        - Made action buttons dynamic.
+				- Fix pagebreaks using json.
+				- Added import for i5 documents.
 
 0.4.2 2016-03-21
         - Fixed unicode handling.
 
 0.4.1 2016-03-02
         - Improved support for multi-user plugins.
-	- Improved attached database handling.
-	- Separated initialization step.
+        - Improved attached database handling.
+        - Separated initialization step.
 
 0.4.0 2016-01-12
         - Initial release on GitHub.
@@ -28,4 +30,4 @@
         - Added export to RTF.
 
 0.1.1 2015-06-08
-  	- Initial release.
+        - Initial release.

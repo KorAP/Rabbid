@@ -28,6 +28,10 @@ a:link, a:visited {
   box-sizing: border-box;
 }
 
+html {
+  font-size:11pt;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -36,13 +40,12 @@ html, body {
 html > body {
   background-color: $ids-pink-1;
   font-family: tahoma, verdana, arial;
-  font-size:11pt;
   color: $ids-pink-2;
 }
 
 a.logo > h1 {
   float: left;
-  background: {
+	background: {
     position: 50% 50%;
     repeat: no-repeat;
     size: 90% auto;
@@ -202,10 +205,11 @@ table.oro-view {
     }
     td {
       padding: 3pt 6pt;
-      a:link, a:visited {
-	color: $ids-pink-2;
-	font-weight: bold;
-	text-decoration: none;
+      a:link,
+			a:visited {
+				color: $ids-pink-2;
+				font-weight: bold;
+				text-decoration: none;
       }
     }
   }
@@ -350,6 +354,10 @@ h3 {
 }
 
 li.active {
+
+	/*
+	 * Buttons
+	 */
   span.extend {
     display: inline-block;
     &.left::after {
@@ -383,35 +391,59 @@ li.active {
   }
 
   span.buttons {
-    background-color: $ids-pink-2;
+		background-color: $ids-pink-2;
     color: $ids-pink-1;
     border-radius: 5px;
     margin: 0 4pt;
-  }
 
-  span.buttons > span {
-    border-radius: 5px;
-    display: inline-block;
-    cursor: pointer;
-    padding: 0 4pt;
-    // width: 1.8em;
-    &:hover {
-      background-color: $ids-pink-1;
-      color: $ids-pink-2;
+    > span {
+			border-radius: 5px;
+			display: inline-block;
+			cursor: pointer;
+			padding: 0 4pt;
+			// width: 1.8em;
+			&:hover {
+	      background-color: $ids-pink-1;
+	      color: $ids-pink-2;
+			}
+
+			> span {
+				position: absolute;
+				margin-left: -3000px;
+			}
     }
   }
+}
 
-  span.buttons > span > span {
-    position: absolute;
-    margin-left: -3000px;
-  }
+p.ref span.pageRange:not(:empty) {
+	&::after {
+		content: ")";
+	}
+	&::before {
+		content: "(S. ";
+	}
 }
 
 div.snippet {
   padding: 6pt;
+/*
   br {
     margin-bottom:10pt
   }
+*/
+	span.pb {
+		color: $ids-pink-1;
+		background-color: $ids-pink-2;
+		font-size: 0.7rem;
+		vertical-align: top;
+		border-radius: 2px;
+		padding: 2px;
+		margin: 0 .2rem;
+		font-family: Courier New, monopace;
+	}
+	span.pb::after {
+		content: attr(data-after)
+	}
 }
 
 ol > li {
@@ -678,14 +710,18 @@ span.ext {
 */
 
 li.active span {
+	font-size: 1rem;
+	line-height: 1.4rem;
+	vertical-position: baseline;
   &.button {
     padding: 2pt 5pt;
   }
   &.ext {
-    margin-left: .5em;
+    // margin-left: .5em;
     &:not(.nobr)::after {
       content: '';
       display: block;
+			margin-bottom: .7rem;
     }
   }
 }

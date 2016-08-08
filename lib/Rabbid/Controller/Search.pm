@@ -21,42 +21,42 @@ sub _count {
 
       # Search Fulltext
       $result = $oro->load(
-	[
-	  Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
-	  Text => [
-	    'count(para):para_count',
-	    'count(distinct(in_doc_id)):doc_count'
-	  ] => { in_doc_id => 1 }
-	],
-	{
-	  content => {
-	    match => quote($q)
-	  },
-	  -cache => {
-	    chi => $c->chi,
-	    expires_in => '120min'
-	  },
-	  scalar($c->param('filterBy')) => scalar($c->param('filterValue'))
-	}
+				[
+					Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
+					Text => [
+						'count(para):para_count',
+						'count(distinct(in_doc_id)):doc_count'
+					] => { in_doc_id => 1 }
+				],
+				{
+					content => {
+						match => quote($q)
+					},
+					-cache => {
+						chi => $c->chi,
+						expires_in => '120min'
+					},
+					scalar($c->param('filterBy')) => scalar($c->param('filterValue'))
+				}
       );
     }
     else {
 
       # Search Fulltext
       $result = $oro->load(
-	Text => [
-	  'count(para):para_count',
-	  'count(distinct(in_doc_id)):doc_count'
-	],
-	{
-	  content => {
-	    match => quote($q)
-	  },
-	  -cache => {
-	    chi => $c->chi,
-	    expires_in => '120min'
-	  }
-	}
+				Text => [
+					'count(para):para_count',
+					'count(distinct(in_doc_id)):doc_count'
+				],
+				{
+					content => {
+						match => quote($q)
+					},
+					-cache => {
+						chi => $c->chi,
+						expires_in => '120min'
+					}
+				}
       );
     };
 
@@ -104,24 +104,24 @@ sub kwic {
 
     $result = $oro->select(
       [
-	Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
-	Text => [
-	  'content',
-	  'in_doc_id',
-	  'para',
-	  'offsets(Text):marks'
-	] => { in_doc_id => 1 }
+				Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
+				Text => [
+					'content',
+					'in_doc_id',
+					'para',
+					'offsets(Text):marks'
+				] => { in_doc_id => 1 }
       ],
       {
-	content => {
-	  match => quote($q)
-	},
-	-order => [qw/in_doc_id para/],
-	-cache => {
-	  chi => $c->chi,
-	  expires_in => '30min'
-	},
-	%args
+				content => {
+					match => quote($q)
+				},
+				-order => [qw/in_doc_id para/],
+				-cache => {
+					chi => $c->chi,
+					expires_in => '30min'
+				},
+				%args
       }
     );
 
@@ -133,38 +133,38 @@ sub kwic {
       # BEGIN
       my @or_condition;
       foreach (@$result) {
-	push(@or_condition, {
-	  in_doc_id => $_->{in_doc_id},
-	  para => $_->{para}
-	});
+				push(@or_condition, {
+					in_doc_id => $_->{in_doc_id},
+					para => $_->{para}
+				});
       };
 
       # Load stored snippets
       my $stored = $oro->select(
-	[
-	  Snippet => [qw/in_doc_id para left_ext right_ext marks/] => {
-	    in_coll_id => 1
-	  },
-	  Collection => [qw/coll_id/] => {
-	    coll_id => 1
-	  }
-	] => {
-	  q => $q,
-	  user_id => $c->rabbid_acct->id,
-	  -or => \@or_condition
-	}
+				[
+					Snippet => [qw/in_doc_id para left_ext right_ext marks/] => {
+						in_coll_id => 1
+					},
+					Collection => [qw/coll_id/] => {
+						coll_id => 1
+					}
+				] => {
+					q => $q,
+					user_id => $c->rabbid_acct->id,
+					-or => \@or_condition
+				}
       );
 
       my %marked;
       foreach (@$stored) {
-	$marked{ $_->{in_doc_id} . '-' . $_->{para} } = $_;
+				$marked{ $_->{in_doc_id} . '-' . $_->{para} } = $_;
       };
       foreach my $r (@$result) {
-	if (my $stored = $marked{$r->{in_doc_id} . '-' . $r->{para}}) {
-	  $r->{marked} = 'marked';
-	  $r->{left_ext}  = $stored->{left_ext};
-	  $r->{right_ext} = $stored->{right_ext};
-	};
+				if (my $stored = $marked{$r->{in_doc_id} . '-' . $r->{para}}) {
+					$r->{marked} = 'marked';
+					$r->{left_ext}  = $stored->{left_ext};
+					$r->{right_ext} = $stored->{right_ext};
+				};
       };
       # END
 
@@ -200,7 +200,7 @@ sub snippet {
   if ($match) {
     $match->{content} = b($match->{content})->decode;
     return $c->render(
-      json => $c->convert_pagebreaks($c->prepare_paragraph($match))
+      json => $c->convert_pagebreaks_json($c->prepare_paragraph($match))
     );
   };
 

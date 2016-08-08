@@ -28,45 +28,44 @@ sub add {
       # Iterate over all documents
       foreach my $doc (@docs) {
 
-	# Make doc an object
-	unless (blessed $doc) {
+				# Make doc an object
+				unless (blessed $doc) {
+					$doc = Rabbid::Document->new($doc) or return -1;
+				};
 
-	  $doc = Rabbid::Document->new($doc) or return -1;
-	};
+				# Add meta information
+				$oro->insert(Doc => $doc->meta($self->schema)) or return -1;
 
-	# Add meta information
-	$oro->insert(Doc => $doc->meta($self->schema)) or return -1;
+				my $para = 0;
 
-	my $para = 0;
+				# Create casted doc id
+				my $doc_id = 'CAST(' . $doc->meta('doc_id') . ' AS INTEGER)';
 
-	# Create casted doc id
-	my $doc_id = 'CAST(' . $doc->meta('doc_id') . ' AS INTEGER)';
+				foreach ($doc->snippet->each) {
+					my $content = $_->content;
 
-	foreach ($doc->snippet->each) {
-	  my $content = $_->content;
+					# Some special flag markers
+					$content .= ' '; # Whitespace for the tokenizer
+					if ($_->start_page || $_->end_page) {
+						$content .= '~#' . ($_->start_page // 0) . '|' . ($_->end_page // 0) . '#~';
+					};
 
-	  # Some special flag markers
-	  $content .= ' '; # Whitespace for the tokenizer
-	  if ($_->start_page || $_->end_page) {
-	    $content .= '~#' . ($_->start_page // 0) . '|' . ($_->end_page // 0) . '#~';
-	  };
+					$content .= '~~~' if $_->join;
+					$content .= '###' if $_->final;
 
-	  $content .= '~~~' if $_->join;
-	  $content .= '###' if $_->final;
+					# Paragraph position
+					my $para_pos = 'CAST(' . $para++ . ' AS INTEGER)';
 
-	  # Paragraph position
-	  my $para_pos = 'CAST(' . $para++ . ' AS INTEGER)';
+					# Insert Paragraph to database
+					$oro->insert(Text => {
+						in_doc_id => \$doc_id,
+						para      => \$para_pos,
+						content   => $content
+					}) or return -1;
+				};
 
-	  # Insert Paragraph to database
-	  $oro->insert(Text => {
-	    in_doc_id => \$doc_id,
-	    para      => \$para_pos,
-	    content   => $content
-	  }) or return -1;
-	};
-
-	# Insert succesful
-	$inserts++;
+				# Insert succesful
+				$inserts++;
       };
     }
   ) or return;
@@ -91,7 +90,7 @@ sub init {
 
       my @keys = ();
       foreach (keys %$schema) {
-	push @keys, $_ . ' ' . $schema->{$_};
+				push @keys, $_ . ' ' . $schema->{$_};
       };
 
       my $keys = join(',', @keys);

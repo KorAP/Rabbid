@@ -88,9 +88,5 @@ is($dom->find('p')->[2],
 	      'das ist eigentlich die Seligkeit auf Erden.</p>'
 	    ), 'Text');
 
-use_ok('Rabbid::Command::rabbid_convert');
-
-
-
 done_testing;
 __END__

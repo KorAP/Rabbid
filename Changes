@@ -1,6 +1,8 @@
-0.5.0 2016-08-09
+0.5.0 2016-08-10
         - Improved I5 Conversion.
         - Added Guttenberg conversion.
+        - Improved conversion tool use different converter.
+        - Remove guttenberg conversion tool.
 
 0.4.4 2016-08-08
         - Fixed unicode in extensions (retrieve and store).

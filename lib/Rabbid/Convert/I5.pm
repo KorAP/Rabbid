@@ -174,9 +174,12 @@ sub convert {
   );
 
   # Parse input file
-  $twig->parsefile($self->{input});
+  if ($twig->safe_parsefile($self->{input})) {
+    return @files;
+  };
 
-  return @files;
+  warn 'Unable to parse ' . $self->{input} . "\n";
+  return ();
 };
 
 

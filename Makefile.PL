@@ -37,7 +37,8 @@ WriteMakefile(
     'KorAP::XML::Krill' => 0.18 # GitHub
   },
   BUILD_REQUIRES => {
-    'Test::More' => 0
+    'Test::More' => 0,
+    'Test::Output' => 0
   },
   META_MERGE => {
     recommends => {

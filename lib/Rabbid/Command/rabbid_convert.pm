@@ -1,11 +1,14 @@
 package Rabbid::Command::rabbid_convert;
 use Mojo::Base 'Mojolicious::Command';
+use Mojo::Loader qw/load_class/;
 use Mojo::Util qw/quote/;
+use File::Temp qw/tempfile tempdir/;
+
 use Rabbid::Convert::I5;
 
 use Getopt::Long qw/GetOptionsFromArray :config no_auto_abbrev no_ignore_case/;
 
-has description => 'Convert files to RabbidML';
+has description => 'Convert documents to RabbidML files';
 has usage       => sub { shift->extract_usage };
 
 # Run import command
@@ -15,23 +18,33 @@ sub run {
   GetOptionsFromArray(
     \@args,
     'f|file=s' => \my $file,
-    'o|output=s' => \my $output
+    'o|output=s' => \my $output,
+    'x|conversion=s' => \(my $conversion_class = 'I5')
   );
 
-  print $self->usage and return unless ($file || $output);
+  $output //= tempdir;
+
+  print $self->usage and return unless $file;
 
   my $app = $self->app;
 
+  $conversion_class = 'Rabbid::Convert::' . $conversion_class;
+
+  if (load_class($conversion_class)) {
+    warn 'Unable to load conversion class ' . $conversion_class;
+    return;
+  };
+
   # Configure converter
-  my $i5 = Rabbid::Convert::I5->new(
+  my $converter = $conversion_class->new(
     input => $file,
     output => $output,
     log => $app->log
-    # Support id_offset!
+    # TODO: Support id_offset!
   );
 
   # Run conversion
-  $i5->convert(
+  $converter->convert(
     sub {
       my $file = shift;
       print "Converted $file\n";
@@ -43,24 +56,19 @@ sub run {
 
 __END__
 
-
-1;
-
-__END__
-
 =pod
 
 =encoding utf8
 
 =head1 NAME
 
-Rabbid::Command::rabbid_convert - Convert to RabbidML files
+Rabbid::Command::rabbid_convert - Convert documents to RabbidML files
 
 =head1 SYNOPSIS
 
   usage: perl script/rabbid rabbid_convert -f file -o directory
 
-  Convert (exclusively for the moment) I5 files to RabbidML.
+  Convert files to RabbidML.
 
   Expects the following parameters
 
@@ -70,10 +78,14 @@ Rabbid::Command::rabbid_convert - Convert to RabbidML files
   --output|o
     A directory to convert to
 
+  --conversion|x
+    The source format, defaults to I5
+
 =head DESCRIPTION
 
 L<Rabbid::Command::rabbid_convert> helps
-to convert docuemnts to RabbidML.
+to convert documents to RabbidML. Currently supported formats are
+C<I5> and C<Guttenberg>.
 
 =head1 ATTRIBUTES
 

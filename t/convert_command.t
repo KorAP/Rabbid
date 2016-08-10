@@ -34,6 +34,7 @@ stdout_like(
   'Convert I5'
 );
 
+# Effi Briest
 $file = catfile(dirname(__FILE__), 'data', 'pg5323.txt');
 
 stderr_like(
@@ -50,6 +51,21 @@ $output =~ $pattern;
 
 my $dom = Mojo::DOM->new->xml(1)->parse(slurp($1));
 is($dom->at('title')->text, 'Effi Briest');
+is($dom->at('meta[name=doc_id]')->attr('content'), 1);
+
+# Woyzeck
+$file = catfile(dirname(__FILE__), 'data', '5322-0.txt');
+
+$output = stdout_from(sub { $cmd->run('-f', $file, '-x', 'Guttenberg', '-id', 3) });
+
+$pattern = qr!Converted (.+?5322-0\.rabbidml)!;
+like($output, $pattern, 'Convert Guttenberg');
+$output =~ $pattern;
+
+$dom = Mojo::DOM->new->xml(1)->parse(slurp($1));
+is($dom->at('title')->text, 'Woyzeck');
+is($dom->at('meta[name=doc_id]')->attr('content'), 3);
+
 
 done_testing;
 __END__

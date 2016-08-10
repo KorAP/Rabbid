@@ -19,9 +19,11 @@ sub run {
     \@args,
     'f|file=s' => \my $file,
     'o|output=s' => \my $output,
-    'x|conversion=s' => \(my $conversion_class = 'I5')
+    'x|conversion=s' => \(my $conversion_class = 'I5'),
+    'id|id_offset=i' => \(my $id_offset = 1)
   );
 
+  # Todo: Do not use temporary file
   $output //= tempdir;
 
   print $self->usage and return unless $file;
@@ -39,8 +41,8 @@ sub run {
   my $converter = $conversion_class->new(
     input => $file,
     output => $output,
-    log => $app->log
-    # TODO: Support id_offset!
+    log => $app->log,
+    id_offset => $id_offset
   );
 
   # Run conversion
@@ -72,14 +74,18 @@ Rabbid::Command::rabbid_convert - Convert documents to RabbidML files
 
   Expects the following parameters
 
-  --file|f
+  --file|-f
     A file to import
 
-  --output|o
+  --output|-o
     A directory to convert to
 
-  --conversion|x
+  --conversion|-x
     The source format, defaults to I5
+
+  --id_offset|-id
+    ID offset, defaults to 1
+
 
 =head DESCRIPTION
 

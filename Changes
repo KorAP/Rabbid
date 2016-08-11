@@ -1,4 +1,4 @@
-0.5.0 2016-08-11
+0.5.0 2016-08-12
         - Improved I5 Conversion.
         - Added Guttenberg conversion.
         - Improved conversion tool use different converter.
@@ -8,6 +8,7 @@
         - Added conversion to import command.
         - Removed redundant build_db and build_collection_db
           scripts.
+        - Added paragraph support to I5 conversion.
 
 0.4.4 2016-08-08
         - Fixed unicode in extensions (retrieve and store).

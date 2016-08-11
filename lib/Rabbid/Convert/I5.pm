@@ -20,10 +20,16 @@ sub convert {
 
   # Collect generated files in an array
   my @files = ();
-
   my $sentence_context = 0;
-  my @sentences = ();
+  my (@paragraphs, @sentences) = ();
   my $text_data;
+
+  my $paragraph_sub = sub {
+    if (@sentences) {
+      push @paragraphs, [@sentences];
+      @sentences = ();
+    };
+  };
 
   my $twig = XML::Twig->new(
     output_filter => XML::Twig::encode_convert( 'utf-8'),
@@ -96,22 +102,34 @@ sub convert {
 
           print FILE $prologue;
 
-          foreach (@sentences) {
+          if (@sentences) {
+            push @paragraphs, [@sentences];
+            @sentences = ();
+          };
 
-            # Get text data
-            my $s = xml_escape(encode('UTF-8', $_));
+          foreach (@paragraphs) {
+            print FILE '    <p>';
 
-            # Convert Pagebreaks
-            $s =~ s!\#\.\#PB=(\d+)\#\.\#!<br class="pb" data-after="$1" />!g;
+            foreach (@$_) {
 
-            # Print to file
-            print FILE "    <p>$s</p>\n";
+              # Get text data
+              my $s = xml_escape(encode('UTF-8', $_));
+
+              # Convert Pagebreaks
+              $s =~ s!\#\.\#PB=(\d+)\#\.\#!<br class="pb" data-after="$1" />!g;
+
+              # Print to file
+              print FILE "<span>$s</span>";
+            };
+
+            print FILE "</p>\n";
           };
 
           print FILE $self->get_epilogue;
 
-          # Reset sentences
-          @sentences = ();
+          # Reset paragraphs and sentences
+          @paragraphs = ();
+          @sentences  = ();
 
           $self->log->debug("File $new_file converted");
 
@@ -139,6 +157,10 @@ sub convert {
       s => sub {
         $sentence_context = 1;
       },
+
+      # Sentence context starts
+      p => $paragraph_sub,
+      head => $paragraph_sub,
 
       # Pagebreak start
       pb => sub {
@@ -169,7 +191,11 @@ sub convert {
 
         # Reset sentence context
         $sentence_context = 0;
-      }
+      },
+
+      # Wrap sentences in paragraphs
+      p => $paragraph_sub,
+      head => $paragraph_sub
     }
   );
 

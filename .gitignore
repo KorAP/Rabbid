@@ -4,9 +4,7 @@ sandbox
 *.conf
 !rabbid.conf
 !rabbid.test.conf
-/t/data/hidden.i5
-/t/data/goe-example.i5
-/t/data/rei-example.i5
+/lib/Rabbid/Convert/FromAny.pm
 Sandbox
 ext
 db

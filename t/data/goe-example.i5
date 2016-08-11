@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE idsCorpus PUBLIC "-//IDS//DTD IDS-I5 1.0//EN" "http://corpora.ids-mannheim.de/I5/DTD/i5.dtd">
+<idsCorpus version="1.0" TEIform="teiCorpus.2">
+  <idsHeader type="corpus" pattern="allesaußerZtg/Zschr" status="new" version="1.1" TEIform="teiHeader">
+    <fileDesc>
+      <titleStmt>
+        <korpusSigle>GOE</korpusSigle>
+        <c.title>Goethe-Korpus</c.title>
+      </titleStmt>
+      <publicationStmt>
+        <distributor>		Institut für Deutsche Sprache		</distributor>
+        <pubAddress>		Postfach 10 16 21, D-68016 Mannheim	</pubAddress>
+        <telephone>		+49 (0)621 1581 0			</telephone>
+        <availability region="world">QAO-NC</availability>
+        <pubDate/>
+      </publicationStmt>
+      <sourceDesc>
+        <biblFull>
+          <titleStmt>
+            <x.title/>
+          </titleStmt>
+          <editionStmt/>
+          <publicationStmt>
+            <distributor/>
+            <pubAddress/>
+            <availability region="world">QAO-NC</availability>
+            <pubDate/>
+          </publicationStmt>
+        </biblFull>
+        <biblStruct>
+          <monogr>
+            <h.title type="main">Goethes Werke</h.title>
+            <h.title type="sub"/>
+            <h.author>Goethe, Johann Wolfgang von</h.author>
+            <editor>Trunz, Erich</editor>
+            <edition>
+              <further/>
+              <kind>Hamburger Ausgabe in 14 Bänden</kind>
+              <appearance/>
+            </edition>
+            <imprint>
+              <publisher>Verlag C. H. Beck</publisher>
+              <pubDate type="year">1982</pubDate>
+              <pubDate type="month"/>
+              <pubDate type="day"/>
+     <pubPlace key="DE">München</pubPlace>
+            </imprint>
+          </monogr>
+        </biblStruct>
+        <reference type="super" assemblage="non-automatic">GOE Goethe, Johann Wolfgang von: Goethes Werke, Hamburger Ausgabe in 14 Bänden, Bde. 6 - 14, Hrsg.: Trunz, Erich. - München: Verlag C. H. Beck, Auflagen von 1982</reference>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc/>
+      <samplingDecl>		In der BOT-Vorlage Abrückung aller Satzzeichen vom vorhergehenden oder nachfolgenden Wort,
+		was bei der anschließenden Konvertierung so weit wie möglich beseitigt wurde.
+		Kleinschreibung von Wörtern am Satzanfang, wenn sie auch im Satzinnern kleingeschrieben werden.
+		Expansion bzw. Alternativschreibung bei Wörtern mit Klammerung im Wortinnern (sog. Sparschreibung).
+		Alternativschreibung bei Wörtern mit klammernden Apostrophen/Anführungszeichen im Wortinnern.
+		Erweitertes Markup ohne Verwendung der gedruckten Vorlage:
+		- Umfangreiche Korrekturen am Markup der BOT-Vorlage
+		- Markierung von Listen, Tabellen, Quellen- und Verfasserangaben, Gesprächssequenzen
+		- Markierung von Textkomponenten, die den Textfluss unterbrechen, wie Fußnoten, Anmerkungen, Randtexte, Captions, Bildunterschriften
+		- Expansion der Ergänzungen durch Unterstrich bei Wortgruppen mit Ergänzungsbindestrich
+		- Markierung von Kardinal- und Ordinalzahlen in römischen Ziffern</samplingDecl>
+      <editorialDecl>
+        <transduction>		TraDuCES - Korpus-Transformationscompiler, Version 3.6.3,
+		Eric Seubert, IDS Mannheim, 5. Mai 2010
+		Optionen bei der Konvertierung:
+		- Dubletten-Modus:
+		  Entfernung aller als Dubletten klassifizierten Texte.
+		- Indexierungsmodus für COSMAS II:
+		  Erzeugung von übergeordneten Dokument-Referenzen, falls die
+		  jeweiligen Dokumente nur einen einzigen selbstständigen Text enthalten.
+		  Entfernung aller Deklarationen für Dubletten.
+		  Entfernung von Texten mit Sperrvermerken.
+		  Entfernung von Texten mit minimalem Inhalt.</transduction>
+        <transduction>$Id: fixPreXCES.l 1194 2008-04-30 14:16:53Z kupietz $</transduction>
+        <transduction>$Id: idsces2idsxces 1843 2011-09-13 14:52:21Z kupietz $</transduction>
+        <pagination type="yes"/>
+      </editorialDecl>
+      <tagsDecl>
+        <tagUsage gi="pb"/>
+        <tagUsage gi="date"/>
+        <tagUsage gi="measure"/>
+        <tagUsage gi="num"/>
+        <tagUsage gi="orig"/>
+        <tagUsage gi="time"/>
+      </tagsDecl>
+      <classDecl>
+        <taxonomy id="topic">
+          <h.bibl>Thementaxonomie (siehe http://www.ids-mannheim.de/kl/projekte/methoden/te.html)</h.bibl>
+          <category id="topic.fiktion">
+            <catDesc>Fiktion</catDesc>
+            <category id="topic.fiktion.vermischtes">
+              <catDesc>Fiktion:Vermischtes</catDesc>
+            </category>
+          </category>
+          <category id="topic.freizeit-unterhaltung">
+            <catDesc>Freizeit_Unterhaltung</catDesc>
+            <category id="topic.freizeit-unterhaltung.reisen">
+              <catDesc>Freizeit_Unterhaltung:Reisen</catDesc>
+            </category>
+            <category id="topic.freizeit-unterhaltung.rundfunk">
+              <catDesc>Freizeit_Unterhaltung:Rundfunk</catDesc>
+            </category>
+            <category id="topic.freizeit-unterhaltung.vereine-veranstaltungen">
+              <catDesc>Freizeit_Unterhaltung:Vereine_Veranstaltungen</catDesc>
+            </category>
+          </category>
+          <category id="topic.gesundheit-ernaehrung">
+            <catDesc>Gesundheit_Ernaehrung</catDesc>
+            <category id="topic.gesundheit-ernaehrung.ernaehrung">
+              <catDesc>Gesundheit_Ernaehrung:Ernaehrung</catDesc>
+            </category>
+            <category id="topic.gesundheit-ernaehrung.gesundheit">
+              <catDesc>Gesundheit_Ernaehrung:Gesundheit</catDesc>
+            </category>
+          </category>
+          <category id="topic.kultur">
+            <catDesc>Kultur</catDesc>
+            <category id="topic.kultur.bildende-kunst">
+              <catDesc>Kultur:Bildende Kunst</catDesc>
+            </category>
+            <category id="topic.kultur.darstellende-kunst">
+              <catDesc>Kultur:Darstellende Kunst</catDesc>
+            </category>
+            <category id="topic.kultur.film">
+              <catDesc>Kultur:Film</catDesc>
+            </category>
+            <category id="topic.kultur.literatur">
+              <catDesc>Kultur:Literatur</catDesc>
+            </category>
+            <category id="topic.kultur.mode">
+              <catDesc>Kultur:Mode</catDesc>
+            </category>
+            <category id="topic.kultur.musik">
+              <catDesc>Kultur:Musik</catDesc>
+            </category>
+          </category>
+          <category id="topic.natur-umwelt">
+            <catDesc>Natur_Umwelt</catDesc>
+            <category id="topic.natur-umwelt.garten">
+              <catDesc>Natur_Umwelt:Garten</catDesc>
+            </category>
+            <category id="topic.natur-umwelt.tiere">
+              <catDesc>Natur_Umwelt:Tiere</catDesc>
+            </category>
+            <category id="topic.natur-umwelt.wetter-klima">
+              <catDesc>Natur_Umwelt:Wetter_Klima</catDesc>
+            </category>
+          </category>
+          <category id="topic.politik">
+            <catDesc>Politik</catDesc>
+            <category id="topic.politik.ausland">
+              <catDesc>Politik:Ausland</catDesc>
+            </category>
+            <category id="topic.politik.inland">
+              <catDesc>Politik:Inland</catDesc>
+            </category>
+            <category id="topic.politik.kommunalpolitik">
+              <catDesc>Politik:Kommunalpolitik</catDesc>
+            </category>
+          </category>
+          <category id="topic.rest">
+            <catDesc>Rest</catDesc>
+            <category id="topic.rest.boersenkurse">
+              <catDesc>Rest:boersenkurse</catDesc>
+            </category>
+            <category id="topic.rest.geburt-tod-heirat">
+              <catDesc>Rest:geburt_tod_heirat</catDesc>
+            </category>
+            <category id="topic.rest.impressum">
+              <catDesc>Rest:impressum</catDesc>
+            </category>
+            <category id="topic.rest.inhaltsverzeichnisse">
+              <catDesc>Rest:inhaltsverzeichnisse</catDesc>
+            </category>
+            <category id="topic.rest.ligatabellen">
+              <catDesc>Rest:ligatabellen</catDesc>
+            </category>
+            <category id="topic.rest.tabellen">
+              <catDesc>Rest:tabellen</catDesc>
+            </category>
+            <category id="topic.rest.veranstaltungshinweise">
+              <catDesc>Rest:veranstaltungshinweise</catDesc>
+            </category>
+          </category>
+          <category id="topic.sport">
+            <catDesc>Sport</catDesc>
+            <category id="topic.sport.ballsport">
+              <catDesc>Sport:Ballsport</catDesc>
+            </category>
+            <category id="topic.sport.fussball">
+              <catDesc>Sport:Fussball</catDesc>
+            </category>
+            <category id="topic.sport.motorsport">
+              <catDesc>Sport:Motorsport</catDesc>
+            </category>
+            <category id="topic.sport.radsport">
+              <catDesc>Sport:Radsport</catDesc>
+            </category>
+            <category id="topic.sport.tennis">
+              <catDesc>Sport:Tennis</catDesc>
+            </category>
+            <category id="topic.sport.vermischtes">
+              <catDesc>Sport:Vermischtes</catDesc>
+            </category>
+            <category id="topic.sport.wintersport">
+              <catDesc>Sport:Wintersport</catDesc>
+            </category>
+          </category>
+          <category id="topic.staat-gesellschaft">
+            <catDesc>Staat_Gesellschaft</catDesc>
+            <category id="topic.staat-gesellschaft.arbeit-und-beruf">
+              <catDesc>Staat_Gesellschaft:Arbeit_und_Beruf</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.bildung">
+              <catDesc>Staat_Gesellschaft:Bildung</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.biographien-interviews">
+              <catDesc>Staat_Gesellschaft:Biographien_Interviews</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.drittes-reich-rechtsextremismus">
+              <catDesc>Staat_Gesellschaft:Drittes_Reich_Rechtsextremismus</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.familie-geschlecht">
+              <catDesc>Staat_Gesellschaft:Familie_Geschlecht</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.kirche">
+              <catDesc>Staat_Gesellschaft:Kirche</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.recht">
+              <catDesc>Staat_Gesellschaft:Recht</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.tod">
+              <catDesc>Staat_Gesellschaft:Tod</catDesc>
+            </category>
+            <category id="topic.staat-gesellschaft.verbrechen">
+              <catDesc>Staat_Gesellschaft:Verbrechen</catDesc>
+            </category>
+          </category>
+          <category id="topic.technik-industrie">
+            <catDesc>Technik_Industrie</catDesc>
+            <category id="topic.technik-industrie.edv-elektronik">
+              <catDesc>Technik_Industrie:EDV_Elektronik</catDesc>
+            </category>
+            <category id="topic.technik-industrie.kfz">
+              <catDesc>Technik_Industrie:Kfz</catDesc>
+            </category>
+            <category id="topic.technik-industrie.transport-verkehr">
+              <catDesc>Technik_Industrie:Transport_Verkehr</catDesc>
+            </category>
+            <category id="topic.technik-industrie.umweltschutz">
+              <catDesc>Technik_Industrie:Umweltschutz</catDesc>
+            </category>
+            <category id="topic.technik-industrie.unfaelle">
+              <catDesc>Technik_Industrie:Unfaelle</catDesc>
+            </category>
+          </category>
+          <category id="topic.wirtschaft-finanzen">
+            <catDesc>Wirtschaft_Finanzen</catDesc>
+            <category id="topic.wirtschaft-finanzen.banken">
+              <catDesc>Wirtschaft_Finanzen:Banken</catDesc>
+            </category>
+            <category id="topic.wirtschaft-finanzen.bilanzen">
+              <catDesc>Wirtschaft_Finanzen:Bilanzen</catDesc>
+            </category>
+            <category id="topic.wirtschaft-finanzen.oeffentliche-finanzen">
+              <catDesc>Wirtschaft_Finanzen:Oeffentliche_Finanzen</catDesc>
+            </category>
+            <category id="topic.wirtschaft-finanzen.sozialprodukt">
+              <catDesc>Wirtschaft_Finanzen:Sozialprodukt</catDesc>
+            </category>
+            <category id="topic.wirtschaft-finanzen.waehrung">
+              <catDesc>Wirtschaft_Finanzen:Waehrung</catDesc>
+            </category>
+          </category>
+          <category id="topic.wissenschaft">
+            <catDesc>Wissenschaft</catDesc>
+            <category id="topic.wissenschaft.populaerwissenschaft">
+              <catDesc>Wissenschaft:Populaerwissenschaft</catDesc>
+            </category>
+          </category>
+          <category id="topic.unklassifizierbar">
+            <catDesc>Text ist thematisch nicht klassifizierbar.</catDesc>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language id="de" usage="100">Deutsch</language>
+      </langUsage>
+      <textDesc/>
+    </profileDesc>
+  </idsHeader>
+  <idsDoc type="text" version="1.0" TEIform="TEI.2">
+    <idsHeader type="document" pattern="text" status="new" version="1.1" TEIform="teiHeader">
+      <fileDesc>
+        <titleStmt>
+          <dokumentSigle>GOE/AGX</dokumentSigle>
+          <d.title>Goethe: Maximen und Reflexionen, (1827-1842)</d.title>
+        </titleStmt>
+        <publicationStmt>
+          <distributor/>
+          <pubAddress/>
+          <availability region="world">QAO-NC</availability>
+          <pubDate/>
+        </publicationStmt>
+        <sourceDesc>
+          <biblStruct>
+            <monogr>
+              <h.title type="main"/>
+              <edition>
+                <further/>
+                <kind/>
+                <appearance/>
+              </edition>
+              <imprint/>
+            </monogr>
+          </biblStruct>
+        </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+        <creation>
+          <creatDate>1827-1842</creatDate>
+          <creatRef>(Erstveröffentlichung: Stuttgart ; Tübingen, 1827-1842)</creatRef>
+          <creatRefShort>(Erstv. 1827-1842)</creatRefShort>
+        </creation>
+        <textDesc>
+          <textType>Aphorismus</textType>
+          <textTypeRef>Aphorismen</textTypeRef>
+        </textDesc>
+      </profileDesc>
+    </idsHeader>
+    <idsText version="1.0">
+      <idsHeader type="text" pattern="text" status="new" version="1.1" TEIform="teiHeader">
+        <fileDesc>
+          <titleStmt>
+            <textSigle>GOE/AGX.00001</textSigle>
+            <t.title assemblage="regular">GOE/AGX.00001 Goethe: Maximen und Reflexionen. Gott und Natur, [Aphorismen], (Erstv. 1827-1842), In: Goethes Werke, Bd. 12. - München, 1982</t.title>
+          </titleStmt>
+          <publicationStmt>
+            <distributor/>
+            <pubAddress/>
+            <availability region="world">QAO-NC</availability>
+            <pubDate/>
+          </publicationStmt>
+          <sourceDesc>
+            <biblStruct>
+              <analytic>
+                <h.title type="main">Maximen und Reflexionen</h.title>
+                <h.title type="sub">Gott und Natur</h.title>
+                <h.title type="abbr" level="m">Goethe, Werke; Maximen</h.title>
+                <h.title type="abbr" level="a">Goethe: Maximen und Reflexionen. Gott und Natur, [Aphorismen], (Erstv. 1827-1842)</h.title>
+                <h.author>Goethe, Johann Wolfgang von</h.author>
+                <editor/>
+                <imprint/>
+                <biblScope type="subsume"/>
+                <biblScope type="pp">S. 365-372</biblScope>
+                <biblNote n="1">Zur Entstehungszeit siehe Bd. 12, Bibliographie, S. 798, aber auch Nachwort, S. 727 und 738</biblNote>
+              </analytic>
+              <monogr>
+                <h.title type="main"/>
+                <imprint/>
+              </monogr>
+            </biblStruct>
+            <reference type="complete" assemblage="regular">GOE/AGX.00001 Goethe, Johann Wolfgang von: Maximen und Reflexionen. Gott und Natur, [Aphorismen], (Erstveröffentlichung: Stuttgart ; Tübingen, 1827-1842), In: Goethe, Johann Wolfgang von: Goethes Werke, Bd. 12, Schriften zur Kunst. Schriften zur Literatur. Maximen und Reflexionen, Hrsg.: Trunz, Erich. München: Verlag C. H. Beck, 1982, S. 365-372</reference>
+            <reference type="short" assemblage="regular">GOE/AGX.00001 Goethe, Werke; Maximen, (Erstv. 1827-1842), 1982, Bd. 12</reference>
+          </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+          <samplingDecl/>
+          <tagsDecl>
+            <tagUsage gi="pb" occurs="8"/>
+            <tagUsage gi="list" occurs="1"/>
+            <tagUsage gi="s" occurs="86"/>
+          </tagsDecl>
+        </encodingDesc>
+        <profileDesc>
+          <textClass/>
+          <textDesc>
+            <textDomain/>
+          </textDesc>
+        </profileDesc>
+      </idsHeader>
+      <text>
+        <front/>
+        <body>
+          <div n="0" complete="y" type="Aphorismus">
+            <pb id="agx.00001-365-pb365" n="365" TEIform="pb"/>
+            <head type="main">
+              <s>Maximen und Reflexionen</s>
+            </head>
+            <div n="1" complete="y" type="section">
+              <head type="cross">
+                <s type="manual">Gott und Natur.</s>
+              </head>
+              <p><s type="manual"/>
+
+<list type="unordered"><label>1</label><item><s type="manual">"ich glaube einen Gott!" dies ist ein schönes löbliches Wort; aber Gott anerkennen, wo und wie er sich offenbare, das ist eigentlich die Seligkeit auf Erden.</s></item><label>2</label><item><s type="manual">"wer die Natur als göttliches Organ leugnen will, der leugne nur gleich alle Offenbarung".</s></item><label>3</label><item><s type="manual">"die Natur verbirgt Gott!"</s>
+<s type="manual">aber nicht jedem!</s></item><label>4</label><item><s type="manual">die Natur ist immer Jehovah.</s>
+<s type="manual">was sie ist, was sie war, und was sie sein wird.</s></item><label>5</label><item><s type="manual">aus der Natur, nach welcher Seite hin man schaue, entspringt Unendliches.</s></item><label>6</label><item><s type="manual">alle Verhältnisse der Dinge wahr.</s>
+<s type="manual">Irrtum allein in dem Menschen.</s>
+<s type="manual">an ihm nichts wahr, als daß er irrt, sein Verhältnis zu sich, zu andern, zu den Dingen nicht finden kann.</s></item><label>7</label><item><s type="manual">die Natur bekümmert sich nicht um irgendeinen Irrtum; sie selbst kann nicht anders als ewig recht handeln, unbekümmert, was daraus erfolgen möge.</s></item><label>8</label><item><s type="manual">Kepler sagte: "mein höchster Wunsch ist, den Gott, den ich im Äußern überall finde, auch innerlich, innerhalb meiner gleichermaßen gewahr zu werden".</s>
+<s type="manual">der edle Mann fühlte, sich nicht bewußt, daß eben in dem Augenblicke das Göttliche in ihm mit dem Göttlichen des Universums in genauster Verbindung stand.</s></item><label>9</label><item><s type="manual">den teleologischen Beweis vom Dasein Gottes hat die kritische Vernunft beseitigt; wir lassen es uns gefallen.</s>
+<s type="manual">was aber nicht als Beweis gilt, soll uns als Gefühl gelten, und wir rufen daher von der Brontotheologie bis zur Niphotheologie alle dergleichen fromme Bemühungen wieder heran.</s>
+<pb id="agx.00001-366-pb366" n="366" TEIform="pb"/>
+<s type="manual">sollten wir im Blitz, Donner und Sturm nicht die Nähe einer übergewaltigen Macht, in Blutendurft und lauem Luftsäuseln nicht ein liebevoll sich annäherndes Wesen empfinden dürfen?</s></item><label>10</label><item><s type="manual">die vernünftige Welt ist als ein großes unsterbliches Individuum zu betrachten, das unaufhaltsam das Notwendige bewirkt und dadurch sich sogar über das Zufällige zum Herrn macht.</s></item><label>11</label><item><s type="manual">das Wahre ist gottähnlich: es erscheint nicht unmittelbar, wir müssen es aus seinem Manifestationen erraten.</s></item><label>12</label><item><s type="manual">die Idee ist ewig und einzig; daß wir auch den Plural brauchen, ist nicht wohlgetan.</s>
+<s type="manual">alles, was wir gewahr werden und wovon wir reden können, sind nur Manifestationen der Idee; Begriffe sprechen wir aus, und insofern ist die Idee selbst ein Begriff.</s></item><label>13</label><item><s type="manual">was man Idee nennt: das, was immer zur Erscheinung kommt und daher als Gesetz aller Erscheinungen uns entgegentritt.</s></item><label>14</label><item><s type="manual">nur im Höchsten und im Gemeinsten trifft Idee und Erscheinung zusammen; auf allen mittlern Stufen des Betrachtens und Erfahrens trennen sie sich.</s>
+<s type="manual">das Höchste ist das Anschauen des Verschiednen als identisch; das Gemeinste ist die Tat, das aktive Verbinden des Getrennten zur Identität.</s></item><label>15</label><item><s type="manual">Urphänomene: ideal, real, symbolisch, identisch.</s>
+<s type="manual">Empirie: unbegrenzte Vermehrung derselben, Hoffnung der Hülfe daher, Verzweiflung an Vollständigkeit.</s>
+<s type="manual">Urphänomen: ideal als das letzte Erkennbare, real als erkannt, symbolisch, weil es alle Fälle begreift, identisch mit allen Fällen.</s></item><pb id="agx.00001-367-pb367" n="367" TEIform="pb"/><label>16</label><item><s type="manual">das unmittelbare Gewahrwerden der Urphänomene versetzt uns in eine Art von Angst: wir fühlen unsere Unzulänglichkeit; nur durch das ewige Spiel der Empirie belebt, erfreuen sie uns.</s></item><label>17</label><item><s type="manual">vor den Urphänomenen, wenn sie unseren Sinnen enthüllt erschienen, fühlen wir eine Art von Scheu, bis zur Angst.</s>
+<s type="manual">die sinnlichen Menschen retten sich ins Erstaunen; geschwind aber kommt der tätige Kuppler Verstand und will auf seine Weise das Edelste mit dem Gemeinsten vermitteln.</s></item><label>18</label><item><s type="manual">die wahre Vermittlerin ist die Kunst.</s>
+<s type="manual">über Kunst sprechen, heißt die Vermittlerin vermitteln wollen, und doch ist uns daher viel Köstliches erfolgt.</s></item><label>19</label><item><s type="manual">der Magnet ist ein Urphänomen, das man nur aussprechen darf, um es erklärt zu haben; dadurch wird es denn auch ein Symbol für alles übrige, wofür wir keine Worte noch Namen zu suchen brauchen.</s></item><label>20</label><item><s type="manual">wenn ich mich beim Urphänomen zuletzt beruhige, so ist es doch auch nur Resignation; aber es bleibt ein großer Unterschied, ob ich mich an den Grenzen der Menschheit resigniere oder innerhalb einer hypothetischen Beschränktheit meines bornierten Individuums.</s></item><label>21</label><item><s type="manual">Grundeigenschaft der lebendigen Einheit: sich zu trennen, sich zu vereinen, sich ins Allgemeine zu ergehen, im Besonderen zu verharren, sich zu verwandeln, sich zu spezifizieren und, wie das Lebendige unter tausend Bedingungen sich dartun mag, hervorzutreten und zu verschwinden, zu solideszieren und zu schmelzen, zu erstarren und zu fließen, sich auszudehnen und sich zusammenzuziehen.</s>
+<s type="manual">weil nun alle diese Wirkungen im gleichen Zeitmoment zugleich vorgehen, so kann alles und jedes zu gleicher Zeit eintreten.</s>
+<s type="manual">Entstehen und Vergehen, Schaffen und Vernichten, Geburt und Tod, Freud und Leid, alles wirkt durcheinander, in gleichem Sinn und gleicher Maße; deswegen denn auch das Besonderste, das sich ereignet, immer als Bild und Gleichnis des Allgemeinsten auftritt.</s></item><pb id="agx.00001-368-pb368" n="368" TEIform="pb"/><label>22</label><item><s type="manual">das Große, Überkolossale der Natur eignet man so leicht sich nicht an; denn wir haben nicht reine Verkleinerungsgläser, wie wir Linsen haben, um das unendlich Kleine zu gewahren.</s>
+<s type="manual">und da muß man doch noch Augen haben wie Carus und Nees, wenn dem Geiste Vorteil entstehen soll.</s>
+<s type="manual">da jedoch die Natur im Größten wie im Kleinsten sich immer gleich ist und eine jede trübe Scheibe so gut die schöne Bläue darstellt wie die ganze weltüberwölkende Atmosphäre, so find' ich es geraten, auf Musterstücke aufmerksam zu sein und sie vor mir zusammenzulegen.</s>
+<s type="manual">hier nun ist das Ungeheuere nicht verkleinert, sondern im Klenen, und eben so unbegreiflich als im Unendlichen.</s></item><label>23</label><item><s type="manual">jedes Existierende ist ein Analogen alles Existierenden; daher erscheint uns das Dasein immer zu gleicher Zeit gesondert und verknüpft.</s>
+<s type="manual">folgt man der Analogie zu sehr, so fällt alles identisch zusammen; meidet man sie, so zerstreut sich alles ins Unendliche.</s>
+<s type="manual">in beiden Fällen stagniert die Betrachtung, einmal als überlebendig, das andere Mal als getötet.</s></item><label>24</label><item><s type="manual">die Analogie hat zwei Verirrungen zu fürchten: einmal, sich dem Witz hinzugeben, wo sie in nichts zerfließt, die andere, sich mit Tropen und Gleichnissen zu umhüllen, welches jedoch weniger schädlich ist.</s></item><label>25</label><item><s type="manual">Mitteilung durch Analogien halt' ich für so nützlich als angenehm: der analoge Fall will sich nicht aufdringen, nichts beweisen; er stellt sich einem andern entgegen, ohne sich mit ihm zu verbinden.</s>
+<s type="manual">mehrere analoge Fälle vereinigen sich nicht zu geschlossenen Reihen, sie sind wie gute Gesellschaft, die immer mehr anregt als gibt.</s></item><label>26</label><item><s type="manual">nach Analogien denken ist nicht zu schelten: die Analogie hat den Vorteil, daß sie nicht abschließt und eigentlich nichts Letztes will; dagegen die Induktion verderblich ist, die einen vorgesetzten Zweck im Auge trägt und, auf denselben losarbeitend, Falsches und Wahres mit sich fortreißt.</s></item><pb id="agx.00001-369-pb369" n="369" TEIform="pb"/><label>27</label><item><s type="manual">die Natur füllt mit ihrer grenzenlosen Produktivität alle Räume.</s>
+<s type="manual">betrachten wir nur bloß unsre Erde: alles, was wir bös, unglücklich nennen, kommt daher, daß sie nicht allem Entstehenden Raum geben, noch weniger ihm Dauer verleihen kann.</s></item><label>28</label><item><s type="manual">alles, was entsteht, sucht sich Raum und will Dauer; deswegen verdrängt es ein anderes vom Platz und verkürzt seine Dauer.</s></item><label>29</label><item><s type="manual">das Lebendige hat die Gabe, sich nach vielfätigsten Bedingungen äußerer Einflüsse zu bequemen und doch eine gewisse errungene entschiedene Selbständigkeit nicht aufzugeben.</s></item><label>30</label><item><s type="manual">man gedenke der leichten Erregbarkeit aller Wesen, wie der mindeste Wechsel einer Bedingung, jeder Hauch gleich in den Körpern Polarität manifestiert, die eigentlich in ihnen allen schlummert.</s></item><label>31</label><item><s type="manual">Spannung ist der indifferent scheinende Zustand eines energischen Wesens in völliger Bereitschaft, sich zu manifestieren, zu differenzieren, zu polarisieren.</s></item><label>32</label><item><s type="manual">Natur hat zu nichts gesetzmäßige Fähigkeit, was sie nicht gelegentlich ausführte und zutage brächte.</s></item><label>33</label><item><s type="manual">die Vögel sind ganz späte Erzeugnisse der Natur.</s></item><label>34</label><item><s type="manual">nicht allein der freie Stoff, sondern auch das Derbe und Dichte drängt sich zur Gestalt.</s>
+<s type="manual">ganze Massen sind von Natur und Grund aus kristallinisch, in einer gleichgültigen formlosen Masse entsteht durch stöchiometrische Annäherung und Übereinandergreifen die porphyrartige Erscheinung, welche durch alle Formationen durchgeht.</s></item><pb id="agx.00001-370-pb370" n="370" TEIform="pb"/><label>35</label><item><s type="manual">wäre die Natur in ihren leblosen Anfängen nicht so gründlich stereometrisch, wie wollte sie zuletzt zum unberechenbaren und unermeßlichen Leben gelangen?</s></item><label>36</label><item><s type="manual">die schönste Metamorphose des unorganischen Reiches ist, wenn beim Entstehen das Amorphe sich ins Gestaltete verwandelt.</s>
+<s type="manual">jede Masse hat hiezu Trieb und Recht.</s>
+<s type="manual">der Glimmerschiefer verwandelt sich in Granaten und bildet oft Gebirgsmassen, in denen der Glimmer beinahe ganz aufgehoben ist und nur als geringes Bildungsmittel sich zwischen jenen Kristallen befindet.</s></item><label>37</label><item><s type="manual">alle Krstallisationen sind ein realisiertes Kaleidoskop.</s></item><label>38</label><item><s type="manual">Stetigkeit (als) mit (und doch) Gegensatz.</s></item><label>39</label><item><s type="manual">die Natur gerät auf Spezifikationen wie in eine Sackgasse: sie kann nicht durch und mag nicht wieder zurück; daher die Hartnäckigkeit der Nationalbildung.</s></item><label>40</label><item><s type="manual">alle Wirksamkeit ist stärker am Mittelpunkt als gegen die Peripherie zu.</s>
+<s type="manual">Raum zwischen Mars und Jupiter.</s></item><label>41</label><item><s type="manual">große, von Ewigkeit her oder in der Zeit entwickelte ursprüngliche Kräfte wirken unaufhaltsam, ob nutzend oder schadend, das ist zufällig.</s></item><label>42</label><item><s type="manual">"wenn Reisende ein sehr großes Ergötzen auf ihren Bergklettereien empfinden, so ist für mich etwas Barbarisches, ja Gottloses in dieser Leidenschaft.</s>
+<s type="manual">Berge geben uns wohl den Begriff von Naturgewalt, nicht aber von Wohltätigkeit der Vorsehung.</s>
+<s type="manual">zu welchem Gebrauch sind sie wohl dem Menschen?</s>
+<s type="manual">unternimmt er, dort zu wohnen, so wird im Winter eine Schneelawine, im Sommer ein Bergrutsch sein Haus begraben oder fortschieben; seine Herden schwemmt der Gießbach weg, seine Kornscheuern die Windstürme.</s>
+<s type="manual">macht er sich auf den Weg, so ist jeder Aufstieg die Qual des Sisyphus, jeder Niederstieg der Sturz Vulkans; sein Pfad ist täglich von Steinen verschüttet, der Gießbach unwegsam für Schiffahrt.</s>
+<pb id="agx.00001-371-pb371" n="371" TEIform="pb"/>
+<s type="manual">finden auch seine Zwergherden notdürftige Nahrung oder sammelt er sie ihnen kärglich: entweder die Elemente entreißen sie ihm oder wilde Bestien.</s>
+<s type="manual">er führt ein einsam kümmerlich Pflanzenleben wie das Moos auf einem Grabstein, ohne Bequemlichkeit und ohne Gesellschaft.</s>
+<s type="manual">und diese Zickzackkämme, diese widerwärtigen Felsenwände, die ungestalteten Granitpyramiden, welche die schönsten Weltbreiten mit den Schrecknissen des Nordpols bedecken, wie sollte sich ein wohlwollender Mann daran gefallen und ein Menschenfreund sie preisen?"</s></item><label>43</label><item><s type="manual">auf diese heitere Paradoxie eines würdigen Mannes wäre zu sagen, daß, wenn es Gott und der Natur gefallen hätte, den Urgebirgsknoten von Nubien durchaus nach Westen bis an das große Meer zu entwickeln und fortzusetzen, ferner diese Gebirgsreihe einigemal von Norden nach Süden zu durchschneiden, sodann Täler entstanden sein würden, worin gar mancher Urvater Abraham ein Kanaan, mancher Albert Julius eine Felsenburg würde gefunden haben, wo denn seine Nachkommen, leicht mit den Sternen rivalisierend, sich hätten vermehren können.</s></item><label>44</label><item><s type="manual">die Griechen nannten Entelecheia ein Wesen, das immer in Funktion ist.</s></item><label>45</label><item><s type="manual">die Funktion ist das Dasein, in Tätigkeit gedacht.</s></item><label>46</label><item><s type="manual">die Frage über die Instinkte der Tiere läßt sich nur durch den Begriff von Monaden und Entelechien auflösen.</s>
+<s type="manual">jede Monas ist eine Enetelechie, die unter gewissen Bedingungen zur Erscheinung kommt.</s>
+<s type="manual">ein gründliches Studium des Organismus läßt in die Geheimnisse ...</s></item><label>47</label><item><s type="manual">alles Lebendige bildet eine Atmosphäre um sich her.</s></item><pb id="agx.00001-372-pb372" n="372" TEIform="pb"/><label>48</label><item><s type="manual">daß die Natur, die uns zu schaffen macht, gar keine Natur mehr ist, sondern ein ganz anderes Wesen als dasjenige, womit sich die Griechen beschäftigten.</s></item></list></p>
+            </div>
+          </div>
+        </body>
+        <back/>
+      </text>
+    </idsText>
+    <idsText version="1.0">
+      <idsHeader type="text" pattern="text" status="new" version="1.1" TEIform="teiHeader">
+        <fileDesc>
+          <titleStmt>
+            <textSigle>GOE/AGX.00002</textSigle>
+            <t.title assemblage="regular">GOE/AGX.00002 Goethe: Maximen und Reflexionen. Religion und Christentum, [Aphorismen], (Erstv. 1827-1842), In: Goethes Werke, Bd. 12. - München, 1982</t.title>
+          </titleStmt>
+          <publicationStmt>
+            <distributor/>
+            <pubAddress/>
+            <availability region="world">QAO-NC</availability>
+            <pubDate/>
+          </publicationStmt>
+          <sourceDesc>
+            <biblStruct>
+              <analytic>
+                <h.title type="main">Maximen und Reflexionen</h.title>
+                <h.title type="sub">Religion und Christentum</h.title>
+                <h.title type="abbr" level="m">Goethe, Werke; Maximen</h.title>
+                <h.title type="abbr" level="a">Goethe: Maximen und Reflexionen. Religion und Christentum, [Aphorismen], (Erstv. 1827-1842)</h.title>
+                <h.author>Goethe, Johann Wolfgang von</h.author>
+                <editor/>
+                <imprint/>
+                <biblScope type="subsume"/>
+                <biblScope type="pp">S. 372-377</biblScope>
+                <biblNote n="1">Zur Entstehungszeit siehe Bd. 12, Bibliographie, S. 798, aber auch Nachwort, S. 727 und 738</biblNote>
+              </analytic>
+              <monogr>
+                <h.title type="main"/>
+                <imprint/>
+              </monogr>
+            </biblStruct>
+            <reference type="complete" assemblage="regular">GOE/AGX.00002 Goethe, Johann Wolfgang von: Maximen und Reflexionen. Religion und Christentum, [Aphorismen], (Erstveröffentlichung: Stuttgart ; Tübingen, 1827-1842), In: Goethe, Johann Wolfgang von: Goethes Werke, Bd. 12, Schriften zur Kunst. Schriften zur Literatur. Maximen und Reflexionen, Hrsg.: Trunz, Erich. München: Verlag C. H. Beck, 1982, S. 372-377</reference>
+            <reference type="short" assemblage="regular">GOE/AGX.00002 Goethe, Werke; Maximen, (Erstv. 1827-1842), 1982, Bd. 12</reference>
+          </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+          <samplingDecl/>
+          <tagsDecl>
+            <tagUsage gi="pb" occurs="6"/>
+            <tagUsage gi="list" occurs="1"/>
+            <tagUsage gi="s" occurs="65"/>
+            <tagUsage gi="orig" occurs="4"/>
+          </tagsDecl>
+        </encodingDesc>
+        <profileDesc>
+          <textClass/>
+          <textDesc>
+            <textDomain/>
+          </textDesc>
+        </profileDesc>
+      </idsHeader>
+      <text>
+        <front/>
+        <body>
+          <div n="0" complete="y" type="Aphorismus">
+            <pb id="agx.00002-372-pb372" n="372" TEIform="pb"/>
+            <head type="main">
+              <s>Maximen und Reflexionen</s>
+            </head>
+            <div n="1" complete="y" type="section">
+              <head type="cross">
+                <s type="manual">Religion und Christentum.</s>
+              </head>
+              <p><s type="manual"/>
+
+<list type="unordered"><label>49</label><item><s type="manual">wir sind naturforschend Pantheisten, dichtend Polytheisten, sittlich Monotheisten.</s></item><label>50</label><item><s type="manual">Gott, wenn wir hoch stehen, ist alles; stehen wir niedrig, so ist er ein Supplement unsrer Armseligkeit.</s></item><label>51</label><item><s type="manual">die Kreatur ist sehr schwach; denn sucht sie etwas, findet sie's nicht.</s>
+<s type="manual">stark aber ist Gott; denn sucht er die Kreatur, so hat er sie gleich in seiner Hand.</s></item><label>52</label><item><s type="manual">es gibt nur zwei wahre Religionen, die eine, die das Heilige, das in und um uns wohnt, ganz formlos, die andere, die es in der schönsten Form anerkennt und anbetet.</s>
+<s type="manual">alles, was dazwischen liegt, ist Götzendienst.</s></item><label>53</label><item><s type="manual">es ist nicht immer nötig, daß das Wahre sich verkörperte; schon genug, wenn es geistig umherschwebt und Übereinstimmung bewirkt, wenn es wie Glockenton ernst-freundlich durch die Lüfte wogt.</s></item><label>54</label><item><s type="manual">Frömmigkeit ist kein Zweck, sondern ein Mittel, um durch die reinste Gemütsruhe zur höchsten Kultur zu gelangen.</s></item><label>55</label><item><s type="manual">deswegen läßt sich bemerken, daß diejenigen, welche Frömmigkeit als Zweck und Ziel aufstecken, meist Heuchler werden.</s></item><label>56</label><item><s type="manual">Glaube, Liebe, Hoffnung fühlten einst in ruhiger geselliger Stunde einen plastischen Trieb in ihrer Natur; sie befleißigten sich zusammen und schufen ein liebliches Gebild, eine Pandora im höhern Sinne: die Geduld.</s></item><pb id="agx.00002-373-pb373" n="373" TEIform="pb"/><label>57</label><item><s type="manual">höchst bemerkenswert bleibt es immer, daß Menschen, deren Persönlichkeit fast ganz Idee ist, sich so äußerst vor dem Phantastischen scheuen.</s>
+<s type="manual">so war Hamann, dem es unerträglich schien, wenn von Dingen einer andern Welt gesprochen wurde.</s>
+<s type="manual">er drückte sich gelegentlich darüber in einem gewissen Paragraphen aus, den er aber, weil er ihm unzulänglich schien, vierzehnmal variierte und sich doch immer wahrscheinlich nicht genug tat.</s></item><label>58</label><item><s type="manual">der Mensch ist als wirklich in die Mitte einer wirklichen Welt gesetzt und mit solchen Organen begabt, daß er das Wirkliche und nebenbei das Mögliche erkennen und hervorbringen kann.</s>
+<s type="manual">alle gesunden Menschen haben die Überzeugung ihres Daseins und eines Daseienden um sie her.</s>
+<s type="manual">indessen gibt es auch einen hohlen Fleck im Gehirn, das heißt eine Stelle, wo sich kein Gegenstand abspiegelt, wie denn auch im Auge selbst ein Fleckchen ist, das nicht sieht.</s>
+<s type="manual">wird der Mensch auf diese Stelle besonders aufmerksam, vertieft er sich darin, so verfällt er in eine Geisteskrankheit, ahnet hier Dinge aus einer andern Welt, die aber eigentlich Undinge sind und weder Gestalt noch Begrenzung haben, sondern als leere Nacht-Räumlichkeit ängstigen und den, der sich nicht losreißt, mehr als gespensterhaft verfolgen.</s></item><label>59</label><item><s type="manual">es ist nicht zu leugnen, daß der Geist sich durch die Reformation zu befreien suchte; die Aufklärung über griechisches und römisches Altertum brachte den Wunsch, die Sehnsucht nach einem freieren, anständigeren und geschmackvolleren Leben hervor.</s>
+<s type="manual">sie wurde aber nicht wenig dadurch begünstigt, daß das Herz in einen gewissen einfachen Naturzustand zurückzukehren und die Einbildungskraft sich zu konzentrieren trachtete.</s></item><label>60</label><item><s type="manual">aus dem Himmel wurden auf einmal alle Heiligen vertrieben und von einer göttlichen Mutter mit einem zarten Kinde Sinne, Gedanken, Gemüt auf den Erwachsenen, sittlich Wirkenden, ungerecht Leidenden gerichtet, welcher später als Halbgott verklärt, als wirklicher Gott anerkannt und verehrt wurde.</s></item><pb id="agx.00002-374-pb374" n="374" TEIform="pb"/><label>61</label><item><s type="manual">er stand vor einem Hintergrunde, wo der Schöpfer das Weltall ausgebreitet hatte; von ihm ging eine geistige Wirkung aus, seine Leiden eignete man sich als Beispiel zu, und seine Verklärung war das Pfand für eine ewige Dauer.</s></item><label>62</label><item><s type="manual">genau besehen, haben wir uns noch alle Tage zu reformieren und gegen andere zu protestieren, wenn auch nicht im religiösen Sinne.</s></item><label>63</label><item><s type="manual">man streitet viel und wird viel streiten über Nutzen und Schaden der Bibelverbreitung.</s>
+<s type="manual">mir ist klar: schaden wird sie wie bisher, dogmatisch und phantastisch gebraucht; nutzen wie bisher, didaktisch und gefühlvoll aufgenommen.</s></item><label>64</label><item><s type="manual">deshalb ist die Bibel ein ewig wirksames Buch, weil, solange die Welt steht, niemand auftreten und sagen wird: ich begreife es im Ganzen und verstehe es im Einzelnen.</s>
+<s type="manual">wir aber sagen bescheiden: im Ganzen ist es ehrwürdig und im Einzelnen anwendbar.</s></item><label>65</label><item><s type="manual">ich bin überzeugt, daß die Bibel immer schöner wird, je mehr man sie versteht, das heißt, je mehr man einsieht und anschaut, daß jedes Wort, das wir allgemein auffassen und im besonderen auf uns anwenden, nach gewissen Umständen, nach <orig reg="Zeitverhältnissen">Zeit-</orig> und Ortsverhältnissen einen eignen, besondern, unmittelbar individuellen Bezug gehabt hat.</s></item><label>66</label><item><s type="manual">Apokrypha: wichtig wäre es, das hierüber schon Bekannte nochmals zusammenzufassen und zu zeigen, daß gerade jene apokryphischen Schriften, mit denen die Gemeinden schon die ersten Jahrhunderte unserer Ära überschwemmt wurden und woran unser Kanon jetzt noch leidet, die eigentliche Ursache sind, warum das Christentum in keinem Momente der politischen und Kirchengeschichte in seiner ganzen Schönheit und Reinheit hervortreten konnte.</s></item><pb id="agx.00002-375-pb375" n="375" TEIform="pb"/><label>67</label><item><s type="manual">das unheilbare Übel dieser religiosen Streitigkeiten besteht darin, daß der eine Teil auf Märchen und leere Worte das höchste Interesse der Menschheit zurückführen will, der andere aber es da zu begründen denkt, wo sich niemand beruhigt.</s></item><label>68</label><item><s type="manual">das Erhabene, für uns Überhabene, höchst Verehrungswerte, doch, genau besehen, mit einem absurden, ja infamen Empirischen Verbundene macht uns stützig, und man entschließt sich schwer.</s></item><label>69</label><item><s type="manual">daß Christus auf eine Hamletische Weise zugrunde ging, und schlimmer, weil er Menschen um sich berief, die er fallen ließ, da Hamlet bloß als Individuum perierte.</s></item><label>70</label><item><s type="manual">der Mystizismus ist die Scholastik des Herzens, die Dialektik des Gefühls.</s></item><label>71</label><item><s type="manual">ein geistreicher Mann sagte, die neuere Mystik sei die Dialektik des Herzens und deswegen mitunter so erstaunenswert und verführerisch, weil sie Dinge zur Sprache bringe, zu denen der Mensch auf dem gewöhnlichen <orig reg="Verstandswege">Verstands-</orig>, <orig reg="Vernunftswege">Vernunfts-</orig> und Religionswege nicht gelangen würde.</s>
+<s type="manual">wer sich Mut und Kraft glaube, sie zu studieren, ohne sich betäuben zu lassen, der möge sich in diese Höhle des Trophonius versenken, jedoch auf seine eigene Gefahr.</s></item><label>72</label><item><s type="manual">christliche Mystiker sollte es gar nicht geben, da die Religion selbst Mysterien darbietet.</s>
+<s type="manual">auch gehen sie immer gleich ins Abstruse, in den Abgrund des Subjekts.</s></item><label>73</label><item><s type="manual">die orientalische mystische Poesie hat deswegen den großen Vorzug, daß der Reichtum der Welt, den der Adepte wegweist, ihm noch jederzeit zu Gebote steht.</s>
+<s type="manual">er befindet sich also noch immer mitten in der Fülle, die er verläßt, und schwelgt in dem, was er gern los sein möchte.</s></item><label>74</label><item><s type="manual">alle Mystik ist ein Transzendieren und ein Ablösen von irgendeinem Gegenstande, den man hinter sich zu lassen glaubt.</s>
+<pb id="agx.00002-376-pb376" n="376" TEIform="pb"/>
+<s type="manual">je größer und bedeutender dasjenige war, dem man absagt, desto reicher sind die Produktionen des Mystikers.</s></item><label>75</label><item><s type="manual">sobald die guten Werke und das Verdienstliche derselben aufhören, sogleich tritt die Sentimentalität dafür ein, bei den Protestanten.</s></item><label>76</label><item><s type="manual">I convertiti stanno freschi sppresso di me.</s></item><label>77</label><item><s type="manual">alles kommt bei der Mission darauf an, daß der rohe sinnliche Mensch gewahr wird, daß es eine Sitte gebe; daß der leidenschaftliche ungebändigte merkt, daß er Fehler begangen hat, die er sich selbst nicht verzeihen kann.</s>
+<s type="manual">die erste führt zur Annahme zarter Maximen, das letzte auf Glauben einer Versöhnung.</s>
+<s type="manual">alles Mittlere von zufällig scheinenden Übeln wird einer weisen unerforschlichen Führung anheim gegeben.</s></item><label>78</label><item><s type="manual">in Neuyork, sagt man, finden sich neunzig christliche Kirchen abweichender Konfession, und nun wird diese Stadt besonders seit Eröffnung des Eriekanals überschwenglich reich.</s>
+<s type="manual">wahrscheinlich ist man der Überzeugung, daß religiöse Gedanken und Gefühle, von welcher besonderen Art sie auch seien, dem beruhigenden Sonntag angehören, angestrengte Tätigkeit, von frommen Gesinnungen begleitet, den Werkeltagen.</s></item><label>79</label><item><s type="manual">die Ohrenbeichte im besten Sinne ist eine fortgesetzte Katechisation der Erwachsenen.</s></item><label>80</label><item><s type="manual">die Kirche schwächt alles, was sie anrührt.</s></item><label>81</label><item><s type="manual">es gibt Theologen, die wollten, daß es nur einen einzigen Menschen in der Welt gegeben hätte, den Gott erlöst hätte; denn da hätte es keine Ketzer geben können.</s></item><label>82</label><item><s type="manual">die christliche Religion ist eine intentionierte politische Revolution, die, verfehlt, nachher moralisch geworden ist.</s></item><pb id="agx.00002-377-pb377" n="377" TEIform="pb"/><label>83</label><item><s type="manual">das Christentum steht mit dem Judentum in einem weit stärkern Gegensatz als mit dem Heidentum.</s></item><label>84</label><item><s type="manual">was ist praedestinatio?</s>
+<s type="manual">Antwort: Gott ist mächtiger und weiser als wir; darum macht er es mit uns nach seinem Gefallen.</s></item><label>85</label><item><s type="manual">Mythologie: Luxe de croyance.</s></item><label>86</label><item><s type="manual">Religion: Alte; Poesie: Religion der Jugend.</s></item><label>87</label><item><s type="manual">antike Tempel konzentrieren den Gott im Menschen; des Mittelalters Kirchen streben nach dem Gott in der Höhe.</s></item><label>88</label><item><s type="manual">Geheimnisse sind noch keine Wunder.</s></item><label>89</label><item><s type="manual">wenn ein gutes Wort eine gute Statt findet, so findet ein frommes Wort gewiß noch eine bessere.</s></item><label>90</label><item><s type="manual">so wie der Weihrauch einer Kohle Leben erfrischet, so erfrischet das Gebet die Hoffnungen des Herzens.</s></item><label>91</label><item><s type="manual">der Glaube ist ein häuslich heimlich Kapital, wie es öffentliche <orig reg="Sparkassen">Spar-</orig> und Hülfskassen gibt, woraus man in Tagen der Not einzelnen ihr Bedürfnis reicht; hier nimmt der Gläubige sich seine Zinsen im stillen selbst.</s></item><label>92</label><item><s type="manual">Glaube ist Liebe zum Unsichtbaren, Vertrauen aufs Unmögliche, Unwahrscheinliche.</s></item></list></p>
+            </div>
+          </div>
+        </body>
+        <back/>
+      </text>
+    </idsText>
+  </idsDoc>
+</idsCorpus>

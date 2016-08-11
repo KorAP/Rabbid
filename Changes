@@ -5,6 +5,7 @@
         - Remove guttenberg conversion tool.
         - Added id_offset parameter to conversion command.
         - Added import_command test.
+        - Added conversion to import command.
 
 0.4.4 2016-08-08
         - Fixed unicode in extensions (retrieve and store).

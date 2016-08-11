@@ -38,8 +38,9 @@ stdout_is(
 
 my @files = (
   catfile(dirname(__FILE__), 'example', '5322-0.rabbidml'),
-  catfile(dirname(__FILE__), 'example', 'pg5323.rabbidml'),
-  catfile(dirname(__FILE__), 'example', 'pg35312.rabbidml')
+  catfile(dirname(__FILE__), 'example', 'pg35312.rabbidml'),
+  catfile(dirname(__FILE__), 'data', 'goe-example.i5'),
+  catfile(dirname(__FILE__), 'data', 'pg5323.txt')
 );
 
 stdout_like(
@@ -51,7 +52,7 @@ stdout_like(
 
 # Database not initialized
 {
-  $SIG{__WARN__} = sub {};
+  local $SIG{__WARN__} = sub {};
   stdout_like(
     sub { $cmd->run('-f', $files[0], '-f', $files[1], '-c', 'example' )},
     qr/Failed imports: 2/,
@@ -62,17 +63,36 @@ stdout_like(
 # Initialize database
 $app->rabbid_init;
 
+# Import two documents
 stdout_like(
   sub { $cmd->run('-f', $files[0], '-f', $files[1], '-c', 'example' )},
-  qr/(?:Import.+?(?:5322-0|pg5323)\.rabbidml.+?){2}/s,
+  qr/(?:Import.+?(?:5322-0|pg35312)\.rabbidml.+?){2}/s,
   'Show Import of two files'
 );
 
-#stdout_like(
-#  sub { $cmd->run('-f', $files[0], '-c', 'example', '-x',  )},
-#  qr/(?:Import.+?(?:5322-0|pg5323)\.rabbidml.+?){2}/s,
-#  'Show Import of two files'
-#);
+# I5
+{
+  local $SIG{__WARN__} = sub {};
+  stdout_like(
+    sub { $cmd->run('-f', $files[2], '-c', 'example', '-x', 'I5' )},
+    qr!Failed imports: 1!,
+    'Fail to import one document due to non-unique uids'
+  );
+
+  # Guttenberg
+  stdout_like(
+    sub { $cmd->run('-f', $files[3], '-c', 'example', '-x', 'Guttenberg', )},
+    qr!Failed imports: 1!,
+    'Fail to import Guttenberg document'
+  );
+};
+
+# Guttenberg
+stdout_like(
+  sub { $cmd->run('-f', $files[3], '-c', 'example', '-x', 'Guttenberg', '-id', 6)},
+  qr!Convert.*Import.*Done!s,
+  'Import Guttenberg document'
+);
 
 
 

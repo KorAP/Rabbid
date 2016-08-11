@@ -72,7 +72,7 @@ sub add {
       return 1;
     }
   )) {
-    $self->log->error('Corpus database probably not initialized') if $self->log;
+    $self->log->error('Document ID not unique or database not initialized') if $self->log;
     return;
   };
 

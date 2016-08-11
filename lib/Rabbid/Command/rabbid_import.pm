@@ -1,5 +1,6 @@
 package Rabbid::Command::rabbid_import;
 use Mojo::Base 'Mojolicious::Command';
+use Mojo::Loader qw/load_class/;
 use Mojo::Util qw/quote/;
 use File::Temp qw/tempfile tempdir/;
 
@@ -18,7 +19,8 @@ sub run {
     'f|file=s'   => \@files,
     'd|dir=s'    => \my $dir,
     'c|corpus=s' => \(my $corpus = 'default'),
-    'x|conversion=s' => \(my $conversion_class)
+    'x|conversion=s' => \(my $conversion_class),
+    'id|id_offset=i' => \(my $id_offset = 1)
   );
 
   print $self->usage and return unless ($dir || @files);
@@ -62,7 +64,7 @@ sub run {
         input     => $_,
         output    => $temp_out,
         log       => $app->log,
-        # id_offset => $id_offset
+        id_offset => $id_offset
       );
 
       # Run conversion
@@ -75,7 +77,7 @@ sub run {
             print "Import $name\n";
           }
           else {
-            $app->log->error("Unable to import $name");
+            print "Unable to import $name\n";
             $errors++;
           };
         }
@@ -91,7 +93,7 @@ sub run {
         print 'Import ' . quote($_) . qq!\n!;
       }
       else {
-        $app->log->error('Unable to import ' . quote($_));
+        print 'Unable to import ' . quote($_) . "\n";
         $errors++;
       };
     };
@@ -134,6 +136,9 @@ Rabbid::Command::rabbid_import - Import RabbidML files
 
   --dir|d
     A directory to import from.
+
+  --id_offset|-id
+    ID offset, defaults to 1. Only used in conjunction with the x flag.
 
 =head DESCRIPTION
 

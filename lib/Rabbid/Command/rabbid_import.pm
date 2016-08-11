@@ -1,6 +1,7 @@
 package Rabbid::Command::rabbid_import;
 use Mojo::Base 'Mojolicious::Command';
 use Mojo::Util qw/quote/;
+use File::Temp qw/tempfile tempdir/;
 
 use Getopt::Long qw/GetOptionsFromArray :config no_auto_abbrev no_ignore_case/;
 
@@ -16,7 +17,8 @@ sub run {
     \@args,
     'f|file=s'   => \@files,
     'd|dir=s'    => \my $dir,
-    'c|corpus=s' => \(my $corpus = 'default')
+    'c|corpus=s' => \(my $corpus = 'default'),
+    'x|conversion=s' => \(my $conversion_class)
   );
 
   print $self->usage and return unless ($dir || @files);
@@ -26,6 +28,7 @@ sub run {
 
   my $errors = 0;
 
+  # Grrep files from directory
   if ($dir) {
     my @dirfiles;
     if (opendir(DIR, $dir)) {
@@ -39,13 +42,58 @@ sub run {
     push @files, @dirfiles;
   };
 
-  foreach (grep { -f } @files) {
-    if ($app->rabbid_import($corpus => $_)) {
-      print 'Import ' . quote($_) . qq!.\n!;
-    }
-    else {
-      $app->log->error('Unable to import ' . quote($_));
-      $errors++;
+  # Convert and import files
+  if ($conversion_class) {
+    my @rabbid_files = ();
+
+    # Load conversion class
+    $conversion_class = 'Rabbid::Convert::' . $conversion_class;
+    if (load_class($conversion_class)) {
+      warn 'Unable to load conversion class ' . $conversion_class;
+      return;
+    };
+
+    # Create temporary directory
+    my $temp_out = tempdir;
+
+    # Configure converter
+    foreach (grep { -f } @files) {
+      my $converter = $conversion_class->new(
+        input     => $_,
+        output    => $temp_out,
+        log       => $app->log,
+        # id_offset => $id_offset
+      );
+
+      # Run conversion
+      $converter->convert(
+        sub {
+          my $file = shift;
+          my $name = quote($file);
+          print "Convert $name\n";
+          if ($app->rabbid_import($corpus => $file)) {
+            print "Import $name\n";
+          }
+          else {
+            $app->log->error("Unable to import $name");
+            $errors++;
+          };
+        }
+      );
+    };
+  }
+
+  # Import RabbidML files
+  else {
+
+    foreach (grep { -f } @files) {
+      if ($app->rabbid_import($corpus => $_)) {
+        print 'Import ' . quote($_) . qq!\n!;
+      }
+      else {
+        $app->log->error('Unable to import ' . quote($_));
+        $errors++;
+      };
     };
   };
 
@@ -55,7 +103,9 @@ sub run {
   $app->log->level('error');
 };
 
+
 1;
+
 
 __END__
 

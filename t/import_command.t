@@ -38,7 +38,8 @@ stdout_is(
 
 my @files = (
   catfile(dirname(__FILE__), 'example', '5322-0.rabbidml'),
-  catfile(dirname(__FILE__), 'example', 'pg5323.rabbidml')
+  catfile(dirname(__FILE__), 'example', 'pg5323.rabbidml'),
+  catfile(dirname(__FILE__), 'example', 'pg35312.rabbidml')
 );
 
 stdout_like(
@@ -66,6 +67,13 @@ stdout_like(
   qr/(?:Import.+?(?:5322-0|pg5323)\.rabbidml.+?){2}/s,
   'Show Import of two files'
 );
+
+#stdout_like(
+#  sub { $cmd->run('-f', $files[0], '-c', 'example', '-x',  )},
+#  qr/(?:Import.+?(?:5322-0|pg5323)\.rabbidml.+?){2}/s,
+#  'Show Import of two files'
+#);
+
 
 
 done_testing;

@@ -49,7 +49,7 @@ sub run {
   $converter->convert(
     sub {
       my $file = shift;
-      print "Converted $file\n";
+      print "Convert $file\n";
     }
   );
 };

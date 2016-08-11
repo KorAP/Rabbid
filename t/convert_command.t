@@ -30,7 +30,7 @@ my $file = catfile(dirname(__FILE__), 'data', 'goe-example.i5');
 
 stdout_like(
   sub { $cmd->run('-f', $file)},
-  qr/(?:Converted.+?goe-agx-0000[12]\.rabbidml.+?){2}/s,
+  qr/(?:Convert.+?goe-agx-0000[12]\.rabbidml.+?){2}/s,
   'Convert I5'
 );
 
@@ -45,7 +45,7 @@ stderr_like(
 
 my $output = stdout_from(sub { $cmd->run('-f', $file, '-x', 'Guttenberg') });
 
-my $pattern = qr!Converted (.+?pg5323\.rabbidml)!;
+my $pattern = qr!Convert (.+?pg5323\.rabbidml)!;
 like($output, $pattern, 'Convert Guttenberg');
 $output =~ $pattern;
 
@@ -58,7 +58,7 @@ $file = catfile(dirname(__FILE__), 'data', '5322-0.txt');
 
 $output = stdout_from(sub { $cmd->run('-f', $file, '-x', 'Guttenberg', '-id', 3) });
 
-$pattern = qr!Converted (.+?5322-0\.rabbidml)!;
+$pattern = qr!Convert (.+?5322-0\.rabbidml)!;
 like($output, $pattern, 'Convert Guttenberg');
 $output =~ $pattern;
 

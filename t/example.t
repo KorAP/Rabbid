@@ -16,7 +16,7 @@ my $app = $t->app;
 $app->rabbid_init;
 
 sub _p {
-  return catfile(dirname(__FILE__), 'example', $_[0] . '.html');
+  return catfile(dirname(__FILE__), 'example', $_[0] . '.rabbidml');
 };
 
 # Woyzeck

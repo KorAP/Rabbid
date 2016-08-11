@@ -11,48 +11,48 @@ has usage       => sub { shift->extract_usage };
 sub run {
   my ($self, @args) = @_;
 
+  my @files;
   GetOptionsFromArray(
     \@args,
-    'f|file=s' => \my $file,
-    'd|dir=s' => \my $dir,
-    'c|corpus=s'  => \(my $corpus = 'default')
+    'f|file=s'   => \@files,
+    'd|dir=s'    => \my $dir,
+    'c|corpus=s' => \(my $corpus = 'default')
   );
 
-  print $self->usage and return unless ($dir || $file);
+  print $self->usage and return unless ($dir || @files);
 
   my $app = $self->app;
+  my $level = $app->log->level;
 
-  if ($file) {
-    if ($app->rabbid_import($corpus => $file)) {
-      print 'Import ' . quote($file) . qq!.\n!;
-    }
-    else {
-      $app->log->warn('Unable to import ' . quote($file));
-    };
-  };
+  my $errors = 0;
 
   if ($dir) {
-    my @files;
+    my @dirfiles;
     if (opendir(DIR, $dir)) {
-      @files = map { $dir . '/' . $_ } readdir(DIR);
+      @dirfiles = map { $dir . '/' . $_ } readdir(DIR);
       closedir(DIR);
     }
     else {
-      $app->log->warn('Unable to open directory ' . quote($dir));
-      return;
+      $app->log->error('Unable to open directory ' . quote($dir));
+      $errors++;
     };
+    push @files, @dirfiles;
+  };
 
-    foreach $file (grep { -f } @files) {
-      if ($app->rabbid_import($corpus => $file)) {
-	print 'Import ' . quote($file) . qq!.\n!;
-      }
-      else {
-	$app->log->warn('Unable to import ' . quote($file));
-      };
+  foreach (grep { -f } @files) {
+    if ($app->rabbid_import($corpus => $_)) {
+      print 'Import ' . quote($_) . qq!.\n!;
+    }
+    else {
+      $app->log->error('Unable to import ' . quote($_));
+      $errors++;
     };
   };
 
+  print "Failed imports: $errors\n" if $errors;
   print "Done.\n\n";
+
+  $app->log->level('error');
 };
 
 1;
@@ -77,13 +77,13 @@ Rabbid::Command::rabbid_import - Import RabbidML files
   Expects the following parameters
 
   --corpus|c
-    The corpus handle as defined in the configuration
+    The corpus handle as defined in the configuration.
 
   --file|f
-    A file to import
+    A file to import. Can be defined multiple times.
 
   --dir|d
-    A directory to import from
+    A directory to import from.
 
 =head DESCRIPTION
 

@@ -9,7 +9,7 @@ use File::Basename 'dirname';
 use File::Spec::Functions qw/catdir catfile/;
 
 use DBIx::Oro;
-my $file = catfile(dirname(__FILE__), 'data', 'text1.html'),
+my $file = catfile(dirname(__FILE__), 'data', 'text1.rabbidml'),
 
 use_ok('Rabbid::Corpus');
 

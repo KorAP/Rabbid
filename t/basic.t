@@ -36,7 +36,7 @@ $t->get_ok('/corpus')
 my $app = $t->app;
 my @files = ();
 foreach (qw/text1 text2/) {
-  push @files, catfile(dirname(__FILE__), 'data', $_ . '.html');
+  push @files, catfile(dirname(__FILE__), 'data', $_ . '.rabbidml');
 };
 ok($app->rabbid_import('example' => @files), 'Import example data');
 

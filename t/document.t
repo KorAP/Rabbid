@@ -6,7 +6,7 @@ use lib '../lib', 'lib';
 use File::Basename 'dirname';
 use File::Spec::Functions qw/catdir catfile/;
 
-my $file = catfile(dirname(__FILE__), 'data', 'text1.html');
+my $file = catfile(dirname(__FILE__), 'data', 'text1.rabbidml');
 
 use_ok('Rabbid::Document');
 
@@ -48,7 +48,7 @@ ok($doc->snippet(1)->id != $doc->snippet(2)->id, 'Identifier change');
 
 
 # Text with pagebreaks
-$file = catfile(dirname(__FILE__), 'data', 'text3.html');
+$file = catfile(dirname(__FILE__), 'data', 'text3.rabbidml');
 
 ok($doc = Rabbid::Document->new($file), 'Load document');
 

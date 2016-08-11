@@ -5,7 +5,9 @@ use Mojo::Base -base;
 use Mojo::ByteStream 'b';
 use Data::Dumper;
 use Scalar::Util 'blessed';
+use Mojo::Log;
 
+has 'log';
 has 'oro';
 has 'chi';
 has 'schema';
@@ -21,7 +23,7 @@ sub add {
   my $inserts = 0;
 
   # Start transaction
-  $self->oro->txn(
+  unless ($self->oro->txn(
     sub {
       my $oro = shift;
 
@@ -67,8 +69,12 @@ sub add {
 				# Insert succesful
 				$inserts++;
       };
+      return 1;
     }
-  ) or return;
+  )) {
+    $self->log->error('Corpus database probably not initialized') if $self->log;
+    return;
+  };
 
   # Clean associated cache
   $self->chi->clear;

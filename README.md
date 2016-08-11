@@ -27,7 +27,10 @@ $ cd Rabbid
 ### Generate Static Asset Files
 
 To generate the static asset files (scripts, styles, images ...),
-you need NodeJS > 0.8. This will probably need administration
+you need NodeJS > 0.8.
+For processing Sass, you will need Ruby with
+the sass gem in addition.
+This will probably need administration
 rights.
 
 ```
@@ -77,7 +80,7 @@ First you may want to import the example corpus from ```t/example/```:
 $ perl script/rabbid rabbid_import -c example -d t/example
 ```
 
-Rabbid can then be deployed like all
+Rabbid can be deployed like all
 [Mojolicious apps](http://mojolicio.us/perldoc/Mojolicious/Guides/Cookbook#DEPLOYMENT).
 The easiest way is to start the built-in server:
 
@@ -96,6 +99,10 @@ elements. In the body only ```<p />``` elements are of relevance -
 they divide the text body into snippets used by Rabbid.
 Optional ```<span />``` elements can be used to subdivide long paragraphs
 in shorter snippets.
+Optional pagebreaks may be given in the form of empty
+``<br class="pb" data-after="1" />``` elements, with the ```data-after``` attribute
+telling the page number following the element.
+
 An example document may look like this:
 
 ``` html
@@ -112,14 +119,24 @@ An example document may look like this:
     <p>This is an example text.</p>
     <p>Each paragraph resembles one snippet in Rabbid's view.</p>
     <p>
-	  <span>Long paragraphs can be subdivided.</span>
-	  <span>By using the span element, each span makes one snippet.</span>
-	</p>
+      <span>Long paragraphs can be subdivided.</span>
+      <span>By using the span element, each span makes one snippet.</span>
+    </p>
     <p>The End.</p>
   </body>
 </html>
 
 ```
+
+### Tools
+
+To convert documents to Rabbidml, see
+
+```
+$ perl script/rabbid rabbid_convert
+```
+
+Currently supported input formats include I5 and the Guttenberg Project format.
 
 
 ### Bugs and Caveats

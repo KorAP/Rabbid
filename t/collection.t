@@ -18,7 +18,7 @@ $t->app->rabbid_init;
 
 my @files = ();
 foreach (qw/text1 text2/) {
-  push @files, catfile(dirname(__FILE__), 'data', $_ . '.html');
+  push @files, catfile(dirname(__FILE__), 'data', $_ . '.rabbidml');
 };
 ok($app->rabbid_import('example' => @files), 'Import example data');
 
@@ -47,7 +47,8 @@ $t->post_ok('/corpus/2/3' => json => {
   ->json_is('/doc_id', 2)
   ->json_is('/coll_id', undef)
   ->json_is('/para', 3)
-  ->json_is('/leftExt', 0);
+  ->json_is('/leftExt', 0)
+  ;
 
 # Repeatedly store in collection
 $t->post_ok('/corpus/2/3' => json => {
@@ -157,7 +158,7 @@ $t->get_ok('/collection/2')
 
 
 # Example for large collection
-ok($app->rabbid_import('example' => catfile(dirname(__FILE__), 'example', 'pg38780.html')), 'Import example data');
+ok($app->rabbid_import('example' => catfile(dirname(__FILE__), 'example', 'pg38780.rabbidml')), 'Import example data');
 
 # Check tests
 my $q = 'ist';

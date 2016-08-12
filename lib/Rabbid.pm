@@ -1,35 +1,42 @@
 package Rabbid;
 use Mojo::Base 'Mojolicious';
+use Mojo::ByteStream 'b';
+use Mojo::JSON qw/decode_json/;
 
-our $VERSION = '0.5.0';
+our $VERSION = '0.5';
 
 # This method will run once at server start
 sub startup {
   my $self = shift;
 
+  # Set version based on package file
+  # This may introduce a SemVer patch number
+  my $pkg = b($self->home . '/package.json')->slurp;
+  $Rabbid::VERSION = decode_json($pkg)->{version};
+
   # Use configuration with default parameter
   $self->plugin('Config' => {
     default => {
       'TagHelpers::Pagination' => {
-	separator => '',
-	ellipsis => '<span class="ellipsis">...</span>',
-	current => '<span class="current">[{current}]</span>',
-	page => '<span class="page-nr">{page}</span>',
-	next => '<span>&gt;</span>',
-	prev => '<span>&lt;</span>'
+        separator => '',
+        ellipsis => '<span class="ellipsis">...</span>',
+        current => '<span class="current">[{current}]</span>',
+        page => '<span class="page-nr">{page}</span>',
+        next => '<span>&gt;</span>',
+        prev => '<span>&lt;</span>'
       },
       'Oro::Viewer' => {
-	default_count => 25,
-	max_count => 100
+        default_count => 25,
+        max_count => 100
       },
       Notifications => {
-	Alertify => 1
+        Alertify => 1
       },
       CHI => {
-	default => {
-	  driver => 'Memory',
-	  global => 1
-	}
+        default => {
+          driver => 'Memory',
+          global => 1
+        }
       }
     }
   });
@@ -55,14 +62,14 @@ sub startup {
       my $host = $c->req->headers->header('X-Forwarded-Host');
       if ($host && $host eq 'korap.ids-mannheim.de') {
 
-	# Set Rabbid path and correct host and port information
-	my $base = $c->req->url->base;
-	$base->path('/' . $path . '/');
-	$base->host($host);
-	$base->port(undef);
+        # Set Rabbid path and correct host and port information
+        my $base = $c->req->url->base;
+        $base->path('/' . $path . '/');
+        $base->host($host);
+        $base->port(undef);
 
-	# Prefix is used for static assets
-	$c->stash(prefix => '/' . $path);
+        # Prefix is used for static assets
+        $c->stash(prefix => '/' . $path);
       };
     }) if $self->mode eq 'production';
 

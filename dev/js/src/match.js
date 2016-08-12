@@ -169,13 +169,13 @@ define(["snippet"], function (snippetClass) {
       // Get a para some positions before the current one
       var para = this.para;
       para -= this._leftExt.length + 1;
-
+      
       // If the para is out of the range, throw an error
       if (para < 0) {
 				alertify.log("Keine weitere Erweiterungen", "note", 3000);
 				return;
       };
-      
+
       // Get the paragraph object
       this.getSnippet(para, function (snippet) {
 				this.prependExtension(snippet);
@@ -227,21 +227,31 @@ define(["snippet"], function (snippetClass) {
     
     // Prepend extension
     prependExtension : function (ext) {
+      console.log("+++>");
+
       this.open();
-      
+
       var before;
       if (this._leftExt.length > 0)
 				before = this.getLeftestSnippet().element();
       else
 				before = this._leftExtButtons.nextSibling;
-      
+
       this._leftExt.push(ext);
 
-      // Prepend to the leftest extension
-      before.parentNode.insertBefore(
-				ext.element(),
-				before
-      );
+      // There is an element to put before
+      if (before !== null) {
+
+        // Prepend to the leftest extension
+        before.parentNode.insertBefore(
+				  ext.element(),
+				  before
+        );
+      }
+      else {
+        // Initialize context with left extension
+        this._leftContext.appendChild(ext.element());
+      }
     },
 
     // Prepend extension
@@ -325,6 +335,7 @@ define(["snippet"], function (snippetClass) {
 				
 				// Add buttons
 				this._leftExtButtons = this._createLeftButtons();
+
 				this._leftContext.insertBefore(
 					this._leftExtButtons,
 					this._leftContext.firstChild

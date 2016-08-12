@@ -36,6 +36,24 @@ function matchLiFactory2 () {
   return matchUl.getElementsByTagName('li')[0];
 };
 
+function matchLiFactory3 () {
+  var matchUl = document.createElement('div').appendChild(document.createElement('ul'));
+  matchUl.innerHTML = '<li data-end-page="0" data-start-page="0" data-marks="2 0 0 3 2 0 18 3 2 0 68 3" data-para="25" data-id="3" class="flip" tabindex="0">' +
+    '  <div>' +
+    '    <div class="flag"></div>' +
+    '    <div class="snippet">' +
+    '      <span class="context-left"></span>' +
+    '        <span class="match"><mark>Der</mark> Wettbewerb in <mark>der</mark> Gaswirtschaft hat noch gar nicht begonnen, in <mark>der</mark></span>' +
+    '        <span class="context-right"></span>' +
+    '      </span>' +
+    '    </div>' +
+    '    <p class="ref">Hustedt, Michaele: Energiewirtschaft;</p>' +
+    '  </div>' +
+    '</li>';
+  return matchUl.getElementsByTagName('li')[0];
+};
+
+
 /*
   for (var prop in defaults) {
   newObj[prop] = defaults[prop];
@@ -133,7 +151,7 @@ define(['match', 'snippet'], function (matchClass, snippetClass) {
       expect(matchLi.querySelector("div.snippet > span:first-of-type").classList.contains('context-left')).toBeTruthy();
       expect(matchLi.querySelector("div.snippet > span:first-of-type > span:first-of-type").classList.contains('buttons')).toBeTruthy();
     });
-
+    
     it('should extend right correctly', function () {
 
       var matchLi = matchLiFactory();
@@ -164,6 +182,33 @@ define(['match', 'snippet'], function (matchClass, snippetClass) {
       expect(matchLi.querySelector("div.snippet > span:last-of-type > span:last-of-type").classList.contains('buttons')).toBeTruthy();
     });
 
+    it('should extend correctly (no contexts)', function () {
+      var matchLi = matchLiFactory3();
+      var match = matchClass.create(matchLi);
+
+      match.sendJSON = function () {};
+      match.getSnippet = function (paraNumber, cb) {
+				cb(snippetClass.create({
+					"content" : "abc[" + paraNumber + "]",
+					"in_doc_id" : 1,
+					"para" : paraNumber,
+					"next" : paraNumber + 1,
+					"previous" : paraNumber - 1
+				}));
+      };
+
+      expect(match.extendLeft()).toBeTruthy();
+      expect(matchLi.querySelector("div.snippet span.context-left").textContent)
+				.toEqual("abc[24]");
+      expect(match.extendLeft()).toBeTruthy();
+      expect(matchLi.querySelector("div.snippet span.context-left").textContent)
+				.toEqual("abc[23]abc[24]");
+      expect(match.extendRight()).toBeTruthy();
+      expect(matchLi.querySelector("div.snippet span.context-right").textContent)
+				.toEqual("abc[26]");
+    });
+    
+    
     it('should collapse left correctly', function () {
 
       var matchLi = matchLiFactory();

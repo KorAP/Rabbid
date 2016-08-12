@@ -25,9 +25,9 @@ my @files = $c->convert;
 
 is(scalar @files, 1, 'One document converted');
 
-ok(-e $files[0], 'One document loadable');
+ok(-e $files[0]->[0], 'One document loadable');
 
-my $dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]);
+my $dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]->[0]);
 
 ok($dom, 'File is parsed');
 

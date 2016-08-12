@@ -2,10 +2,13 @@ package Rabbid::Plugin::RabbidHelpers;
 use Mojo::Base 'Mojolicious::Plugin';
 use Mojo::ByteStream 'b';
 use Mojo::Util qw/xml_escape encode decode/;
+use Mojo::JSON qw/true false/;
 use DBIx::Oro;
 use Lingua::Stem::UniNE::DE qw/stem_de/;
 use Rabbid::Corpus;
 require Rabbid::Analyzer;
+
+# Todo: Support final mark
 
 # Register plugin to establish helpers
 sub register {
@@ -103,6 +106,7 @@ sub register {
     }
   );
 
+  # Extend the results based on the retrieved snippets
   $app->helper(
     extend_result => sub {
       my $c = shift;
@@ -152,20 +156,12 @@ sub register {
 					if ($_->{para} < $r->{para}) {
 						$c->prepare_paragraph($_);
 						push(@{$r->{left}}, $_); # b($_->{content})->decode);
-				#		delete $r->{previous} unless $_->{previous};
 					}
 
 					# This is part of the right context
 					else {
 						$c->prepare_paragraph($_);
 						push(@{$r->{right}}, $_); # b($_->{content})->decode);
-
-						#if (!defined $r->{next} && defined $_->{next}) {
-						#	$r->{next} = $_->{next};
-						#}
-						#elsif (defined $_->{next}) {
-					#		$r->{next} = $_->{next} > $r->{next} ? $_->{next} : $r->{next};
-				#		};
 					};
 				};
       };
@@ -225,12 +221,7 @@ sub register {
 
 					# Extend to the left
 					my $left = '<span class="context-left">';
-					# if ($para->{previous}) {
-					#	  $left .= '<span class="buttons">';
-					#	  $left .= '<span class="extend left"></span>';
-					#	  $left .= '<span class="collapse left"></span>';
-					#	  $left .= '</span>';
-					# };
+
 					if ($para->{left}) {
 						# $left .= '<span class="collapse left button"></span>';
 						foreach (@{$para->{left}}) {
@@ -252,23 +243,17 @@ sub register {
 							$right .= ' data-end-page="' . $_->{end_page} . '"' if $_->{end_page};
 							$right .= '>' . xml_escape(b($_->{content})->decode) . '</span>';
 						};
-						# $right .= '<span class="collapse right button"></span>';
 					};
-					# if ($para->{next}) {
-					#	  $right .= '<span class="buttons">';
-					#	  $right .= '<span class="collapse right"></span>';
-					#	  $right .= '<span class="extend right"></span>';
-					#	  $right .= '</span>';
-					#}
-					#else {
+
 					$right .= '</span>';
-					#};
 
 					# Prepare marks for match spans
-					unless ($text =~ s!^(.*?)(<mark>.+</mark>)(.*?)$!${left}$1</span><span class="match">$2</span><span class="context-right">$3${right}!o) {
-						$text = "${left}</span><span class=\"match\">" .
-							$text .
-							"</span><span class=\"context-right\">${right}";
+					unless ($text =~ s!^(.*?)(<mark>.+</mark>)(.*?)$!
+            ${left}$1</span><span class="match">$2</span>
+            <span class="context-right">$3${right}!ox) {
+						$text = "${left}</span>".
+              "<span class=\"match\">${text}</span>".
+              "<span class=\"context-right\">${right}";
 					};
 					$para->{content} = $text;
 					$c->convert_pagebreaks_html($para);
@@ -299,11 +284,9 @@ sub register {
       my $para = pop;
 
       # Last parameter in document
-
-# Todo: Reintroduce as "nomore"
-#      unless ($para->{content} =~ s/###$//) {
-#				$para->{next} = $para->{para} + 1;
-#      };
+      if ($para->{content} =~ s/###$//) {
+				$para->{final} = Mojo::JSON->true;
+      };
 
       # No line break in para
       if ($para->{content} =~ s/~~~$//) {
@@ -318,11 +301,6 @@ sub register {
 
       # Remove the final whitespace, added for the tokenizer
       $para->{content} =~ s/\s$//;
-
-      # There is a previous paragraph
-      #unless ($para->{para} == 0) {
-			#	$para->{previous} = $para->{para} - 1;
-      #};
       return $para;
     }
   );
@@ -335,6 +313,7 @@ sub register {
 
 
 # Initialize collection database
+# This should be in Rabbid::Collection
 sub _init_collection_db {
   my $oro = shift;
 

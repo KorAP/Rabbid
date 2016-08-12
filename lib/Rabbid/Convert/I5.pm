@@ -137,12 +137,12 @@ sub convert {
 
           # Release callback
           if ($cb) {
-            $cb->($new_file);
+            $cb->($new_file, $doc_id);
           }
 
           # Push to return value
           else {
-            push @files, $new_file;
+            push @files, [$new_file, $doc_id];
           };
         }
         else {

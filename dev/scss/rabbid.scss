@@ -717,12 +717,24 @@ li.active span {
     padding: 2pt 5pt;
   }
   &.ext {
-    // margin-left: .5em;
+    margin-left: .3em;
     &:not(.nobr)::after {
       content: '';
       display: block;
 			margin-bottom: .7rem;
     }
+/*
+    &.nobr {
+      padding-right: .3rem;
+    }
+*/
+  }
+}
+
+li.active {
+  span.ext:not(.nobr) + span.ext,
+  span.buttons + span.ext {
+    margin-left: 0 !important;
   }
 }
 

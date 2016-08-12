@@ -70,11 +70,13 @@ sub run {
       # Run conversion
       $converter->convert(
         sub {
-          my $file = shift;
+          my ($file, $id) = @_;
           my $name = quote($file);
+
           print "Convert $name\n";
           if ($app->rabbid_import($corpus => $file)) {
             print "Import $name\n";
+            $id_offset = $id;
           }
           else {
             print "Unable to import $name\n";

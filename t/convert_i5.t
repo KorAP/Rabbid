@@ -26,11 +26,11 @@ is(scalar @files, 3, 'Three documents converted');
 
 my $x = 0;
 foreach (@files) {
-  $x++ if (-e $_);
+  $x++ if (-e $_->[0]);
 };
 is($x, 3, 'Three documents loadable');
 
-my $dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]);
+my $dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]->[0]);
 
 ok($dom, 'File is parsed');
 is($dom->at('title')->text, 'Energiewirtschaft');
@@ -43,7 +43,7 @@ ok($dom->at('meta[name=doc_id][content=1]'), 'Element exists');
 is($dom->at('meta[name=doc_title]')->attr('content'), encode('utf-8', "Reden der Bundestagsfraktion Bündnis 90/DIE GRÜNEN, (2002-2006)"), 'Element exists');
 is($dom->find('p')->[2]->find('span')->[2]->text, encode('UTF-8', 'Die schnelle Verabschiedung dieses Gesetzes ist notwendig, da wir immer noch säumig sind in der Umsetzung der EU-Gasrichtlinie.'), 'Text');
 
-$dom = Mojo::DOM->new->xml(1)->parse(slurp $files[1]);
+$dom = Mojo::DOM->new->xml(1)->parse(slurp $files[1]->[0]);
 ok($dom, 'File is parsed');
 is($dom->at('title')->text, 'Insolvenzantrag Kirch Media AG');
 ok($dom->at('meta[name=doc_id][content=2]'), 'Doc id');
@@ -62,11 +62,11 @@ is(scalar @files, 2, 'Two documents converted');
 
 $x = 0;
 foreach (@files) {
-  $x++ if (-e $_);
+  $x++ if (-e $_->[0]);
 };
 is($x, 2, 'Three documents loadable');
 
-$dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]);
+$dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]->[0]);
 ok($dom, 'File is parsed');
 is($dom->at('title')->text, 'Maximen und Reflexionen');
 ok($dom->at('meta[name=corpus_sigle][content=GOE]'), 'Element exists');

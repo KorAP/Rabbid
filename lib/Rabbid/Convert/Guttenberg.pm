@@ -12,8 +12,6 @@ sub convert {
 
 	my $doc_id = $self->{id_offset} // 1;
 
-	my @files = ();
-
   my $text = b($self->{input})->slurp;
 
   my ($end, $content) = (0, 0);
@@ -108,13 +106,12 @@ sub convert {
 
     $log->debug("File $new_file converted");
 
-
     if ($cb) {
-      $cb->($new_file);
+      $cb->($new_file, $doc_id);
       return;
     };
 
-    return ($new_file);
+    return [$new_file, $doc_id];
   }
   else {
     $log->warn('Unable to open ' . $new_file);

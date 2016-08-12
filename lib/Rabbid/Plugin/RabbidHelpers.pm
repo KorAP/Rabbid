@@ -222,9 +222,16 @@ sub register {
 					# Extend to the left
 					my $left = '<span class="context-left">';
 
-					if ($para->{left}) {
-						# $left .= '<span class="collapse left button"></span>';
-						foreach (@{$para->{left}}) {
+          if ($para->{start_page}) {
+            $para->{start_page_ext} = $para->{start_page};
+            $para->{end_page_ext} = $para->{end_page};
+          };
+
+          if ($para->{left}) {
+            my $first = $para->{left}->[0];
+            $para->{start_page_ext} = $first->{start_page} if $first->{start_page};
+
+            foreach (@{$para->{left}}) {
 							$left .= '<span class="ext';
 							$left .= ' nobr' if $_->{nobr};
 							$left .= '"';
@@ -236,6 +243,9 @@ sub register {
 					# Extend to the right
 					my $right = '';
 					if ($para->{right}) {
+            my $last = $para->{right}->[-1];
+            $para->{end_page_ext} = $last->{end_page} if $last->{end_page};
+
 						foreach (@{$para->{right}}) {
 							$right .= '<span class="ext';
 							$right .= ' nobr' if $_->{nobr};

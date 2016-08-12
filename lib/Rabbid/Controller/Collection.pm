@@ -50,8 +50,8 @@ sub index {
     template   => 'collections',
     collection => c(@$colls)->map(
       sub {
-	$_->{q} = b($_->{q})->decode;
-	$_;
+        $_->{q} = b($_->{q})->decode;
+        $_;
       })
   );
 };
@@ -98,15 +98,15 @@ sub collection {
   my $result = $oro->select(
     [
       Doc => [qw/author year title domain genre polDir file/] => {
-	doc_id => 1
+        doc_id => 1
       },
       Snippet => [qw/left_ext right_ext marks/] => {
-	in_doc_id => 1,
-	para => 2
+        in_doc_id => 1,
+        para => 2
       },
       Text => [qw/content in_doc_id para/] => {
-	in_doc_id => 1,
-	para => 2
+        in_doc_id => 1,
+        para => 2
       }
     ] => {
       in_coll_id => $coll_id,
@@ -169,9 +169,9 @@ sub store {
 
       # Merge and retrieve collection
       $oro->merge(
-	Collection => {
-	  last_modified => \"datetime('now')"
-	} => $constraint
+        Collection => {
+          last_modified => \"datetime('now')"
+        } => $constraint
       );
 
       # $c->notify(warn => 'Hui: ' . $oro->last_sql . $c->dumper($oro->select('Collection')));
@@ -180,28 +180,28 @@ sub store {
       my $coll_id = $oro->load(Collection => $constraint);
 
       if ($coll_id) {
-	$coll_id = $coll_id->{coll_id};
+        $coll_id = $coll_id->{coll_id};
       }
       else {
-	$c->notify(error => 'Unable to create collection');
-	return -1;
+        $c->notify(error => 'Unable to create collection');
+        return -1;
       };
 
       # Todo: Check if leftExt and rightExt are numbers
       if ($oro->merge(
-	Snippet => {
-	  left_ext  => $json->{leftExt}  // 0,
-	  right_ext => $json->{rightExt} // 0,
-	  marks     => $json->{marks}    // undef
-	},
-	{
-	  in_doc_id  => $doc_id,
-	  in_coll_id => $coll_id,
-	  para       => $para
-	}
+        Snippet => {
+          left_ext  => $json->{leftExt}  // 0,
+          right_ext => $json->{rightExt} // 0,
+          marks     => $json->{marks}    // undef
+        },
+        {
+          in_doc_id  => $doc_id,
+          in_coll_id => $coll_id,
+          para       => $para
+        }
       )) {
-	# Everything is fine
-	return 1;
+        # Everything is fine
+        return 1;
       };
 
       # Something failed - role back
@@ -232,7 +232,8 @@ sub _export_to_excel {
   my ($c, $query, $result) = @_;
 
   # Header data
-  my @header = qw/author title year domain genre polDir file/;
+  # TODO: Use corpus schema
+  my @header = qw/author title year domain genre polDir file page/;
 
   # Initialize table
   my @table = ['snippet', @header];
@@ -241,11 +242,25 @@ sub _export_to_excel {
   foreach my $res (@$result) {
     my $content = $res->{content};
     $content =~ s!\<mark\>(.*?)\<\/mark\>![$1]!g; # Make markup less HTMLy
-    $content =~ s!\<\/?span[^>]*?\>!!g; # Remove markup
+
+    # Remove multiple whitespaces
+    $content =~ s!\s\s+! !g;
+
+    # Remove markup
+    $content =~ s!\<\/?span[^>]*?\>!!g;
+
     my @row = ($content);
 
+    if ($res->{start_page_ext}) {
+      $res->{page} = $res->{start_page_ext};
+      if ($res->{start_page_ext} != $res->{end_page_ext}) {
+        $res->{page} .= '-' . $res->{end_page_ext};
+      };
+    };
+
     # Append further values to table
-    push(@row, $res->{$_}) foreach @header;
+    push(@row, $res->{$_} // undef) foreach @header;
+
 
     # Append row to table
     push @table, \@row;
@@ -282,16 +297,22 @@ sub _export_to_rtf {
   # Iterate over results
   foreach my $res (@$result) {
     my $content = $res->{content};
-    $content =~ s!\<\/?span[^>]*?\>!!g; # Remove markup
 
+    # Remove multiple whitespaces
+    $content =~ s!\s\s+! !g;
+
+    # Remove markup
+    $content =~ s!\<\/?span[^>]*?\>!!g;
+
+    # Transform markup
     $content = b($content)->split(qr/(<\/?mark>)/)->map(
       sub {
-	if ($_ eq '<mark>') {
-	  return \'{\b\ul';
-	} elsif ($_ eq '</mark>') {
-	  return \'}';
-	};
-	return $_;
+        if ($_ eq '<mark>') {
+          return \'{\b\ul';
+        } elsif ($_ eq '</mark>') {
+          return \'}';
+        };
+        return $_;
       });
 
     # Write content
@@ -312,6 +333,10 @@ sub _export_to_rtf {
     if ($res->{domain} || $res->{genre} || $res->{polDir}) {
       chop $meta[-1];
       chop $meta[-1];
+    };
+
+    if ($res->{start_page_ext}) {
+      push @meta, '(S. ' . $res->{start_page_ext} . '-' . $res->{end_page_ext} . ')';
     };
 
     # Todo:
@@ -337,13 +362,10 @@ sub _export_to_rtf {
     filename => 'Belegstellen-' . unquote($query) . '.rtf',
     content_disposition => 'inline'
   );
-
-
   # Give the file a name
   # $c->res->headers->content_disposition(
   #   'inline; filename="Belegstellen-' . unquote($query) . '.rtf"'
   # );
-
 };
 
 

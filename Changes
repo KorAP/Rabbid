@@ -1,5 +1,6 @@
-0.5.1 2016-08-12
-        - Fixed left extensions for non-context matches.  
+0.5.1 2016-08-13
+        - Fixed left extensions for non-context matches.
+        - Separation of Rabbid::Collection.
 
 0.5.0 2016-08-12
         - Improved I5 Conversion.

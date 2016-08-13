@@ -469,11 +469,11 @@ ol > li:not(.active) { // :not(:focus) {
     text-align: right;
     width: 50.01%;
   }
-  p.ref {
-    display: none;
-  }
   .match mark {
     color: inherit;
+  }
+  p.ref {
+    display: none;
   }
 }
 
@@ -510,22 +510,24 @@ p.ref {
   color: $ids-pink-2;
 }
 
-.match {
-  padding-left: 4pt;
-  padding-right: 2pt;
-}
+span {
+  &.match {
+    padding-left: 4pt;
+    padding-right: 2pt;
+  }
 
-.match mark {
-  color: $ids-pink-1;
-  font-weight: bold;
-}
+  &.match mark {
+    color: $ids-pink-1;
+    font-weight: bold;
+  }
 
-.context-left {
-  margin-left: 0;
-  display: inline;
-  overflow: visible;
-  text-align: left;
-  width: auto;
+  &.context-left {
+    margin-left: 0;
+    display: inline;
+    overflow: visible;
+    text-align: left;
+    width: auto;
+  }
 }
 
 /**
@@ -650,14 +652,6 @@ fieldset {
   }
 
   // MultiUser:
-/*
-  .acct-login input[type=submit] {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-  }
-*/
   .acct-login input {
     display: inline-block;
   }
@@ -698,17 +692,6 @@ input[type=submit] {
   color: $ids-pink-1;
 }
 
-// Extensions
-/*
-span.ext {
-  display: block;
-  &.nobr {
-    margin-left: .5em;
-    display: inline;
-  }
-}
-*/
-
 li.active span {
 	font-size: 1rem;
 	line-height: 1.4rem;
@@ -723,11 +706,6 @@ li.active span {
       display: block;
 			margin-bottom: .7rem;
     }
-/*
-    &.nobr {
-      padding-right: .3rem;
-    }
-*/
   }
 }
 

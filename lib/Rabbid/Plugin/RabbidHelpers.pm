@@ -6,6 +6,7 @@ use Mojo::JSON qw/true false/;
 use DBIx::Oro;
 use Lingua::Stem::UniNE::DE qw/stem_de/;
 use Rabbid::Corpus;
+use Rabbid::Collection;
 require Rabbid::Analyzer;
 
 # Todo: Support final mark
@@ -14,20 +15,31 @@ require Rabbid::Analyzer;
 sub register {
   my ($plugin, $app) = @_;
 
-  $app->hook(
-    on_rabbid_init => sub {
-      unless (_init_collection_db($app->oro('coll') // $app->oro)) {
-				$app->log->error('Unable to initialize collection database');
-      };
-    }
-  );
-
   # Initialize rabbid databases
   $app->helper(
     rabbid_init => sub {
       $app->plugins->emit_hook('on_rabbid_init');
     }
   );
+
+  $app->hook(
+    on_rabbid_init => sub {
+      my $rabbid_collection = $app->rabbid_collection;
+      unless ($rabbid_collection->init) {
+				$app->log->error('Unable to initialize collection database');
+      };
+    }
+  );
+
+  $app->helper(
+    rabbid_collection => sub {
+      my $c = shift;
+      return Rabbid::Collection->new(
+        oro => $c->oro($app->oro('coll')) // $app->oro
+      );
+    }
+  );
+
 
   # Add links to navigation line
   my @navigation;
@@ -320,63 +332,6 @@ sub register {
     stem => sub { return stem_de pop }
   );
 };
-
-
-# Initialize collection database
-# This should be in Rabbid::Collection
-sub _init_collection_db {
-  my $oro = shift;
-
-  $oro->txn(
-    sub {
-      # Create collection table
-      $oro->do(<<'SQL') or return -1;
-CREATE TABLE Collection (
-  coll_id       INTEGER PRIMARY KEY,
-  user_id       INTEGER,
-  last_modified INTEGER,
-  q             TEXT
-)
-SQL
-
-      # Indices on collection table
-      foreach (qw/coll_id user_id q last_modified/) {
-	$oro->do(<<"SQL") or return -1;
-CREATE INDEX IF NOT EXISTS ${_}_i ON Collection ($_)
-SQL
-      };
-      $oro->do(<<"SQL") or return -1;
-CREATE UNIQUE INDEX IF NOT EXISTS coll_i ON Collection (user_id, q)
-SQL
-
-      # Create snippet table
-      $oro->do(<<'SQL') or return -1;
-CREATE TABLE Snippet (
-  in_coll_id INTEGER,
-  in_doc_id  INTEGER,
-  para       INTEGER,
-  left_ext   INTEGER,
-  right_ext  INTEGER,
-  marks      TEXT
-)
-SQL
-
-      # Indices on snippet table
-      foreach (qw/in_doc_id in_coll_id para/) {
-	$oro->do(<<"SQL") or return -1;
-CREATE INDEX IF NOT EXISTS ${_}_i ON Snippet ($_)
-SQL
-      };
-      $oro->do(<<"SQL") or return -1;
-CREATE UNIQUE INDEX IF NOT EXISTS all_i ON Snippet (in_doc_id, para, in_coll_id)
-SQL
-
-    }
-  ) or return;
-
-  return 1;
-};
-
 
 
 1;

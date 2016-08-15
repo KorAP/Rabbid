@@ -45,7 +45,7 @@ $t->post_ok('/corpus/2/3' => json => {
   ->json_is('/marks', '2 0 0 8')
   ->json_is('/rightExt', 0)
   ->json_is('/doc_id', 2)
-  ->json_is('/coll_id', undef)
+  ->json_is('/coll_id', 1)
   ->json_is('/para', 3)
   ->json_is('/leftExt', 0)
   ;
@@ -62,7 +62,7 @@ $t->post_ok('/corpus/2/3' => json => {
   ->json_is('/marks', '2 0 0 8')
   ->json_is('/rightExt', 0)
   ->json_is('/doc_id', 2)
-  ->json_is('/coll_id', undef)
+  ->json_is('/coll_id', 1)
   ->json_is('/para', 3)
   ->json_is('/leftExt', 0);
 
@@ -78,7 +78,7 @@ $t->post_ok('/corpus/1/4' => json => {
   ->json_is('/marks', '2 0 0 8')
   ->json_is('/rightExt', 0)
   ->json_is('/doc_id', 1)
-  ->json_is('/coll_id', undef)
+  ->json_is('/coll_id', 1)
   ->json_is('/para', 4)
   ->json_is('/leftExt', 0);
 
@@ -123,7 +123,7 @@ $t->post_ok('/corpus/1/1' => json => {
   ->json_is('/marks', '2 0 36 6')
   ->json_is('/rightExt', 1)
   ->json_is('/doc_id', 1)
-  ->json_is('/coll_id', undef)
+  ->json_is('/coll_id', 2)
   ->json_is('/para', 1)
   ->json_is('/leftExt', 0);
 
@@ -153,9 +153,6 @@ $t->get_ok('/collection/2')
   ->text_is('li[data-id=1] span mark', 'Rabbid')
   ->text_is('li[data-id=1] span.ext', 'Nichts weiter - öhrlich!')
   ;
-
-
-
 
 # Example for large collection
 ok($app->rabbid_import('example' => catfile(dirname(__FILE__), 'example', 'pg38780.rabbidml')), 'Import example data');

@@ -13,7 +13,7 @@ WriteMakefile(
   PREREQ_PM => {
     'Mojolicious' => '6.11',
     'Mojolicious::Plugin::ReplyTable' => 0.04,
-    'Mojolicious::Plugin::RenderFile' => 0,
+    'Mojolicious::Plugin::RenderFile' => 0.10,
     'Mojolicious::Plugin::Notifications' => 0.09,
     'Mojolicious::Plugin::MailException' => 0.19,
     'Mojolicious::Plugin::CHI' => 0.11,

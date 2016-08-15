@@ -2,57 +2,27 @@ package Rabbid::Controller::Collection;
 use Mojo::Base 'Mojolicious::Controller';
 use Mojo::Util qw/quote unquote encode/;
 use Mojo::ByteStream 'b';
-use Mojo::Collection 'c';
 use Rabbid::Util;
 use RTF::Writer;
 require Rabbid::Analyzer;
 
-# TODO: Export page numbers
-
 my $items = 20;
 
-sub _count {
-  my $c = shift;
-  my $coll_id = shift;
-
-  return $c->oro->count(
-    Snippet => {
-      in_coll_id => $coll_id
-    }
-  );
-};
 
 # View all collections
 sub index {
   my $c = shift;
 
+  # Get user id
   my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
 
-  my $oro = $c->oro or return $c->reply->not_found;
-
-  # Retrieve all collections from the user
-  my $colls = $c->oro->select(
-    [
-      Collection => [qw/q coll_id:id/] => {
-	coll_id => 1
-      },
-      Snippet => ['count(rowid):samples'] => {
-	in_coll_id => 1
-      }
-    ] => {
-      user_id => $user_id,
-      -order_by => [qw/-last_modified/],
-      -group_by => ['id']
-    });
+  # Get collection object
+  my $coll = $c->rabbid_collection(user_id => $user_id) or return $c->reply->not_found;
 
   # Show all collections
   return $c->render(
     template   => 'collections',
-    collection => c(@$colls)->map(
-      sub {
-        $_->{q} = b($_->{q})->decode;
-        $_;
-      })
+    collection => $coll->list_all
   );
 };
 
@@ -60,59 +30,30 @@ sub index {
 # View one collection
 sub collection {
   my $c = shift;
+  my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
   my $coll_id = $c->stash('coll_id');
 
-  my $oro = $c->oro;
-  my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
+  # Gett collection
+  my $coll = $c->rabbid_collection(
+    user_id => $user_id,
+    id => $coll_id
+  ) or return $c->reply->not_found;
 
-  # Get collection based on id
-  # This is only to ensure the user has this collection
-  my $coll = $oro->load(Collection => [qw/q/] => {
-    coll_id => $coll_id,
-    user_id => $user_id
-  });
+  # Get query string
+  my $query = $coll->query;
 
-  # Not found the collection
-  return $c->reply->not_found unless $coll;
-
-  # Get query from collection
-  my $query = b($coll->{q})->decode;
-
-  my $count = $c->_count($coll_id);
-  $c->stash(totalResults => $count);
-  $c->stash(itemsPerPage => $items);
-  $c->stash(totalPages => Rabbid::Util::total_pages($count, $items));
-
-  my %args = (
-    -limit => $items
-  );
+  # Use validator
+  my $offset = (($c->param('page') * $items) - $items) if $c->param('page');
 
   # Set paging
-  if ($c->param('page')) {
-    $args{-offset} = ($c->param('page') * $items) - $items,
-  };
+  my $result = $coll->load(
+    limit => $items,
+    offset => $offset
+  );
 
-  # TODO: Use filtering!
-
-  # Retrieve all snippets
-  my $result = $oro->select(
-    [
-      Doc => [qw/author year title domain genre polDir file/] => {
-        doc_id => 1
-      },
-      Snippet => [qw/left_ext right_ext marks/] => {
-        in_doc_id => 1,
-        para => 2
-      },
-      Text => [qw/content in_doc_id para/] => {
-        in_doc_id => 1,
-        para => 2
-      }
-    ] => {
-      in_coll_id => $coll_id,
-      -order => [qw/in_doc_id para/],
-      %args
-    });
+  $c->stash(totalResults => $coll->snippet_count);
+  $c->stash(itemsPerPage => $items);
+  $c->stash(totalPages => Rabbid::Util::total_pages($coll->snippet_count, $items));
 
   $c->extend_result($result);
   $c->prepare_result($result);
@@ -143,77 +84,40 @@ sub collection {
 sub store {
   my $c = shift;
 
-  # Get user provided data
-  my $doc_id  = $c->stash('doc_id');
-  my $para    = $c->stash('para');
-  my $json    = $c->req->json;
+  # Check for user_id
   my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
+
+  # Get user provided data
+  my $json = $c->req->json;
 
   # No query submitted
   return $c->reply->not_found unless $json->{q};
 
-  my $oro = $c->oro;
+  # Create collection object
+  my $coll = $c->rabbid_collection(
+    user_id => $user_id
+  );
+
+  # Set query
+  $coll->query($json->{q});
+
+  my $doc_id = $c->stash('doc_id');
+  my $para   = $c->stash('para');
 
   # Collection constrained:
-  my $constraint = {
-    user_id => $user_id,
-    q       => $json->{q}
-  };
-
-  my $coll_id;
-
-  # Start transaction
-  $oro->txn(
-    sub {
-      my $oro = shift;
-
-      # Merge and retrieve collection
-      $oro->merge(
-        Collection => {
-          last_modified => \"datetime('now')"
-        } => $constraint
-      );
-
-      # $c->notify(warn => 'Hui: ' . $oro->last_sql . $c->dumper($oro->select('Collection')));
-
-      # Gett collection id
-      my $coll_id = $oro->load(Collection => $constraint);
-
-      if ($coll_id) {
-        $coll_id = $coll_id->{coll_id};
-      }
-      else {
-        $c->notify(error => 'Unable to create collection');
-        return -1;
-      };
-
-      # Todo: Check if leftExt and rightExt are numbers
-      if ($oro->merge(
-        Snippet => {
-          left_ext  => $json->{leftExt}  // 0,
-          right_ext => $json->{rightExt} // 0,
-          marks     => $json->{marks}    // undef
-        },
-        {
-          in_doc_id  => $doc_id,
-          in_coll_id => $coll_id,
-          para       => $para
-        }
-      )) {
-        # Everything is fine
-        return 1;
-      };
-
-      # Something failed - role back
-      return -1;
-    }
+  $coll->store(
+    doc_id    => $doc_id,
+    para      => $para,
+    leftExt   => $json->{leftExt},
+    rightExt  => $json->{rightExt},
+    marks     => $json->{marks}
   ) or return $c->reply->not_found;
 
   # Create response json
   my %response = (
     msg     => 'stored',
     doc_id  => $doc_id,
-    coll_id => $coll_id,
+    coll_id => $coll->id,
     para    => $para
   );
 
@@ -222,7 +126,7 @@ sub store {
     $response{$_} = $json->{$_} if exists $json->{$_};
   };
 
-  # Everything is stored - party!!
+  # Everything is stored
   return $c->render(json => \%response);
 };
 
@@ -260,7 +164,6 @@ sub _export_to_excel {
 
     # Append further values to table
     push(@row, $res->{$_} // undef) foreach @header;
-
 
     # Append row to table
     push @table, \@row;
@@ -352,7 +255,6 @@ sub _export_to_rtf {
 
   # Add page numbers
   $rtf->number_pages($query . ': ');
-
   $rtf->close;
 
   # https://metacpan.org/module/Mojolicious::Plugin::RenderFile
@@ -362,12 +264,7 @@ sub _export_to_rtf {
     filename => 'Belegstellen-' . unquote($query) . '.rtf',
     content_disposition => 'inline'
   );
-  # Give the file a name
-  # $c->res->headers->content_disposition(
-  #   'inline; filename="Belegstellen-' . unquote($query) . '.rtf"'
-  # );
 };
-
 
 
 1;

@@ -35,7 +35,8 @@ sub register {
     rabbid_collection => sub {
       my $c = shift;
       return Rabbid::Collection->new(
-        oro => $c->oro($app->oro('coll')) // $app->oro
+        oro => $c->oro($app->oro('coll')) // $app->oro,
+        @_
       );
     }
   );
@@ -79,6 +80,7 @@ sub register {
 
 
   # Move query parameters to hidden form fields
+  # TODO: Check security implications!
   $app->helper(
     hidden_parameters => sub {
       my $c = shift;

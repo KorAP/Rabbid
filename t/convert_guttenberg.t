@@ -41,5 +41,13 @@ is($dom->find('p')->[2]->text, encode('UTF-8', 'Erstes Kapitel'), 'Text');
 like($dom->find('p')->[4]->at('span')->text, qr/Herrenhauses/, 'Text');
 is($dom->find('p')->[7]->text, encode('UTF-8', '»Möchtest du\'s?«'), 'Text');
 
+my $node = $dom->at('body')->next_node;
+while ($node && $node->type ne 'comment') {
+  $node = $node->next_node;
+};
+
+unlike($node->content, qr/--/, 'Comment node');
+like($node->content, qr!&#151;!, 'Comment node');
+
 done_testing;
 __END__

@@ -39,7 +39,7 @@ PROLOG
   $string .= '    <title>' . $title . "</title>\n";
 
   if ($hash->{comment}) {
-    $string .= '  <!-- ' . xml_escape($hash->{comment}) . " -->\n";
+    $string .= '  <!-- ' . _uncomment(xml_escape($hash->{comment})) . " -->\n";
   };
 
   foreach (keys %$hash) {
@@ -62,9 +62,14 @@ sub get_epilogue {
   my $self = shift;
   my $comment = shift;
   if ($comment) {
-    $comment = "  <!--\n" . xml_escape($comment) . "\n  -->\n";
+    $comment = "  <!--\n" . _uncomment(xml_escape($comment)) . "\n  -->\n";
   };
   return "  </body>\n" . ($comment // '') . '</html>';
+};
+
+sub _uncomment {
+  $_[0] =~ s/--/\&#151;/g;
+  $_[0];
 };
 
 1;

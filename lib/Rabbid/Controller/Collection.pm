@@ -17,7 +17,7 @@ sub index {
   my $user_id = $c->rabbid_acct->id or return $c->reply->not_found;
 
   # Get collection object
-  my $coll = $c->rabbid_collection(user_id => $user_id) or return $c->reply->not_found;
+  my $coll = $c->rabbid->collection(user_id => $user_id) or return $c->reply->not_found;
 
   # Show all collections
   return $c->render(
@@ -34,7 +34,7 @@ sub collection {
   my $coll_id = $c->stash('coll_id');
 
   # Gett collection
-  my $coll = $c->rabbid_collection(
+  my $coll = $c->rabbid->collection(
     user_id => $user_id,
     id => $coll_id
   ) or return $c->reply->not_found;
@@ -94,7 +94,7 @@ sub store {
   return $c->reply->not_found unless $json->{q};
 
   # Create collection object
-  my $coll = $c->rabbid_collection(
+  my $coll = $c->rabbid->collection(
     user_id => $user_id
   );
 

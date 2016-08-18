@@ -24,7 +24,7 @@ sub register {
 
   $app->hook(
     on_rabbid_init => sub {
-      my $rabbid_collection = $app->rabbid_collection;
+      my $rabbid_collection = $app->rabbid->collection;
       unless ($rabbid_collection->init) {
 				$app->log->error('Unable to initialize collection database');
       };
@@ -32,7 +32,7 @@ sub register {
   );
 
   $app->helper(
-    rabbid_collection => sub {
+    'rabbid.collection' => sub {
       my $c = shift;
       return Rabbid::Collection->new(
         oro => $c->oro($app->oro('coll')) // $app->oro,

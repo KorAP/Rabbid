@@ -20,7 +20,7 @@ sub _p {
 };
 
 # Woyzeck
-ok($app->rabbid_import('example' => _p('5322-0')), 'Import example data');
+ok($app->rabbid->import('example' => _p('5322-0')), 'Import example data');
 
 $t->get_ok('/corpus')
   ->status_is(200)
@@ -34,7 +34,7 @@ $t->get_ok('/search?q=Liebe')
 
 
 # Effi Briest
-ok($app->rabbid_import('example' => _p('pg5323')), 'Import example data');
+ok($app->rabbid->import('example' => _p('pg5323')), 'Import example data');
 
 $t->get_ok('/corpus')
   ->status_is(200)
@@ -58,14 +58,14 @@ $t->get_ok('/search?q=Liebe')
   ->text_is('ol.kwic li[data-para=161] mark', 'Liebe')
 ;
 
-ok($app->rabbid_import('example' => _p('pg38780')), 'Import example data');
+ok($app->rabbid->import('example' => _p('pg38780')), 'Import example data');
 
 $t->get_ok('/corpus')
   ->text_like('tbody tr:nth-of-type(2) td:nth-of-type(3)', qr/zufälligen Makulaturblättern/)
   ->text_is('tbody tr:nth-of-type(3) td:nth-of-type(2)', 'Georg Büchner')
 ;
 
-# ok($app->rabbid_import('example' => _p('pg35312')), 'Import example data');
+# ok($app->rabbid->import('example' => _p('pg35312')), 'Import example data');
 
 done_testing;
 

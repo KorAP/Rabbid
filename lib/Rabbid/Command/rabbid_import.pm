@@ -74,7 +74,7 @@ sub run {
           my $name = quote($file);
 
           print "Convert $name\n";
-          if ($app->rabbid_import($corpus => $file)) {
+          if ($app->rabbid->import($corpus => $file)) {
             print "Import $name\n";
             $id_offset = $id;
           }
@@ -91,7 +91,7 @@ sub run {
   else {
 
     foreach (grep { -f } @files) {
-      if ($app->rabbid_import($corpus => $_)) {
+      if ($app->rabbid->import($corpus => $_)) {
         print 'Import ' . quote($_) . qq!\n!;
       }
       else {

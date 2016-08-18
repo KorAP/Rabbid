@@ -15,7 +15,7 @@ $t->app->rabbid_init;
 
 # Add example data
 my $app = $t->app;
-ok($app->rabbid_import('example' => catfile(dirname(__FILE__), 'data/text3.rabbidml')), 'Import example data');
+ok($app->rabbid->import('example' => catfile(dirname(__FILE__), 'data/text3.rabbidml')), 'Import example data');
 
 # Check tests
 $t->get_ok('/search?q=Liebe')

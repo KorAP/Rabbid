@@ -38,7 +38,7 @@ my @files = ();
 foreach (qw/text1 text2/) {
   push @files, catfile(dirname(__FILE__), 'data', $_ . '.rabbidml');
 };
-ok($app->rabbid_import('example' => @files), 'Import example data');
+ok($app->rabbid->import('example' => @files), 'Import example data');
 
 $t->get_ok('/corpus')
   ->status_is(200)

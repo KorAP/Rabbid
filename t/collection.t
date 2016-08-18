@@ -20,7 +20,7 @@ my @files = ();
 foreach (qw/text1 text2/) {
   push @files, catfile(dirname(__FILE__), 'data', $_ . '.rabbidml');
 };
-ok($app->rabbid_import('example' => @files), 'Import example data');
+ok($app->rabbid->import('example' => @files), 'Import example data');
 
 # Check tests
 $t->get_ok('/search?q=tschüß')
@@ -155,7 +155,7 @@ $t->get_ok('/collection/2')
   ;
 
 # Example for large collection
-ok($app->rabbid_import('example' => catfile(dirname(__FILE__), 'example', 'pg38780.rabbidml')), 'Import example data');
+ok($app->rabbid->import('example' => catfile(dirname(__FILE__), 'example', 'pg38780.rabbidml')), 'Import example data');
 
 # Check tests
 my $q = 'ist';

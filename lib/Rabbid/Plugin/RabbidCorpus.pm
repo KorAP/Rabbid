@@ -18,7 +18,7 @@ sub register {
       };
 
       foreach (keys %$corpora) {
-        my $rabbid_corpus = $app->rabbid_corpus($_) or next;
+        my $rabbid_corpus = $app->rabbid->corpus($_) or next;
         $rabbid_corpus->init;
       }
     }
@@ -26,7 +26,7 @@ sub register {
 
   # TODO: Collect corpora in a meaningful way
   $app->helper(
-    rabbid_corpus => sub {
+    'rabbid.corpus' => sub {
       my $c = shift;
 
       # Get corpus definitions from configuration
@@ -75,10 +75,10 @@ sub register {
   );
 
   $app->helper(
-    rabbid_import => sub {
+    'rabbid.import' => sub {
       my $c = shift;
 
-      my $rabbid_corpus = $c->rabbid_corpus(shift) or return;
+      my $rabbid_corpus = $c->rabbid->corpus(shift) or return;
 
       # Add files to corpus
       foreach (@_) {

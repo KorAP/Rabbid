@@ -11,7 +11,7 @@ $ENV{MOJO_MODE} = 'test';
 
 my $t = Test::Mojo->new('Rabbid');
 
-$t->app->rabbid_init;
+$t->app->rabbid->init;
 
 $t->get_ok('/')
   ->status_is(200)

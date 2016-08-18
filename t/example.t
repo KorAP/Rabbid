@@ -13,7 +13,7 @@ my $t = Test::Mojo->new('Rabbid');
 
 # Add example data
 my $app = $t->app;
-$app->rabbid_init;
+$app->rabbid->init;
 
 sub _p {
   return catfile(dirname(__FILE__), 'example', $_[0] . '.rabbidml');

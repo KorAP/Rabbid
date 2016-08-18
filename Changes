@@ -1,7 +1,8 @@
 0.5.2 2016-08-18
         - Made helpers to nested helpers:
           - Rename rabbid_corpus to rabbid->corpus.
-          - Rename rabbid_import to rabbid->import. 
+          - Rename rabbid_import to rabbid->import.
+          - Rename rabbid_init to rabbid->init.
 
 0.5.1 2016-08-13
         - Fixed left extensions for non-context matches.

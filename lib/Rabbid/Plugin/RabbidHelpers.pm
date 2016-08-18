@@ -17,7 +17,7 @@ sub register {
 
   # Initialize rabbid databases
   $app->helper(
-    rabbid_init => sub {
+    'rabbid.init' => sub {
       $app->plugins->emit_hook('on_rabbid_init');
     }
   );

@@ -61,7 +61,7 @@ stdout_like(
 };
 
 # Initialize database
-$app->rabbid_init;
+$app->rabbid->init;
 
 # Import two documents
 stdout_like(

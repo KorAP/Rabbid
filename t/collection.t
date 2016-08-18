@@ -14,7 +14,7 @@ my $t = Test::Mojo->new('Rabbid');
 # Add example data
 my $app = $t->app;
 
-$t->app->rabbid_init;
+$t->app->rabbid->init;
 
 my @files = ();
 foreach (qw/text1 text2/) {

@@ -286,22 +286,6 @@ sub register {
     }
   );
 
-  $app->helper(
-    convert_pagebreaks_html => sub {
-      my $para = pop;
-      $para->{content} =~ s! #\.#PB=(\d+?)#\.~ !<span class="pb" data-after="$1"></span>!g;
-      return $para;
-    }
-  );
-
-	$app->helper(
-    convert_pagebreaks_json => sub {
-      my $para = pop;
-      $para->{content} =~ s! #\.#PB=(\d+?)#\.~ !\[\[PB=$1\]\]!g;
-      return $para;
-    }
-  );
-
   # Todo: This is rather a snippet preparation
   $app->helper(
     prepare_paragraph => sub {
@@ -329,9 +313,21 @@ sub register {
     }
   );
 
-  # Stemming helper
   $app->helper(
-    stem => sub { return stem_de pop }
+    convert_pagebreaks_html => sub {
+      my $para = pop;
+      $para->{content} =~ s! #\.#PB=(\d+?)#\.~ !<span class="pb" data-after="$1"></span>!g;
+      return $para;
+    }
+  );
+
+  # Used in Search
+	$app->helper(
+    convert_pagebreaks_json => sub {
+      my $para = pop;
+      $para->{content} =~ s! #\.#PB=(\d+?)#\.~ !\[\[PB=$1\]\]!g;
+      return $para;
+    }
   );
 };
 

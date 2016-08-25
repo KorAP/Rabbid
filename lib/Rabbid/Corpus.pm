@@ -82,6 +82,29 @@ sub add {
   return $inserts;
 };
 
+
+sub snippet {
+  my $self = shift;
+  my ($doc_id, $para) = @_;
+
+  return unless $self->oro;
+
+  # Cast parameters
+  $doc_id = 'CAST(' . $doc_id . ' AS INTEGER)';
+  $para   = 'CAST(' . $para   . ' AS INTEGER)';
+
+  # Get match
+  my $match = $self->oro->load(
+    Text => ['content', 'in_doc_id', 'para'] => {
+      in_doc_id => \$doc_id,
+      para => \$para
+    }
+  ) or return;
+
+  return $match;
+};
+
+
 # Initialize Corpus database
 sub init {
   my $self = shift;

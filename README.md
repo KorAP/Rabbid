@@ -100,7 +100,8 @@ they divide the text body into snippets used by Rabbid.
 Optional ```<span />``` elements can be used to subdivide long paragraphs
 in shorter snippets.
 Optional pagebreaks may be given in the form of empty
-``<br class="pb" data-after="1" />``` elements, with the ```data-after``` attribute
+```<br class="pb" data-after="1" />``` elements,
+with the ```data-after``` attribute
 telling the page number following the element.
 
 An example document may look like this:

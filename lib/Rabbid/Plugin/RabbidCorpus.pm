@@ -18,6 +18,7 @@ sub register {
       };
 
       foreach (keys %$corpora) {
+        next if index($_, '-') == 0;
         my $rabbid_corpus = $app->rabbid->corpus($_) or next;
         $rabbid_corpus->init;
       }
@@ -38,7 +39,7 @@ sub register {
         return;
       };
 
-      my $corpus_name = shift;
+      my $corpus_name = shift // $corpora->{'-default'};
       my $corpus;
 
       # No configuration for corpus found

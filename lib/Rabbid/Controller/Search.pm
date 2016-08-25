@@ -10,6 +10,8 @@ my $items = 20;
 sub _count {
   my $c = shift;
 
+  # use Validation!
+
   my $q = $c->param('q');
   my $result;
 
@@ -40,6 +42,8 @@ sub _count {
 				}
       );
     }
+
+    # Search unfiltered
     else {
 
       # Search Fulltext
@@ -65,6 +69,7 @@ sub _count {
   };
   return (0,0);
 };
+
 
 sub kwic {
   my $c = shift;
@@ -186,25 +191,19 @@ sub kwic {
 # Get snippet
 sub snippet {
   my $c = shift;
-  my $oro = $c->oro;
-  my $para = 'CAST(' . $c->stash('para') . ' AS INTEGER)';
-  my $doc_id = 'CAST(' . $c->stash('doc_id') . ' AS INTEGER)';
-  my $match = $oro->load(
-    Text => ['content', 'in_doc_id', 'para'] => {
-      in_doc_id => \$doc_id,
-      para => \$para
-    }
+
+  my $match = $c->rabbid->corpus->snippet(
+    $c->stash('doc_id'),
+    $c->stash('para')
+  ) or return $c->reply->not_found;
+
+  # Decode content
+  $match->{content} = b($match->{content})->decode;
+
+  # Render
+  return $c->render(
+    json => $c->convert_pagebreaks_json($c->prepare_paragraph($match))
   );
-
-
-  if ($match) {
-    $match->{content} = b($match->{content})->decode;
-    return $c->render(
-      json => $c->convert_pagebreaks_json($c->prepare_paragraph($match))
-    );
-  };
-
-  return $c->reply->not_found;
 };
 
 

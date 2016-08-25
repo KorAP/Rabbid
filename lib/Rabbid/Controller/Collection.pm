@@ -223,6 +223,7 @@ sub _export_to_rtf {
     $rtf->paragraph(\'\sb100');
     $rtf->paragraph(\'\li500\qj', \'{\b', $i++, \')} ', $content->to_array);
 
+    # TODO: Make this schema agnostic
     my @meta = ();
     push (@meta, $res->{author}. ': ') if $res->{author};
     if ($res->{title}) {

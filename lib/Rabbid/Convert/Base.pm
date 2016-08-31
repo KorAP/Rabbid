@@ -1,5 +1,6 @@
 package Rabbid::Convert::Base;
 use Mojo::Base -strict;
+use Scalar::Util qw/blessed/;
 use Mojo::Util qw!xml_escape!;
 
 # Constructor
@@ -17,6 +18,7 @@ sub log {
   state $log = $self->{log} // Mojo::Log->new;
 };
 
+sub version { '0.0' };
 
 # Get RabbidML prologue
 sub get_prologue {
@@ -52,6 +54,9 @@ PROLOG
       $string .= ' content="' . xml_escape($hash->{$_}) . '" />' . "\n";
     };
   };
+
+  $string .= '    <meta name="generator" ' .
+    'content="' . blessed($self) . ' ' . $self->version . '" />' . "\n";
 
   return $string . "  </head>\n  <body>\n    <h1>" . $title . "</h1>\n";
 };

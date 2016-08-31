@@ -7,6 +7,8 @@ use Mojo::DOM;
 use Mojo::Util qw!slurp xml_escape encode trim!;
 use Data::Dumper;
 
+sub version { '0.1' };
+
 
 # Convert files from the I5 format
 sub convert {

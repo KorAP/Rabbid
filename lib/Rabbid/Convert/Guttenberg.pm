@@ -6,6 +6,8 @@ use Mojo::Log;
 use Rabbid::Util;
 use File::Spec::Functions qw/catdir catfile splitpath/;
 
+sub version { '0.1' };
+
 sub convert {
 	my $self = shift;
   my $cb = ref $_[0] eq 'CODE' ? shift : undef;
@@ -21,7 +23,7 @@ sub convert {
   # Split lines of text
   _to_lines($text)->each(
     sub {
-      if ($_ =~ m!^\*\*\*\s*(?:START|END)!) {
+      if ($_ =~ m!^\*\*\*\s*(?:START|END|etext created by)!) {
 				unless ($content) {
           $content = 1;
 				}
@@ -30,9 +32,13 @@ sub convert {
 				}
       }
 
+      elsif ($content && $_ =~ /^\s*(?:End of )?the Project Gutenberg (?:EBook|etext)/is) {
+        $end = 1;
+      }
+
       # Add to epilogue
       elsif ($end) {
-        if ($_ =~ m!will be found in: (https?://[^\s]+)(?:\s*|$)!) {
+        if ($_ =~ m!will be found in: (https?://[^\s]+)(?:\s*|$)!s) {
           $meta->{url} = $1;
         }
         else {
@@ -51,6 +57,11 @@ sub convert {
         # Add author to meta data
         elsif ($_ =~ s/^Author:\s+//) {
           $meta->{author} = $_;
+        }
+
+        # Add author to meta data
+        elsif ($_ =~ s/^Language:\s+//) {
+          $meta->{lang} = $_;
         }
 
         # Add prologue comment
@@ -129,11 +140,13 @@ sub _to_lines {
     )->map(
       sub {
 				my $t = shift;
-				$t =~ s![\n\s\t]+! !gs;
-				$t =~ s![\n\s\t]+$!!;
-				$t;
+				$t =~ s/(?<!\*)[\n\s\t]+(?!\*)/ /gs;
+				$t =~ s![\s\t]+$!!;
+        b($t);
       }
-    );
+    )->map('split', '\n+')
+    ->flatten
+    ->map('to_string');
 };
 
 

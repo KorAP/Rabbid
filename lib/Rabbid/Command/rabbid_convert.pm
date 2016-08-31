@@ -20,7 +20,8 @@ sub run {
     'f|file=s' => \my $file,
     'o|output=s' => \my $output,
     'x|conversion=s' => \(my $conversion_class = 'I5'),
-    'id|id_offset=i' => \(my $id_offset = 1)
+    'id|id_offset=i' => \(my $id_offset = 1),
+    'v' => \my $version
   );
 
   # Todo: Do not use temporary file
@@ -33,7 +34,12 @@ sub run {
   $conversion_class = 'Rabbid::Convert::' . $conversion_class;
 
   if (load_class($conversion_class)) {
-    warn 'Unable to load conversion class ' . $conversion_class;
+    $app->log->warn('Unable to load conversion class ' . $conversion_class);
+    return;
+  };
+
+  if ($version) {
+    $app->log->info($conversion_class . ' V' . $conversion_class->version);
     return;
   };
 

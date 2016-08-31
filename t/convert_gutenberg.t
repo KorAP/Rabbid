@@ -9,12 +9,12 @@ use File::Temp qw/tempfile tempdir/;
 use File::Basename 'dirname';
 use File::Spec::Functions qw/catdir catfile/;
 
-use_ok('Rabbid::Convert::Guttenberg');
+use_ok('Rabbid::Convert::Gutenberg');
 
 my $temp_out = tempdir(CLEANUP => 1);
 
 my $file = catfile(dirname(__FILE__), 'data', 'pg5323.txt');
-my $c = Rabbid::Convert::Guttenberg->new(
+my $c = Rabbid::Convert::Gutenberg->new(
   input => $file,
   output => $temp_out,
   id_offset => 5
@@ -51,7 +51,7 @@ like($node->content, qr!&#151;!, 'Comment node');
 
 
 $file = catfile(dirname(__FILE__), 'data', 'pg4601-short.txt');
-$c = Rabbid::Convert::Guttenberg->new(
+$c = Rabbid::Convert::Gutenberg->new(
   input => $file,
   output => $temp_out,
   id_offset => 6
@@ -70,7 +70,7 @@ like($dom->find('body p')->[-1]->text, qr/^Lirumn, Larum!/, 'Last paragraph');
 
 
 $file = catfile(dirname(__FILE__), 'data', 'pg29376-short.txt');
-$c = Rabbid::Convert::Guttenberg->new(
+$c = Rabbid::Convert::Gutenberg->new(
   input => $file,
   output => $temp_out,
   id_offset => 7

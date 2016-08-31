@@ -137,7 +137,7 @@ To convert documents to Rabbidml, see
 $ perl script/rabbid rabbid_convert
 ```
 
-Currently supported input formats include I5 and the Guttenberg Project format.
+Currently supported input formats include I5 and some Gutenberg Project conventions.
 
 
 ### Bugs and Caveats

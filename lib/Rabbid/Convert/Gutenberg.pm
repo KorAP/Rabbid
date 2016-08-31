@@ -1,4 +1,4 @@
-package Rabbid::Convert::Guttenberg;
+package Rabbid::Convert::Gutenberg;
 use Mojo::Base 'Rabbid::Convert::Base';
 use Mojo::ByteStream 'b';
 use Mojo::Collection 'c';

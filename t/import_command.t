@@ -79,19 +79,19 @@ stdout_like(
     'Fail to import one document due to non-unique uids'
   );
 
-  # Guttenberg
+  # Gutenberg
   stdout_like(
-    sub { $cmd->run('-f', $files[3], '-c', 'example', '-x', 'Guttenberg', )},
+    sub { $cmd->run('-f', $files[3], '-c', 'example', '-x', 'Gutenberg', )},
     qr!Failed imports: 1!,
-    'Fail to import Guttenberg document'
+    'Fail to import Gutenberg document'
   );
 };
 
-# Guttenberg
+# Gutenberg
 stdout_like(
-  sub { $cmd->run('-f', $files[3], '-c', 'example', '-x', 'Guttenberg', '-id', 6)},
+  sub { $cmd->run('-f', $files[3], '-c', 'example', '-x', 'Gutenberg', '-id', 6)},
   qr!Convert.*Import.*Done!s,
-  'Import Guttenberg document'
+  'Import Gutenberg document'
 );
 
 

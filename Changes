@@ -11,9 +11,9 @@
 
 0.5.0 2016-08-12
         - Improved I5 Conversion.
-        - Added Guttenberg conversion.
+        - Added Gutenberg conversion.
         - Improved conversion tool use different converter.
-        - Remove guttenberg conversion tool.
+        - Remove gutenberg conversion tool.
         - Added id_offset parameter to conversion command.
         - Added import_command test.
         - Added conversion to import command.

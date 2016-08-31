@@ -43,10 +43,10 @@ stderr_like(
   'Convert I5'
 );
 
-my $output = stdout_from(sub { $cmd->run('-f', $file, '-x', 'Guttenberg') });
+my $output = stdout_from(sub { $cmd->run('-f', $file, '-x', 'Gutenberg') });
 
 my $pattern = qr!Convert (.+?pg5323\.rabbidml)!;
-like($output, $pattern, 'Convert Guttenberg');
+like($output, $pattern, 'Convert Gutenberg');
 $output =~ $pattern;
 
 my $dom = Mojo::DOM->new->xml(1)->parse(slurp($1));
@@ -56,10 +56,10 @@ is($dom->at('meta[name=doc_id]')->attr('content'), 1);
 # Woyzeck
 $file = catfile(dirname(__FILE__), 'data', '5322-0.txt');
 
-$output = stdout_from(sub { $cmd->run('-f', $file, '-x', 'Guttenberg', '-id', 3) });
+$output = stdout_from(sub { $cmd->run('-f', $file, '-x', 'Gutenberg', '-id', 3) });
 
 $pattern = qr!Convert (.+?5322-0\.rabbidml)!;
-like($output, $pattern, 'Convert Guttenberg');
+like($output, $pattern, 'Convert Gutenberg');
 $output =~ $pattern;
 
 $dom = Mojo::DOM->new->xml(1)->parse(slurp($1));

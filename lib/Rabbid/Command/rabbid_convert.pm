@@ -97,7 +97,7 @@ Rabbid::Command::rabbid_convert - Convert documents to RabbidML files
 
 L<Rabbid::Command::rabbid_convert> helps
 to convert documents to RabbidML. Currently supported formats are
-C<I5> and C<Guttenberg>.
+C<I5> and C<Gutenberg>.
 
 =head1 ATTRIBUTES
 

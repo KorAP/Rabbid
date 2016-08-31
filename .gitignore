@@ -5,6 +5,7 @@ sandbox
 !rabbid.conf
 !rabbid.test.conf
 /lib/Rabbid/Convert/FromAny.pm
+/t/example/fix-pb.pl
 Sandbox
 ext
 db

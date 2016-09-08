@@ -36,7 +36,9 @@ sub add {
 				};
 
 				# Add meta information
-				$oro->insert(Doc => $doc->meta($self->schema)) or return -1;
+				$oro->insert(
+          Doc => $doc->meta($self->schema)
+        ) or return -1;
 
 				my $para = 0;
 

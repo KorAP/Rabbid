@@ -40,19 +40,20 @@ my @files = (
   catfile(dirname(__FILE__), 'example', '5322-0.rabbidml'),
   catfile(dirname(__FILE__), 'example', 'pg35312.rabbidml'),
   catfile(dirname(__FILE__), 'data', 'goe-example.i5'),
-  catfile(dirname(__FILE__), 'data', 'pg5323.txt')
+  catfile(dirname(__FILE__), 'data', 'pg5323.txt'),
+  catfile(dirname(__FILE__), 'example', 'pg29376-2.rabbidml')
 );
-
-stdout_like(
-  sub { $cmd->run('-f', $files[0], '-f', $files[1]) },
-  qr/Failed imports: 2/,
-  'Show Import of two files'
-);
-
 
 # Database not initialized
 {
   local $SIG{__WARN__} = sub {};
+
+  stdout_like(
+    sub { $cmd->run('-f', $files[0], '-f', $files[1]) },
+    qr/Failed imports: 2/,
+    'Show Import of two files'
+  );
+
   stdout_like(
     sub { $cmd->run('-f', $files[0], '-f', $files[1], '-c', 'example' )},
     qr/Failed imports: 2/,
@@ -92,6 +93,13 @@ stdout_like(
   sub { $cmd->run('-f', $files[3], '-c', 'example', '-x', 'Gutenberg', '-id', 6)},
   qr!Convert.*Import.*Done!s,
   'Import Gutenberg document'
+);
+
+# Import one document using the default corpus
+stdout_like(
+  sub { $cmd->run('-f', $files[4] )},
+  qr/(?:Import.+?\.rabbidml.*?)$/s,
+  'Show Import of one file in default corpus'
 );
 
 

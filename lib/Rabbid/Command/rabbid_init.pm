@@ -16,9 +16,9 @@ sub run {
   Mojo::IOLoop->start unless Mojo::IOLoop->is_running;
 
   # Release init hook
-  $app->rabbid_init;
+  $app->rabbid->init;
 
-  print "Done.\n\n";
+  $app->log->info("Done.");
 };
 
 1;

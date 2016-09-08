@@ -18,7 +18,7 @@ sub run {
     \@args,
     'f|file=s'   => \@files,
     'd|dir=s'    => \my $dir,
-    'c|corpus=s' => \(my $corpus = 'default'),
+    'c|corpus=s' => \(my $corpus = undef),
     'x|conversion=s' => \(my $conversion_class),
     'id|id_offset=i' => \(my $id_offset = 1)
   );

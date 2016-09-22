@@ -23,11 +23,13 @@ Der Apostel 71
     <meta name="author" content="Gerhart Hauptmann" />
     <meta name="url" content="http://www.gutenberg.org/2/9/3/7/29376/" />
     <meta name="generator" content="Rabbid::Convert::Gutenberg 0.1" />
-    <meta content="" name="year" />
+    <meta content="1892" name="year" />
     <meta content="" name="domain" />
-    <meta content="" name="genre" />
+    <meta content="Novelle" name="genre" />
     <meta content="" name="polDir" />
     <meta content="" name="file" />
+		<meta name="literary_movement"
+	  content="Naturalismus" />
   </head>
   <body>
     <h1>Der Apostel</h1>

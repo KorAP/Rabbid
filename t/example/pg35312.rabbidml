@@ -17,6 +17,8 @@
 	  name="polDir" />
     <meta content=""
 	  name="file" />
+	  	<meta name="literary_movement"
+	  content="Romantik" />
   </head>
   <!--
 ﻿The Project Gutenberg EBook of Aus dem Leben eines Taugenichts, by Joseph von Eichendorff

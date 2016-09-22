@@ -15,11 +15,13 @@ Edition: 10
  -->
     <meta content="5" name="doc_id" />
     <meta name="author" content="Eduard Mörike" />
-    <meta content="" name="year" />
+    <meta content="1855" name="year" />
     <meta content="" name="domain" />
-    <meta content="" name="genre" />
+    <meta content="Novelle" name="genre" />
     <meta content="" name="polDir" />
     <meta content="" name="file" />
+		<meta name="literary_movement"
+	  content="Biedermeier" />
   </head>
   <body>
     <h1>Mozart auf der Reise nach Prag</h1>

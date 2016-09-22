@@ -31,10 +31,10 @@ WriteMakefile(
     'Getopt::Long' => 0,
     'XML::Twig' => 3.49,
 
-    'DBIx::Oro' => '0.31_9', # GitHub
-    'Mojolicious::Plugin::Oro' => 0.06, # GitHub
+    'DBIx::Oro' => '0.31_9',                    # GitHub
+    'Mojolicious::Plugin::Oro' => 0.06,         # GitHub
     'Mojolicious::Plugin::Oro::Viewer' => 0.03, # GitHub
-    'KorAP::XML::Krill' => 0.18 # GitHub
+    'KorAP::XML::Krill' => 0.18                 # GitHub
   },
   BUILD_REQUIRES => {
     'Test::More' => 0,

@@ -13,6 +13,8 @@
 	  name="domain" />
     <meta content="Roman"
 	  name="genre" />
+	<meta name="literary_movement"
+	  content="Realismus" />
     <meta content="radikal-demokratisch"
 	  name="polDir" />
     <meta content=""

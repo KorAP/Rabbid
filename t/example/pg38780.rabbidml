@@ -7,7 +7,7 @@
 	  name="doc_id" />
     <meta content="E. T. A. Hoffmann"
 	  name="author" />
-    <meta content="1820"
+    <meta content="1819"
 	  name="year" />
     <meta content="Belletristik"
 	  name="domain" />
@@ -17,6 +17,8 @@
 	  name="polDir" />
     <meta content=""
 	  name="file" />
+	  	<meta name="literary_movement"
+	  content="Romantik" />
   </head>
   <!--
 ﻿The Project Gutenberg eBook, Lebensansichten des Katers Murr, by E. T. A. Hoffmann

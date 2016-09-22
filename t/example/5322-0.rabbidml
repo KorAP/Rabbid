@@ -17,6 +17,8 @@
 	  name="polDir" />
     <meta content=""
 	  name="file" />
+	  	<meta name="literary_movement"
+	  content="Vormärz" />
   </head>
   <!--
 ﻿The Project Gutenberg EBook of Woyzeck, by Georg Buchner

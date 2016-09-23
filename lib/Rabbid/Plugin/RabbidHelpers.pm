@@ -34,8 +34,10 @@ sub register {
   $app->helper(
     'rabbid.collection' => sub {
       my $c = shift;
+      my $corpus = $c->rabbid->corpus;
       return Rabbid::Collection->new(
         oro => $c->oro($app->oro('coll')) // $app->oro,
+        corpus => $corpus,
         @_
       );
     }

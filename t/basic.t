@@ -82,7 +82,7 @@ $t->get_ok('/search?q=beispiel')
   ->status_is(200)
   ->element_exists('ol.kwic li[data-id=2] div.snippet')
   ->text_is('ol.kwic li div.snippet mark', 'Beispiel')
-  ->text_is('ol.kwic li p.ref a', 'Belletristik');
+  ->text_is('ol.kwic li p.ref a', 'Roman');
 
 # Check tests
 $t->get_ok('/search?q=tschüß')

@@ -30,7 +30,7 @@ $t->get_ok('/search?q=Liebe')
   ->status_is(200)
   ->text_like('h3', qr/Liebe/)
   ->text_like('li[data-id=4] p.ref', qr/Georg Büchner/)
-  ->text_is('li[data-id=4] p.ref a:nth-of-type(1)', 'revolutionär');
+  ->text_is('li[data-id=4] p.ref a:nth-of-type(1)', 'Belletristik');
 
 
 # Effi Briest

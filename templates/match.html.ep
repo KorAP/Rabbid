@@ -14,15 +14,18 @@
 <%== $m->{content} %>
 %#      </span>
     </div>
-    <p class="ref"><%= b($m->{author})->decode %>: <%= b($m->{title})->decode %>
-<% if ($m->{year}) { %> (<%= $m->{year} %>)<% } =%>;
-<% if ($m->{polDir}) { %><%= filter_by(polDir => $m->{polDir}) =%>, <% } %>
-<% if ($m->{genre}) { %><%= filter_by(genre => $m->{genre}) =%>, <% } %>
-<% if ($m->{domain}) { %><%= filter_by(domain => $m->{domain}) =%>, <% } %>
-<% if ($m->{file}) { %><%= link_to($m->{file}, url_for('file', file => $m->{file})) %><% } %>
-%# (<%= $m->{in_doc_id} %>:<%= $m->{para} %>)
-%#      <span title="Speichern" class="button store"><span>Speichern</span></span>
-%#      <span title="Schließen" class="button close"><span>Schließen</span></span>
+%# $m->{para}
+    <p class="ref">\
+<%= b($m->{author} // '???')->decode %>: <%= b($m->{title} // '???')->decode %>\
+<% if ($m->{year}) { %> (<%= $m->{year} %>)<% } =%>; \
+
+% foreach my $field(grep { $_ !~ /^author|title|year$/ } @{$c->rabbid->corpus->fields}) {
+<% if ($m->{$field}) { %><%= filter_by($field => $m->{$field}) %>, <% } %>\
+% }
+
+<% if ($m->{file}) { %><a href="<%= url_for('file', file => $m->{file}) %>"><% } %>\
+[<%= $m->{in_doc_id} %>]\
+<% if ($m->{file}) { %></a><% } %>
     </p>
   </div>
 </li>

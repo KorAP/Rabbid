@@ -137,7 +137,8 @@ sub _export_to_excel {
 
   # Header data
   # TODO: Use corpus schema
-  my @header = qw/author title year domain genre polDir file page/;
+  # qw/author title year domain genre polDir file page/
+  my @header = @{$c->rabbid->corpus->fields};
 
   # Initialize table
   my @table = ['snippet', @header];
@@ -230,14 +231,14 @@ sub _export_to_rtf {
       push (@meta, \'{\b', $res->{title} . ' ', \'}');
     };
     push (@meta, '(' . $res->{year}. ') ')  if $res->{year};
-    push (@meta, $res->{domain} . ', ')     if $res->{domain};
-    push (@meta, $res->{genre} . ', ')      if $res->{genre};
-    push (@meta, $res->{polDir} . ', ')     if $res->{polDir};
 
-    if ($res->{domain} || $res->{genre} || $res->{polDir}) {
-      chop $meta[-1];
-      chop $meta[-1];
+    my $fields = $c->rabbid->corpus->fields;
+
+    foreach (grep { $_ !~ /^author|title|year$/ } @$fields) {
+      push (@meta, $res->{$_} . ', ')     if $res->{$_};
     };
+
+    $meta[-1] =~ s/,\s+$/ /;
 
     if ($res->{start_page_ext}) {
       push @meta, '(S. ' . $res->{start_page_ext} . '-' . $res->{end_page_ext} . ')';

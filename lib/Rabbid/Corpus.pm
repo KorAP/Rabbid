@@ -37,7 +37,7 @@ sub add {
 
 				# Add meta information
 				$oro->insert(
-          Doc => $doc->meta($self->schema)
+          Doc => $doc->meta($self->fields)
         ) or return -1;
 
 				my $para = 0;
@@ -85,6 +85,29 @@ sub add {
 };
 
 
+# Return the schema array as [[name, value], [name, value]]
+# with a parameter
+# or - without a parameter as [name, name, name]
+# Todo: Maybe schema should be more like the first one ...
+sub fields {
+  my $self = shift;
+  my $schema = $self->schema;
+  my @fields = ();
+
+  if (@_) {
+    for (my $i = 0; $i < @$schema; $i+=2) {
+      push @fields, [ $schema->[$i] => $schema->[$i+1]];
+    };
+  }
+  else {
+    for (my $i = 0; $i < @$schema; $i+=2) {
+      push @fields, $schema->[$i];
+    };
+  };
+  return \@fields;
+};
+
+
 sub snippet {
   my $self = shift;
   my ($doc_id, $para) = @_;
@@ -113,18 +136,14 @@ sub init {
 
   return 1 if $self->{_initialized};
 
-  my $schema = $self->schema;
-
   $self->oro->txn(
     sub {
       my $oro = shift;
 
-      my @keys = ();
-      foreach (keys %$schema) {
-				push @keys, $_ . ' ' . $schema->{$_};
-      };
-
-      my $keys = join(',', @keys);
+      my $keys = join(
+        ', ',
+        map { $_->[0] . ' ' . $_->[1] } @{$self->fields(1)}
+      );
 
       # Create document table
       $oro->do(<<"SQL") or return -1;
@@ -144,7 +163,7 @@ CREATE VIRTUAL TABLE Text USING fts4 (
 FTS
 
       # genre polDir domain year
-      foreach (qw/doc_id /, keys %$schema) {
+      foreach (qw/doc_id /, @{$self->fields}) {
 	$oro->do(<<"SQL") or return -1;
 CREATE INDEX IF NOT EXISTS ${_}_i ON Doc ($_)
 SQL

@@ -222,26 +222,25 @@ sub _set_page_number {
 # Metadata field of the document
 # Returns the meta field for a given key,
 # the meta hash in case no key is given,
-# and a filtered meta object, in case a
-# schema is passed.
+# and a filtered meta object, in case
+# schema fields are passed.
 sub meta {
   my $self = shift;
   my $cat = shift;
 
-  if (ref $cat) {
-    # Cat is either an array or a hash reference
-    my $array = (ref($cat) eq 'HASH') ? [keys %$cat] : $cat;
-    push @$array, 'doc_id';
+  if (ref $cat && ref($cat) eq 'ARRAY') {
+    # Cat is an array reference
     my %new_meta;
-    foreach (@$array) {
+    foreach ('doc_id', @$cat) {
       $new_meta{$_} = $self->{meta}->{$_} if $self->{meta}->{$_};
-    }
+    };
     return \%new_meta;
   };
 
   if ($cat) {
     return $self->{meta}->{$cat} // '';
   };
+
   return $self->{meta};
 };
 

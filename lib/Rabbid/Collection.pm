@@ -6,6 +6,7 @@ use Mojo::ByteStream 'b';
 has 'oro';
 has 'id';
 has 'user_id';
+has 'corpus';
 
 # TODO: Merge count and query to one single call
 
@@ -100,10 +101,12 @@ sub load {
     $args{'-' . $_} = $param{$_} if exists $param{$_};
   };
 
+  my $fields = $self->corpus->fields;
+
   # Retrieve all snippets
   my $result = $self->oro->select(
     [
-      Doc => [qw/author year title domain genre polDir file/] => {
+      Doc => $fields => {
         doc_id => 1
       },
       Snippet => [qw/left_ext right_ext marks/] => {

@@ -24,11 +24,11 @@ use_ok('Rabbid::Corpus');
 ok(my $corpus = Rabbid::Corpus->new(
   oro => DBIx::Oro->new,
   chi => CHI->new( driver => 'Memory', global => 1 ),
-  schema => {
+  schema => [
     year   => 'INTEGER',
     author => 'TEXT',
     title => 'TEXT'
-  }
+  ]
 ), 'New Import');
 
 ok($corpus->oro, 'Oro is initialized');

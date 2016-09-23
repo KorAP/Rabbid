@@ -21,10 +21,13 @@ sub _count {
     # Set filtering
     if ($c->param('filterBy')) {
 
+      my $fields = $c->rabbid->corpus->fields;
+
       # Search Fulltext
       $result = $oro->load(
 				[
-					Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
+          # [qw/author year title domain genre polDir file/]
+					Doc => $fields => { doc_id => 1 },
 					Text => [
 						'count(para):para_count',
 						'count(distinct(in_doc_id)):doc_count'
@@ -105,11 +108,12 @@ sub kwic {
     # TODO: Use corpus-object for searching!
 
     # Search Fulltext
-    # Todo: Use schema!
+    my $fields = $c->rabbid->corpus->fields;
 
     $result = $oro->select(
       [
-				Doc => [qw/author year title domain genre polDir file/] => { doc_id => 1 },
+        # [qw/author year title domain genre polDir file/]
+				Doc => $fields => { doc_id => 1 },
 				Text => [
 					'content',
 					'in_doc_id',

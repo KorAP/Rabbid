@@ -30,7 +30,7 @@ $t->get_ok('/search?q=Liebe')
   ->status_is(200)
   ->text_like('h3', qr/Liebe/)
   ->text_like('li[data-id=4] p.ref', qr/Georg Büchner/)
-  ->text_is('li[data-id=4] p.ref a:nth-of-type(1)', 'Belletristik');
+  ->text_is('li[data-id=4] p.ref a:nth-of-type(2)', 'Belletristik');
 
 
 # Effi Briest
@@ -61,8 +61,8 @@ $t->get_ok('/search?q=Liebe')
 ok($app->rabbid->import('example' => _p('pg38780')), 'Import example data');
 
 $t->get_ok('/corpus')
-  ->text_like('tbody tr:nth-of-type(2) td:nth-of-type(3)', qr/zufälligen Makulaturblättern/)
-  ->text_is('tbody tr:nth-of-type(3) td:nth-of-type(2)', 'Georg Büchner')
+  ->text_like('tbody tr:nth-of-type(2) td:nth-of-type(3) a', qr/zufälligen Makulaturblättern/)
+  ->text_is('tbody tr:nth-of-type(3) td:nth-of-type(2) a', 'Georg Büchner')
 ;
 
 # ok($app->rabbid->import('example' => _p('pg35312')), 'Import example data');

@@ -14,6 +14,26 @@ sub startup {
   my $pkg = b($self->home . '/package.json')->slurp;
   $Rabbid::VERSION = decode_json($pkg)->{version};
 
+  $self->plugin(Localize => {
+    resources => ['rabbid.dict'],
+    dict => {
+      Rabbid => {
+        _ => sub { $_->locale },
+        -de => {
+          author => 'Verfasser',
+          title => 'Titel',
+          year => 'Jahr',
+          file => '<span>file</span>'
+        },
+        en => {
+          author => 'Author',
+          title => 'Title',
+          year => 'Year'
+        }
+      }
+    }
+  });
+
   # Use configuration with default parameter
   $self->plugin('Config' => {
     default => {

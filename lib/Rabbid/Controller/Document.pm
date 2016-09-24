@@ -18,7 +18,7 @@ sub overview {
   };
 
   my @display = (
-    'ID' =>
+    '#' =>
       ['doc_id', process => sub {
          my ($c, $row) = @_;
          return $c->filter_by(doc_id => $row->{doc_id});
@@ -32,10 +32,12 @@ sub overview {
     my $field_name = $field->[0];
     my $field_type = lc($field->[1]);
     push @display,
-      ($field_name => [
+      ($c->loc('Rabbid_' . $field_name) => [
         $field_name => class => $field_type, process => sub {
           my ($c, $row) = @_;
-          return $c->filter_by($field_name => $row->{$field_name});
+          return $c->filter_by(
+            $field_name => $row->{$field_name}
+          );
         }]
      );
   };

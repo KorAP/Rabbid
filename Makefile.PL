@@ -34,6 +34,7 @@ WriteMakefile(
     'DBIx::Oro' => '0.31_9',                    # GitHub
     'Mojolicious::Plugin::Oro' => 0.06,         # GitHub
     'Mojolicious::Plugin::Oro::Viewer' => 0.03, # GitHub
+    'Mojolicious::Plugin::Localize' => 0.15,    # GitHub
     'KorAP::XML::Krill' => 0.18                 # GitHub
   },
   BUILD_REQUIRES => {

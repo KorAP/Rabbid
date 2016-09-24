@@ -1,0 +1,16 @@
+{
+  Rabbid => {
+    de => {
+      polDir => 'Spektrum',
+      domain => 'Domäne',
+      genre => 'Textsorte',
+      literary_movement => 'Strömung',
+    },
+    en => {
+      polDir => 'Political Direction',
+      domain => 'Domain',
+      genre => 'Genre',
+      literary_movement => 'Lit. Movement',
+    }
+  }
+}

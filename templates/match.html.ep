@@ -16,16 +16,16 @@
     </div>
 %# $m->{para}
     <p class="ref">\
+<% if ($m->{file}) { %><a href="<%= url_for('file', file => $m->{file}) %>"><% } %>\
+[<%= $m->{in_doc_id} %>] \
+<% if ($m->{file}) { %></a><% } %>
+
 <%= b($m->{author} // '???')->decode %>: <%= b($m->{title} // '???')->decode %>\
 <% if ($m->{year}) { %> (<%= $m->{year} %>)<% } =%>; \
 
 % foreach my $field(grep { $_ !~ /^author|title|year$/ } @{$c->rabbid->corpus->fields}) {
 <% if ($m->{$field}) { %><%= filter_by($field => $m->{$field}) %>, <% } %>\
 % }
-
-<% if ($m->{file}) { %><a href="<%= url_for('file', file => $m->{file}) %>"><% } %>\
-[<%= $m->{in_doc_id} %>]\
-<% if ($m->{file}) { %></a><% } %>
     </p>
   </div>
 </li>

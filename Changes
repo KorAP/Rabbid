@@ -1,6 +1,8 @@
 0.5.4 2016-09-24
         - Made corpus schema variable and sorted.
         - Introduced Localization.
+        - Changed reference order in matches.
+        - Added rabbid to about page.
 
 0.5.3 2016-09-08
         - Added more example documents with pagebreaks (JasmS).

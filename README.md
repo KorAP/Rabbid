@@ -155,7 +155,8 @@ Corpora => {
 The ```-default``` entry can denote a default handle.
 
 Localization of metadata categories can be done in the file ```rabbid.dict```.
-Please consult the man page of ```Mojolicious::Plugin::Localize```.
+Please consult the man page of
+Mojolicious::Plugin::Localize](https://github.com/Akron/Mojolicious-Plugin-Localize).
 
 
 ### Tools

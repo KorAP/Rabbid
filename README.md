@@ -55,6 +55,7 @@ $ cpanm git://github.com/Akron/DBIx-Oro.git
 $ cpanm git://github.com/Akron/Mojolicious-Plugin-Oro.git
 $ cpanm git://github.com/Akron/Mojolicious-Plugin-Oro-Viewer.git
 $ cpanm git://github.com/Akron/Mojolicious-Plugin-TagHelpers-ContentBlock.git
+$ cpanm git://github.com/Akron/Mojolicious-Plugin-Localize.git
 ```
 
 Then install the dependencies as always and run the test suite.
@@ -128,6 +129,34 @@ An example document may look like this:
 </html>
 
 ```
+
+The corpus configuration is still experimental. In the configuration file
+(e.g. ```rabbid.conf```), the corpus can be defined with the entry name ```Corpora```
+with a short handle and an entry called ```schema``` that lists all metadata
+categories to be displayed by the document browser.
+
+``` perl
+Corpora => {
+  -default => 'example',
+  example => {
+    schema => [
+      author => 'TEXT',
+      title => 'TEXT',
+      year => 'INTEGER',
+      domain => 'TEXT',
+      genre => 'TEXT',
+      polDir => 'TEXT',
+      file => 'TEXT'
+    ]
+  }
+}
+```
+
+The ```-default``` entry can denote a default handle.
+
+Localization of metadata categories can be done in the file ```rabbid.dict```.
+Please consult the man page of ```Mojolicious::Plugin::Localize```.
+
 
 ### Tools
 

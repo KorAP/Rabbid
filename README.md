@@ -130,7 +130,7 @@ An example document may look like this:
 
 ```
 
-The corpus configuration is still experimental. In the configuration file
+The corpus configuration is still *experimental*. In the configuration file
 (e.g. ```rabbid.conf```), the corpus can be defined with the entry name ```Corpora```
 with a short handle and an entry called ```schema``` that lists all metadata
 categories to be displayed by the document browser.
@@ -141,12 +141,12 @@ Corpora => {
   example => {
     schema => [
       author => 'TEXT',
-      title => 'TEXT',
-      year => 'INTEGER',
+      title  => 'TEXT',
+      year   => 'INTEGER',
       domain => 'TEXT',
-      genre => 'TEXT',
+      genre  => 'TEXT',
       polDir => 'TEXT',
-      file => 'TEXT'
+      file   => 'TEXT'
     ]
   }
 }
@@ -155,8 +155,8 @@ Corpora => {
 The ```-default``` entry can denote a default handle.
 
 Localization of metadata categories can be done in the file ```rabbid.dict```.
-Please consult the man page of
-Mojolicious::Plugin::Localize](https://github.com/Akron/Mojolicious-Plugin-Localize).
+Please consult the documentation for
+[Mojolicious::Plugin::Localize](https://github.com/Akron/Mojolicious-Plugin-Localize).
 
 
 ### Tools

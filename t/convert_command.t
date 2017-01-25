@@ -7,7 +7,7 @@ use File::Temp qw/tempfile tempdir/;
 use File::Basename 'dirname';
 use File::Spec::Functions qw/catdir catfile/;
 use Mojo::DOM;
-use Mojo::Util qw/slurp/;
+use Mojo::File;
 
 use_ok('Rabbid::Command::rabbid_convert');
 
@@ -49,7 +49,7 @@ my $pattern = qr!Convert (.+?pg5323\.rabbidml)!;
 like($output, $pattern, 'Convert Gutenberg');
 $output =~ $pattern;
 
-my $dom = Mojo::DOM->new->xml(1)->parse(slurp($1));
+my $dom = Mojo::DOM->new->xml(1)->parse(Mojo::File->new($1)->slurp);
 is($dom->at('title')->text, 'Effi Briest');
 is($dom->at('meta[name=doc_id]')->attr('content'), 1);
 
@@ -62,7 +62,7 @@ $pattern = qr!Convert (.+?5322-0\.rabbidml)!;
 like($output, $pattern, 'Convert Gutenberg');
 $output =~ $pattern;
 
-$dom = Mojo::DOM->new->xml(1)->parse(slurp($1));
+$dom = Mojo::DOM->new->xml(1)->parse(Mojo::File->new($1)->slurp);
 is($dom->at('title')->text, 'Woyzeck');
 is($dom->at('meta[name=doc_id]')->attr('content'), 3);
 

@@ -1,3 +1,6 @@
+0.6.0 2017-01-25
+        - Updated to Mojolicious 7.21.
+
 0.5.4 2016-09-24
         - Made corpus schema variable and sorted.
         - Introduced Localization.

@@ -1,9 +1,10 @@
 package Rabbid;
 use Mojo::Base 'Mojolicious';
 use Mojo::ByteStream 'b';
+use Mojo::File;
 use Mojo::JSON qw/decode_json/;
 
-our $VERSION = '0.5';
+our $VERSION = '0.6';
 
 # This method will run once at server start
 sub startup {
@@ -11,7 +12,7 @@ sub startup {
 
   # Set version based on package file
   # This may introduce a SemVer patch number
-  my $pkg = b($self->home . '/package.json')->slurp;
+  my $pkg = $self->home->child('package.json')->slurp;
   $Rabbid::VERSION = decode_json($pkg)->{version};
 
   $self->plugin(Localize => {

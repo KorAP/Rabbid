@@ -3,6 +3,7 @@ use Mojo::Base 'Rabbid::Convert::Base';
 use Mojo::ByteStream 'b';
 use Mojo::Collection 'c';
 use Mojo::Log;
+use Mojo::File;
 use Rabbid::Util;
 use File::Spec::Functions qw/catdir catfile splitpath/;
 
@@ -14,7 +15,7 @@ sub convert {
 
 	my $doc_id = $self->{id_offset} // 1;
 
-  my $text = b($self->{input})->slurp;
+  my $text = b(Mojo::File->new($self->{input})->slurp);
 
   my ($end, $content) = (0, 0);
   my $meta = { doc_id => $doc_id };

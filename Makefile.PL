@@ -11,7 +11,7 @@ WriteMakefile(
   AUTHOR => 'Nils Diewald',
   LICENSE => 'bsd_2',
   PREREQ_PM => {
-    'Mojolicious' => '6.11',
+    'Mojolicious' => '7.21',
     'Mojolicious::Plugin::ReplyTable' => 0.04,
     'Mojolicious::Plugin::RenderFile' => 0.10,
     'Mojolicious::Plugin::Notifications' => 0.09,

@@ -3,7 +3,8 @@ use Test::More;
 use Test::Mojo;
 use Mojo::DOM;
 use utf8;
-use Mojo::Util qw/slurp encode/;
+use Mojo::File;
+use Mojo::Util qw/encode/;
 use lib '../lib', 'lib';
 use File::Temp qw/tempfile tempdir/;
 use File::Basename 'dirname';
@@ -30,7 +31,9 @@ foreach (@files) {
 };
 is($x, 3, 'Three documents loadable');
 
-my $dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]->[0]);
+my $dom = Mojo::DOM->new->xml(1)->parse(
+  Mojo::File->new($files[0]->[0])->slurp
+  );
 
 ok($dom, 'File is parsed');
 is($dom->at('title')->text, 'Energiewirtschaft');
@@ -43,7 +46,7 @@ ok($dom->at('meta[name=doc_id][content=1]'), 'Element exists');
 is($dom->at('meta[name=doc_title]')->attr('content'), encode('utf-8', "Reden der Bundestagsfraktion Bündnis 90/DIE GRÜNEN, (2002-2006)"), 'Element exists');
 is($dom->find('p')->[2]->find('span')->[2]->text, encode('UTF-8', 'Die schnelle Verabschiedung dieses Gesetzes ist notwendig, da wir immer noch säumig sind in der Umsetzung der EU-Gasrichtlinie.'), 'Text');
 
-$dom = Mojo::DOM->new->xml(1)->parse(slurp $files[1]->[0]);
+$dom = Mojo::DOM->new->xml(1)->parse(Mojo::File->new($files[1]->[0])->slurp);
 ok($dom, 'File is parsed');
 is($dom->at('title')->text, 'Insolvenzantrag Kirch Media AG');
 ok($dom->at('meta[name=doc_id][content=2]'), 'Doc id');
@@ -66,7 +69,7 @@ foreach (@files) {
 };
 is($x, 2, 'Three documents loadable');
 
-$dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]->[0]);
+$dom = Mojo::DOM->new->xml(1)->parse(Mojo::File->new($files[0]->[0])->slurp);
 ok($dom, 'File is parsed');
 is($dom->at('title')->text, 'Maximen und Reflexionen');
 ok($dom->at('meta[name=corpus_sigle][content=GOE]'), 'Element exists');

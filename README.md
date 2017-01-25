@@ -203,7 +203,7 @@ The Example Corpus is released under the
 
 ### Original Software
 
-Copyright (C) 2015-2016, [IDS Mannheim](http://www.ids-mannheim.de/)<br>
+Copyright (C) 2015-2017, [IDS Mannheim](http://www.ids-mannheim.de/)<br>
 Author: [Nils Diewald](http://nils-diewald.de/),
 [Ruth Maria Mell](http://www.ruth-mell.de)
 

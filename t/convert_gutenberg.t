@@ -3,7 +3,8 @@ use Test::More;
 use Test::Mojo;
 use Mojo::DOM;
 use utf8;
-use Mojo::Util qw/slurp encode/;
+use Mojo::File;
+use Mojo::Util qw/encode/;
 use lib '../lib', 'lib';
 use File::Temp qw/tempfile tempdir/;
 use File::Basename 'dirname';
@@ -26,7 +27,9 @@ is(scalar @files, 1, 'One document converted');
 
 ok(-e $files[0]->[0], 'One document loadable');
 
-my $dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]->[0]);
+my $dom = Mojo::DOM->new->xml(1)->parse(
+  Mojo::File->new($files[0]->[0])->slurp
+);
 
 ok($dom, 'File is parsed');
 
@@ -59,7 +62,9 @@ $c = Rabbid::Convert::Gutenberg->new(
 
 @files = $c->convert;
 
-$dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]->[0]);
+$dom = Mojo::DOM->new->xml(1)->parse(
+  Mojo::File->new($files[0]->[0])->slurp
+);
 
 is($dom->at('head title')->text, 'Papa Hamlet', 'Title');
 is($dom->at('head meta[name=author]')->attr('content'), 'Arno Holz and Johannes Schlaf', 'Author');
@@ -78,7 +83,9 @@ $c = Rabbid::Convert::Gutenberg->new(
 
 @files = $c->convert;
 
-$dom = Mojo::DOM->new->xml(1)->parse(slurp $files[0]->[0]);
+$dom = Mojo::DOM->new->xml(1)->parse(
+  Mojo::File->new($files[0]->[0])->slurp
+  );
 
 is($dom->at('head title')->text, encode('UTF-8', 'Bahnwärter Thiel'), 'Title');
 is($dom->at('head meta[name=author]')->attr('content'), 'Gerhart Hauptmann', 'Author');

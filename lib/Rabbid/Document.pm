@@ -2,6 +2,7 @@ package Rabbid::Document;
 use Scalar::Util qw/looks_like_number/;
 use Data::Dumper;
 use Mojo::DOM;
+use Mojo::File;
 use Mojo::Base -strict;
 use Mojo::ByteStream 'b';
 use Mojo::Collection 'c';
@@ -12,7 +13,7 @@ sub new {
   my $file = shift;
   return unless -f $file;
 
-  my $data = b($file)->slurp;
+  my $data = b(Mojo::File->new($file)->slurp);
   return unless $data;
 
   my $dom = Mojo::DOM->new(xml => 1)->parse($data->decode);

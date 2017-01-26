@@ -12,8 +12,11 @@ sub startup {
 
   # Set version based on package file
   # This may introduce a SemVer patch number
-  my $pkg = $self->home->child('package.json')->slurp;
-  $Rabbid::VERSION = decode_json($pkg)->{version};
+  my $pkg_path = $self->home->child('package.json');
+  if (-e $pkg_path->to_abs) {
+    my $pkg = $pkg_path->slurp;
+    $Rabbid::VERSION = decode_json($pkg)->{version};
+  };
 
   $self->plugin(Localize => {
     resources => ['rabbid.dict'],

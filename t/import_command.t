@@ -1,4 +1,3 @@
-use Mojolicious::Lite;
 use Test::More;
 use Test::Mojo;
 use Test::Output qw/:stdout :stderr :functions/;
@@ -8,11 +7,15 @@ use File::Basename 'dirname';
 use File::Spec::Functions qw/catdir catfile/;
 use Mojo::DOM;
 use Mojo::Util qw/slurp/;
+use Rabbid;
 
 use_ok('Rabbid::Command::rabbid_import');
 
 # Use test configuration
 $ENV{MOJO_MODE} = 'test';
+
+# This is a very hacky thing to do ...
+$ENV{MOJO_HOME} = '.';
 
 my $t = Test::Mojo->new('Rabbid');
 my $app = $t->app;

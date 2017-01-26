@@ -1,4 +1,3 @@
-use Mojolicious::Lite;
 use Test::More;
 use Test::Mojo;
 use Test::Output qw/:stdout :stderr :functions/;
@@ -11,7 +10,7 @@ use Mojo::File;
 
 use_ok('Rabbid::Command::rabbid_convert');
 
-my $t = Test::Mojo->new;
+my $t = Test::Mojo->new('Rabbid');
 my $app = $t->app;
 
 ok(my $cmd = Rabbid::Command::rabbid_convert->new, 'Create object');

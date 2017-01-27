@@ -43,7 +43,7 @@ sub collection {
   my $query = $coll->query;
 
   # Use validator
-  my $offset = (($c->param('page') * $items) - $items) if $c->param('page');
+  my $offset = (($c->param('startPage') * $items) - $items) if $c->param('startPage');
 
   # Set paging
   my $result = $coll->load(

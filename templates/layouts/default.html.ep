@@ -30,7 +30,7 @@
     % if ($c->rabbid_acct->id) {
     <a class="logo" href="<%= url_for 'home'  %>"><h1><span><%= title %></span></h1></a>
     %=   form_for url_for('search'), method => 'GET', begin
-    %=     hidden_parameters without => ['q', 'page']
+    %=     hidden_parameters without => ['q', 'startPage', 'page']
     %=     search_field 'q'
     %    end
     <nav>

@@ -5,6 +5,11 @@
       domain => 'Domäne',
       genre => 'Textsorte',
       literary_movement => 'Strömung',
+      corpus_sigle => 'Korpus Sigle',
+      text_sigle => 'Text Sigle',
+      pub_date => 'Datum',
+      text_domain => 'Domäne',
+      pub_place => 'Publikationsort'
     },
     en => {
       polDir => 'Political Direction',

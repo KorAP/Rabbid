@@ -44,11 +44,11 @@ top.query = "<%= param('q') %>";
 </div>
 
 % my $url = $c->url_with(stash('collection') ? 'collection' : 'search');
-% $url->query([ page => '{page}']);
+% $url->query([ startPage => '{page}']);
 <div class="pagination">
   % if (stash('totalResults')) {
-  %= pagination scalar(param('page') // 1), stash('totalPages') => $url;
+  %= pagination scalar(param('startPage') // 1), stash('totalPages') => $url;
   % } else {
-  %= pagination scalar(param('page') // 1), -1 => $url;
+  %= pagination scalar(param('startPage') // 1), -1 => $url;
   % };
 </div>

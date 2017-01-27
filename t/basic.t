@@ -95,6 +95,12 @@ $t->get_ok('/search?q=tschüß')
   ->text_is('ol.kwic li[data-id=2] div.snippet span.match mark', 'Tschüß')
   ->text_like('ol.kwic li[data-id=2] p.ref', qr!Theodor Fontane: Example 2\s*\(1894\);!);
 
+$t->get_ok('/search?q=echt')
+  ->text_is('ol.kwic div.snippet span.match mark', 'Echt');
+
+$t->get_ok('/search?q=echt?startPage=45')
+  ->text_like('div#search div p', qr!^Leider!);
+
 done_testing;
 
 __END__

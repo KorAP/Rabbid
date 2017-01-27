@@ -181,7 +181,7 @@ $dom->find('ol.kwic > li')->each(
 
 is($found, 20, 'Found');
 
-$dom = $t->get_ok('/search?q=' . $q . '&page=2')
+$dom = $t->get_ok('/search?q=' . $q . '&startPage=2')
   ->status_is(200)
     ->text_is('p.total-results > span', 462)
   ->tx->res->dom;
@@ -222,7 +222,7 @@ $t->get_ok('/collection/3')
   ->text_is('a[href][rel=next]', '>')
   ;
 
-$t->get_ok('/collection/3?page=2&q=ist')
+$t->get_ok('/collection/3?startPage=2&q=ist')
   ->status_is(200)
   ->text_is('h3', 'Kollektion "ist"')
   ->element_count_is('ol.kwic li', 10)

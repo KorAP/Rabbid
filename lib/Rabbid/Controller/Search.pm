@@ -96,8 +96,8 @@ sub kwic {
     );
 
     # Set paging
-    if ($c->param('page')) {
-      $args{-offset} = ($c->param('page') * $items) - $items,
+    if ($c->param('startPage')) {
+      $args{-offset} = ($c->param('startPage') * $items) - $items,
     };
 
     # Set filtering

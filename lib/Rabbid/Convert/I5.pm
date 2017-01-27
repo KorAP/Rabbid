@@ -4,7 +4,7 @@ use File::Spec::Functions qw/catdir catfile/;
 use XML::Twig;
 use KorAP::XML::Meta::I5;
 use Mojo::DOM;
-use Mojo::Util qw!slurp xml_escape encode trim!;
+use Mojo::Util qw!xml_escape encode trim!;
 use Data::Dumper;
 
 sub version { '0.1' };

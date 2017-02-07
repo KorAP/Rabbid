@@ -133,6 +133,9 @@ Rabbid::Command::rabbid_import - Import RabbidML files
   --corpus|c
     The corpus handle as defined in the configuration.
 
+  --conversion|-x
+    The source format, in case the data is not RabbidML.
+
   --file|f
     A file to import. Can be defined multiple times.
 

@@ -11,6 +11,25 @@ require Rabbid::Analyzer;
 
 # Todo: Support final mark
 
+sub _field_convert {
+  my ($value, $type) = @_;
+
+  return $value unless $type;
+
+  if (uc($type) eq 'DATE') {
+    if ($value =~ m/^(\d\d\d\d)(\d\d)(\d\d)$/) {
+      my $date = '';
+      $date .= $3 . '.' if $3 ne '00';
+      $date .= $2 . '.' if $2 ne '00';
+      $date .= $1 if $1;
+      $date =~ s/0(\d)\./$1\./g;
+      return $date;
+    };
+  };
+  return $value;
+};
+
+
 # Register plugin to establish helpers
 sub register {
   my ($plugin, $app) = @_;
@@ -108,10 +127,12 @@ sub register {
   $app->helper(
     filter_by => sub {
       my $c = shift;
-      my ($key, $value) = @_;
+      my ($key, $value, $type) = @_;
       return '' unless $value;
+
+      $value = b($value)->decode;
       return $c->link_to(
-				b($value)->decode,
+				_field_convert($value, $type),
 				$c->url_with->query([
 					startPage   => 1,
 					filterBy    => $key,

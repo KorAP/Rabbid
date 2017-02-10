@@ -23,7 +23,7 @@ sub overview {
          my ($c, $row) = @_;
          return $c->filter_by(doc_id => $row->{doc_id});
        }]
-  );
+    );
 
   my $fields = $c->rabbid->corpus->fields(1);
 
@@ -33,10 +33,11 @@ sub overview {
     my $field_type = lc($field->[1]);
     push @display,
       ($c->loc('Rabbid_' . $field_name) => [
-        $field_name => class => $field_type, process => sub {
+        $field_name => class => $field_type,
+        process => sub {
           my ($c, $row) = @_;
           return $c->filter_by(
-            $field_name => $row->{$field_name}
+            $field_name => $row->{$field_name}, $field_type
           );
         }]
      );

@@ -51,138 +51,138 @@ sub new {
       my $text = '';
       my $first = 0;
       $nodes->each(
-	sub {
-	  my $el = shift;
+        sub {
+          my $el = shift;
 
-	  if ($el->type eq 'tag') {
+          if ($el->type eq 'tag') {
 
-	    # There are pagebreaks defined
-	    if ($el->tag eq 'br') {
+            # There are pagebreaks defined
+            if ($el->tag eq 'br') {
 
-	      # Reset the page number and add that to text
-	      my $page_nr_markup = _set_page_number($el, \$page);
+              # Reset the page number and add that to text
+              my $page_nr_markup = _set_page_number($el, \$page);
 
-	      # The pagebreak is inside or at the end of
-	      # the snippet
-	      if ($text) {
-		push @pages, $page;
-	      }
+              # The pagebreak is inside or at the end of
+              # the snippet
+              if ($text) {
+                push @pages, $page;
+              }
 
-	      # The pagebreak is at the beginning of the
-	      # snippet
-	      else {
-		@pages = ($page);
-	      };
+              # The pagebreak is at the beginning of the
+              # snippet
+              else {
+                @pages = ($page);
+              };
 
-	      $text .= $page_nr_markup;
-	    }
+              $text .= $page_nr_markup;
+            }
 
-	    # The paragraph has subspans
-	    elsif ($el->tag eq 'span') {
-	      if ($text) {
+            # The paragraph has subspans
+            elsif ($el->tag eq 'span') {
+              if ($text) {
 
-		# Flush snippet
-		my $p = Rabbid::Document::Snippet->new(
-		  $id++,
-		  $text,
-		);
+                # Flush snippet
+                my $p = Rabbid::Document::Snippet->new(
+                  $id++,
+                  $text,
+                );
 
-		# First Subspan is not joined -
-		# all others are
-		$p->join(1) if $first++;
+                # First Subspan is not joined -
+                # all others are
+                $p->join(1) if $first++;
 
-		# There are page numbers to remember
-		if (@pages) {
+                # There are page numbers to remember
+                if (@pages) {
 
-		  # The first page around is the start
-		  # page of the snippet
-		  $p->start_page($pages[0]);
+                  # The first page around is the start
+                  # page of the snippet
+                  $p->start_page($pages[0]);
 
-		  # The last page around is the end
-		  # page of the snippet
-		  $p->end_page($pages[-1]);
+                  # The last page around is the end
+                  # page of the snippet
+                  $p->end_page($pages[-1]);
 
-		  # Remember the last page only
-		  @pages = ($pages[-1]);
-		};
+                  # Remember the last page only
+                  @pages = ($pages[-1]);
+                };
 
-		push @snippet, $p;
+                push @snippet, $p;
 
-		# Reset text
-		$text = '';
-	      };
+                # Reset text
+                $text = '';
+              };
 
 
-	      # Treat subspans
-	      $el->child_nodes->each(
-		sub {
-		  my $sub_span = shift;
+              # Treat subspans
+              $el->child_nodes->each(
+                sub {
+                  my $sub_span = shift;
 
-		  # Subspan is a pagebreak
-		  if ($sub_span->type eq 'tag' && $sub_span->tag eq 'br') {
+                  # Subspan is a pagebreak
+                  if ($sub_span->type eq 'tag' && $sub_span->tag eq 'br') {
 
-		    # Reset the page number and add that to text
-		    my $page_nr_markup = _set_page_number($sub_span, \$page);
+                    # Reset the page number and add that to text
+                    my $page_nr_markup = _set_page_number($sub_span, \$page);
 
-		    # The pagebreak is inside or at the end of
-		    # the snippet
-		    if ($text) {
-		      push @pages, $page;
-		    }
+                    # The pagebreak is inside or at the end of
+                    # the snippet
+                    if ($text) {
+                      push @pages, $page;
+                    }
 
-		    # The pagebreak is at the beginning of the
-		    # snippet
-		    else {
-		      @pages = ($page);
-		    };
+                    # The pagebreak is at the beginning of the
+                    # snippet
+                    else {
+                      @pages = ($page);
+                    };
 
-		    $text .= $page_nr_markup;
-		  }
+                    $text .= $page_nr_markup;
+                  }
 
-		  # Subspan contains text only
-		  elsif ($sub_span->type eq 'text') {
-		    $text .= $sub_span->content;
-		  }
-		}
-	      );
-	    };
-	  }
+                  # Subspan contains text only
+                  elsif ($sub_span->type eq 'text') {
+                    $text .= $sub_span->content;
+                  }
+                }
+              );
+            };
+          }
 
-	  # Add textual content to snippet
-	  elsif ($el->type eq 'text') {
-	    $text .= $el->content;
-	  }
-	});
+          # Add textual content to snippet
+          elsif ($el->type eq 'text') {
+            $text .= $el->content;
+          }
+        });
 
       # Flush snippet
       if ($text) {
 
-	# Flush snippet
-	my $p = Rabbid::Document::Snippet->new(
-	  $id++,
-	  $text
-	);
-	$p->join(1) if $first++;
+        # Flush snippet
+        my $p = Rabbid::Document::Snippet->new(
+          $id++,
+          $text
+        );
+        $p->join(1) if $first++;
 
-	# There are page numbers to remember
-	if (@pages) {
+        # There are page numbers to remember
+        if (@pages) {
 
-	  # The first page around is the start
-	  # page of the snippet
-	  $p->start_page($pages[0]);
+          # The first page around is the start
+          # page of the snippet
+          $p->start_page($pages[0]);
 
-	  # The last page around is the end
-	  # page of the snippet
-	  $p->end_page($pages[-1]);
+          # The last page around is the end
+          # page of the snippet
+          $p->end_page($pages[-1]);
 
-	  # Remember the last page only
-	  @pages = ($pages[-1]);
-	};
+          # Remember the last page only
+          @pages = ($pages[-1]);
+        };
 
-	push @snippet, $p;
+        push @snippet, $p;
 
-	# Reset text
-	$text = '';
+        # Reset text
+        $text = '';
       };
     });
 

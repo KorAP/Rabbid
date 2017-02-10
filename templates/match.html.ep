@@ -23,8 +23,8 @@
 <%= b($m->{author} // '???')->decode %>: <%= b($m->{title} // '???')->decode %>\
 <% if ($m->{year}) { %> (<%= $m->{year} %>)<% } =%>; \
 
-% foreach my $field(grep { $_ !~ /^author|title|year$/ } @{$c->rabbid->corpus->fields}) {
-<% if ($m->{$field}) { %><%= filter_by($field => $m->{$field}) %>, <% } %>\
+% foreach my $field (grep { $_->[0] !~ /^author|title|year$/ } @{$c->rabbid->corpus->fields(1)}) {
+<% if ($m->{$field->[0]}) { %><%= filter_by($field->[0] => $m->{$field->[0]}, uc($field->[1])) %>, <% } %>\
 % }
     </p>
   </div>

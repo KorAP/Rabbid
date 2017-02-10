@@ -45,7 +45,7 @@ html > body {
 
 a.logo > h1 {
   float: left;
-	background: {
+  background: {
     position: 50% 50%;
     repeat: no-repeat;
     size: 90% auto;
@@ -149,51 +149,54 @@ table.oro-view {
     }
     th {
       a::after {
-	font-family: 'FontAwesome';
+        font-family: 'FontAwesome';
       }
       &.oro-ascending a::after {
-	content: " \f0d7";
+        content: " \f0d7";
       }
       &.oro-descending a::after {
-	content: " \f0d8";
+        content: " \f0d8";
       }
       &.oro-active {
-	background-color: $ids-blue-1;
-	color: $ids-blue-2;
-	a:link, a:visited {
-	  color: $ids-blue-2;
-	}
+        background-color: $ids-blue-1;
+        color: $ids-blue-2;
+        a:link, a:visited {
+                  color: $ids-blue-2;
+                }
       }
 
+      width: auto;
       border-left: 3px solid $ids-pink-1;
       // Document ID
       &:nth-child(1) {
-	width: 2em;
-	border-left-width: 0;
+        width: 2em;
+        border-left-width: 0;
       }
+      /*
       // Author
       &:nth-child(2) {
-	width: 20em;
+        width: 20em;
       }
       // Title
       &:nth-child(3) {
       }
       // Year
       &:nth-child(4) {
-	width: 4em;
+  width: 4em;
       }
       // polDir
       &:nth-child(5) {
-	width: 8em;
+  width: 8em;
       }
       // Domain
       &:nth-child(6) {
-	width: 8em;
+  width: 8em;
       }
       // Genre
       &:nth-child(7) {
-	width: 8em;
+  width: 8em;
       }
+     */
     }
   }
   tbody tr {
@@ -206,10 +209,10 @@ table.oro-view {
     td {
       padding: 3pt 6pt;
       a:link,
-			a:visited {
-				color: $ids-pink-2;
-				font-weight: bold;
-				text-decoration: none;
+      a:visited {
+        color: $ids-pink-2;
+        font-weight: bold;
+        text-decoration: none;
       }
     }
   }
@@ -281,16 +284,16 @@ ol.kwic {
       background-color: $ids-pink-1;
       color: $ids-pink-2;
       > div {
-	width: 99999%;
-	margin-left: -49999.5%;
-	overflow-x: hidden;
-	overflow-y: visible;
-	white-space: no-wrap;
-	cursor: pointer;
-	padding: 5pt 0 6pt 0;
+        width: 99999%;
+        margin-left: -49999.5%;
+        overflow-x: hidden;
+        overflow-y: visible;
+        white-space: no-wrap;
+        cursor: pointer;
+        padding: 5pt 0 6pt 0;
       }
       &.flop {
-	background-color: $lighter-pink;
+        background-color: $lighter-pink;
       }
     }
   }
@@ -355,9 +358,9 @@ h3 {
 
 li.active {
 
-	/*
-	 * Buttons
-	 */
+  /*
+   * Buttons
+   */
   span.extend {
     display: inline-block;
     &.left::after {
@@ -391,37 +394,37 @@ li.active {
   }
 
   span.buttons {
-		background-color: $ids-pink-2;
+    background-color: $ids-pink-2;
     color: $ids-pink-1;
     border-radius: 5px;
     margin: 0 4pt;
 
     > span {
-			border-radius: 5px;
-			display: inline-block;
-			cursor: pointer;
-			padding: 0 4pt;
-			// width: 1.8em;
-			&:hover {
-	      background-color: $ids-pink-1;
-	      color: $ids-pink-2;
-			}
+      border-radius: 5px;
+      display: inline-block;
+      cursor: pointer;
+      padding: 0 4pt;
+      // width: 1.8em;
+      &:hover {
+        background-color: $ids-pink-1;
+        color: $ids-pink-2;
+      }
 
-			> span {
-				position: absolute;
-				margin-left: -3000px;
-			}
+      > span {
+        position: absolute;
+        margin-left: -3000px;
+      }
     }
   }
 }
 
 p.ref span.pageRange:not(:empty) {
-	&::after {
-		content: ")";
-	}
-	&::before {
-		content: "(S. ";
-	}
+  &::after {
+    content: ")";
+  }
+  &::before {
+    content: "(S. ";
+  }
 }
 
 div.snippet {
@@ -431,19 +434,19 @@ div.snippet {
     margin-bottom:10pt
   }
 */
-	span.pb {
-		color: $ids-pink-1;
-		background-color: $ids-pink-2;
-		font-size: 0.7rem;
-		vertical-align: top;
-		border-radius: 2px;
-		padding: 2px;
-		margin: 0 .2rem;
-		font-family: Courier New, monopace;
-	}
-	span.pb::after {
-		content: attr(data-after)
-	}
+  span.pb {
+    color: $ids-pink-1;
+    background-color: $ids-pink-2;
+    font-size: 0.7rem;
+    vertical-align: top;
+    border-radius: 2px;
+    padding: 2px;
+    margin: 0 .2rem;
+    font-family: Courier New, monopace;
+  }
+  span.pb::after {
+    content: attr(data-after)
+  }
 }
 
 ol > li {
@@ -693,9 +696,9 @@ input[type=submit] {
 }
 
 li.active span {
-	font-size: 1rem;
-	line-height: 1.4rem;
-	vertical-position: baseline;
+  font-size: 1rem;
+  line-height: 1.4rem;
+  vertical-position: baseline;
   &.button {
     padding: 2pt 5pt;
   }
@@ -704,7 +707,7 @@ li.active span {
     &:not(.nobr)::after {
       content: '';
       display: block;
-			margin-bottom: .7rem;
+      margin-bottom: .7rem;
     }
   }
 }

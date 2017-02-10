@@ -130,6 +130,15 @@ sub snippet {
 };
 
 
+sub _column_type {
+  my $type = uc($_->[1]);
+
+  if ($type eq 'DATE') {
+    $type = 'INTEGER';
+  };
+  return $type;
+};
+
 # Initialize Corpus database
 sub init {
   my $self = shift;
@@ -142,7 +151,7 @@ sub init {
 
       my $keys = join(
         ', ',
-        map { $_->[0] . ' ' . $_->[1] } @{$self->fields(1)}
+        map { $_->[0] . ' ' . _column_type($_->[1]) } @{$self->fields(1)}
       );
 
       # Create document table

@@ -75,7 +75,7 @@ sub run {
 
           print "Convert $name\n";
           if ($app->rabbid->import($corpus => $file)) {
-            print "Import $name\n";
+            print "Import $name as $id\n";
             $id_offset = $id;
           }
           else {

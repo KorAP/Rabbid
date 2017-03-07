@@ -265,24 +265,30 @@ input[type=search] {
   background-color: $ids-pink-2;
   text-align: right;
   clear: both;
-  height: 1.5em;
   > th, span {
+    height: 1.5em;
     text-align: right;
     width: auto;
     font-weight: bold;
+    /*
+     only works for inline blocks
+    .oro-filter-rule {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow:hidden;
+    }
+   */
   }
   > th {
     border-bottom: 5px solid $ids-pink-1;
   }
-  > span {
-    margin: 2pt 2pt;
-  }
   a.remove-filter {
+    display: inline-block;
     background-color: $ids-pink-1;
     border-radius: 5px;
+    padding: 0;
     span {
-      display: inline-block;
-      width: 2em;
+      padding: 0 .5em;
       text-align: center;
       color:  $ids-pink-2;
     }

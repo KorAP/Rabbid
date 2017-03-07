@@ -1,5 +1,0 @@
-% if (param 'filterBy') {
-% my $url = url_with;
-% $url->query->remove('filterBy')->remove('filterOp')->remove('filterValue');
-<p class="filter"><%= param 'filterBy' %> = &quot;<%= param 'filterValue' %>&quot; <%= link_to 'x', $url %></p>
-% }

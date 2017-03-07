@@ -123,13 +123,12 @@ sub register {
     }
   );
 
-  # Create filtering links
+  # Create filtering links (for matches)
   $app->helper(
     filter_by => sub {
       my $c = shift;
       my ($key, $value, $type) = @_;
       return '' unless $value;
-
       $value = b($value)->decode;
       return $c->link_to(
 				_field_convert($value, $type),

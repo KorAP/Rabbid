@@ -17,13 +17,13 @@ sub overview {
     $cache_handle = $corpus->{cache_handle};
   };
 
+  # Display doc_id field
   my @display = (
-    '#' =>
-      ['doc_id', process => sub {
-         my ($c, $row) = @_;
-         return $c->filter_by(doc_id => $row->{doc_id});
-       }]
-    );
+    '#' => {
+      col => 'doc_id',
+      filter => 1
+    }
+  );
 
   my $fields = $c->rabbid->corpus->fields(1);
 
@@ -31,16 +31,16 @@ sub overview {
   foreach my $field (@$fields) {
     my $field_name = $field->[0];
     my $field_type = lc($field->[1]);
-    push @display,
-      ($c->loc('Rabbid_' . $field_name) => [
-        $field_name => class => $field_type,
-        process => sub {
-          my ($c, $row) = @_;
-          return $c->filter_by(
-            $field_name => $row->{$field_name}, $field_type
-          );
-        }]
-     );
+
+    push @display, (
+      $c->loc('Rabbid_' . $field_name) => {
+        col => $field_name,
+        cell => sub {
+          return b($_[-1]->{$field_name} // '')->decode, $field_type
+        },
+        filter => 1
+      }
+    );
   };
 
   # TODO: Make this based on schema

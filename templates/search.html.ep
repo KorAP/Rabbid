@@ -1,7 +1,5 @@
 % layout 'default';
 
-%= include 'filter';
-
 % if (stash('collection')) {
 <h3>Kollektion &quot;<%= stash('q') %>&quot;</h3>
 % } elsif (param('q')) {
@@ -29,6 +27,8 @@ top.query = "<%= param('q') %>";
     % }
     </p>
 % };
+
+  <p class="oro-filter"><span><%= oro_filter_line %></span></p>
 
   <ol class="kwic">
 %   foreach (@{stash('kwic')}) {

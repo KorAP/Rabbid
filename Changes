@@ -1,3 +1,6 @@
+0.6.1 2017-03-07
+        - Updated to recent version of M::P::Oro:Viewer.
+
 0.6.0 2017-01-25
         - Updated to Mojolicious 7.21.
 

@@ -256,6 +256,44 @@ input[type=search] {
   }
 }
 
+/**
+ * Filter line
+ */
+.oro-filter {
+  position: relative;
+  color:  $ids-pink-1;
+  background-color: $ids-pink-2;
+  text-align: right;
+  clear: both;
+  height: 1.5em;
+  > th, span {
+    text-align: right;
+    width: auto;
+    font-weight: bold;
+  }
+  > th {
+    border-bottom: 5px solid $ids-pink-1;
+  }
+  > span {
+    margin: 2pt 2pt;
+  }
+  a.remove-filter {
+    background-color: $ids-pink-1;
+    border-radius: 5px;
+    span {
+      display: inline-block;
+      width: 2em;
+      text-align: center;
+      color:  $ids-pink-2;
+    }
+    margin-right: 2em;
+  }
+}
+
+p.oro-filter {
+  margin-bottom: 0;
+  padding: 2pt 0pt;
+}
 
 /**
  * KWIC
@@ -582,7 +620,7 @@ nav {
   }
 }
 
-nav, p.filter, p.export {
+nav, p.export {
   a {
     padding: 2pt 4.5pt;
     background-color: $ids-pink-2;
@@ -599,7 +637,7 @@ nav, p.filter, p.export {
   }
 }
 
-p.filter, p.export {
+p.export {
   text-indent: 6pt;
 }
 
@@ -608,12 +646,14 @@ p.export {
   margin-right: 2em;
 }
 
+/*
 p.filter a {
   padding: 0;
   display: inline-block;
   width: 1.2em;
   text-align: center;
 }
+*/
 
 div.pagination {
   background-color: $ids-pink-2;

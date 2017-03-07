@@ -29,13 +29,13 @@ top.query = "<%= param('q') %>";
 % };
 
   <p class="oro-filter"><span><%= oro_filter_line %></span></p>
-
   <ol class="kwic">
 %   foreach (@{stash('kwic')}) {
 %=    include 'match', m => $_
 %   };
   </ol>
 % } elsif (param('q')) {
+<p class="oro-filter"><span><%= oro_filter_line %></span></p>
 <div style="clear:both; text-align: center; padding: .5em">
   <object type="image/svg+xml" data="<%= stash 'prefix' %>/img/rabbid-sad.svg"></object>
   <p>Leider keine Treffer ...</p>

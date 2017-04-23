@@ -26,6 +26,11 @@ $t->get_ok('/search?q=Liebe')
   ->text_is('ol.kwic li:nth-of-type(2) mark:nth-of-type(3)', 'Liebe')
   ;
 
+
+done_testing;
+__END__
+
+
 ok($app->rabbid->import('example' => catfile(dirname(__FILE__), 'data/text1.rabbidml')), 'Import example data');
 ok($app->rabbid->import('example' => catfile(dirname(__FILE__), 'data/text2.rabbidml')), 'Import example data');
 

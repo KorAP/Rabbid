@@ -14,7 +14,7 @@ sub register {
   unless ($app->renderer->helpers->{rabbid_catchall}) {
     $app->helper(
       rabbid_catchall => sub {
-	return shift->reply->not_found;
+        return shift->reply->not_found;
       }
     );
   };
@@ -25,7 +25,7 @@ sub register {
   unless ($app->routes->shortcuts->{rabbid_multi}) {
     $app->routes->add_shortcut(
       rabbid_multi => sub {
-	return shift;
+        return shift;
       }
     );
   };
@@ -34,7 +34,7 @@ sub register {
   unless ($app->renderer->helpers->{rabbid_acct}) {
     $app->helper(
       rabbid_acct => sub {
-	state $acct = Rabbid::Plugin::RabbidMulti::Acct->new;
+        state $acct = Rabbid::Plugin::RabbidMulti::Acct->new;
       }
     );
   };

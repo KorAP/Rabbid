@@ -8,6 +8,7 @@
 <h3>Suche</h3>
 % };
 
+
 <div id="search">
 %= javascript begin
 top.query = "<%= param('q') %>";
@@ -42,6 +43,7 @@ top.query = "<%= param('q') %>";
 </div>
 % };
 </div>
+
 
 % my $url = $c->url_with(stash('collection') ? 'collection' : 'search');
 % $url->query([ startPage => '{page}']);

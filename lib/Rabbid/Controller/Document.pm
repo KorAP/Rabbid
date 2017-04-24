@@ -25,7 +25,16 @@ sub overview {
     }
   );
 
-  my $fields = $c->rabbid->corpus->fields(1);
+  my $schema = $c->rabbid->corpus;
+
+  # Schema not loaded
+  unless ($schema) {
+    $c->notify(error => 'Corpus not loadable');
+    return $c->reply->exception;
+  };
+
+  # Render document view with oro table
+  my $fields = $schema->fields(1);
 
   # TODO: May be cacheable
   foreach my $field (@$fields) {

@@ -7,8 +7,9 @@
 	  name="doc_id" />
     <meta content="Georg Büchner"
 	  name="author" />
-    <meta content="1879"
-	  name="year" />
+    <meta content="1836"
+	        name="year" />
+    <!-- Ersterscheinung: 1879 -->
     <meta content="Belletristik"
 	  name="domain" />
     <meta content="Drama"

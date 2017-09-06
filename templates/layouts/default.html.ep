@@ -5,21 +5,23 @@
     <link rel="icon" href="<%= stash 'prefix' %>/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="<%= stash 'prefix' %>/favicon.ico" type="image/x-icon" />
 
-    <!-- <%= url_for->to_abs %> -->
-
     <meta charset="utf-8" />
     %= javascript begin
       % my $api = url_for('home');
       % $api =~ s!/$!!;
       window.RabbidAPI = '<%= $api %>';
     % end
+
     % foreach (app->notifications->styles) {
     %=  stylesheet $_
     % };
+
     % foreach (app->notifications->scripts) {
     %=  javascript $_
     % };
+
     %= stylesheet '/css/rabbid-' . $Rabbid::VERSION . '.css'
+
     % if (app->mode eq 'production') {
       %= javascript '/js/rabbid-'  . $Rabbid::VERSION . '.js'
     % } else {
@@ -27,6 +29,8 @@
     % };
   </head>
   <body>
+
+    %# User is logged in or there is no need to log in
     % if ($c->rabbid_acct->id) {
     <a class="logo" href="<%= url_for 'home'  %>"><h1><span><%= title %></span></h1></a>
     %=   form_for url_for('search'), method => 'GET', begin
@@ -40,11 +44,17 @@
       <%= link_to url_with('about'), title => 'Über Rabbid', class => 'about ' . (stash('about') ? 'active' : ''), begin %><span>Über Rabbid</span><% end %>
       %= content_block 'rabbid_navi'
     </nav>
+
+    %# User is not logged in
     % } else {
+    <nav>
+      <a class="korap-project" href="http://korap.ids-mannheim.de/kalamar"><span>KorAP</span></a>
+      <%= link_to url_with('about'), title => 'Über Rabbid', class => 'about ' . (stash('about') ? 'active' : ''), begin %><span>Über Rabbid</span><% end %>
+    </nav>
     <a class="logo big" href="<%= url_for 'home' %>"><h1><span><%= title %></span></h1></a>
     <h2><%= $description %></h2>
-    <a class="korap-project" href="http://korap.ids-mannheim.de/kalamar"><span>KorAP</span></a>
     % };
+
     %= content
     %= notifications 'alertify', -no_include
   </body>

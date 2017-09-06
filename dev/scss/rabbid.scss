@@ -61,24 +61,6 @@ a.logo > h1 {
   }
 }
 
-a.korap-project {
-  display: inline-block;
-  height: 2em;
-  width: 9em;
-  position: absolute;
-  right: 1em;
-  top: 1em;
-  background: {
-    position: 50% 50%;
-    repeat: no-repeat;
-    size: 90% auto;
-    image: url('../img/korap-project-3.svg');
-  }
-  // BLIND
-  > span {
-    margin-left: -3000px;
-  }
-}
 
 #happy {
   clear:both;
@@ -148,8 +130,11 @@ table.oro-view {
       text-decoration: none;
     }
     th {
-      a::after {
-        font-family: 'FontAwesome';
+      a {
+        white-space: nowrap;
+        &::after {
+          font-family: 'FontAwesome';
+        }
       }
       &.oro-ascending a::after {
         content: " \f0d7";
@@ -172,31 +157,6 @@ table.oro-view {
         width: 2em;
         border-left-width: 0;
       }
-      /*
-      // Author
-      &:nth-child(2) {
-        width: 20em;
-      }
-      // Title
-      &:nth-child(3) {
-      }
-      // Year
-      &:nth-child(4) {
-  width: 4em;
-      }
-      // polDir
-      &:nth-child(5) {
-  width: 8em;
-      }
-      // Domain
-      &:nth-child(6) {
-  width: 8em;
-      }
-      // Genre
-      &:nth-child(7) {
-  width: 8em;
-      }
-     */
     }
   }
   tbody tr {
@@ -216,26 +176,6 @@ table.oro-view {
       }
     }
   }
-
-/*
-  .pagination {
-    a[rel="prev"] span::after {
-      font-family: 'FontAwesome';
-      content: "\f0d9";
-    }
-    a[rel="next"] span:before {
-      font-family: 'FontAwesome';
-      content: "\f0da";
-    }
-    span.ellipsis::after {
-      font-family: 'FontAwesome';
-      content: "\f141";
-    }
-    span {
-      display: inline-block;
-    }
-  }
-  */
 }
 
 form {
@@ -614,6 +554,17 @@ nav {
     }
     &.about::before {
       content: '\f05a';
+    }
+    &.korap-project {
+      display: inline-block;
+      background-color: transparent;
+      width: 9em;
+      background: {
+        position: 50% 50%;
+        repeat: no-repeat;
+        size: 90% auto;
+        image: url('../img/korap-project-3.svg');
+      }
     }
     // blind
     > span {

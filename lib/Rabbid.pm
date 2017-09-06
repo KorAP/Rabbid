@@ -136,6 +136,8 @@ sub startup {
   # Router
   my $r = $self->routes;
 
+  $r->get('/about')->to('about');
+
   # There is a rabbid multi plugin defined, establish
   if ($multi) {
     $self->plugin($multi);
@@ -170,8 +172,6 @@ sub startup {
   $r->post('/corpus/:doc_id/:para',
 	   [doc_id => qr/\d+/, para => qr/\d+/]
 	 )->to('Collection#store');
-
-  $r->get('/about')->to('about');
 
   # Catchall
   $self->routes->any('/*catchall', { catchall => '' })->to(

@@ -56,6 +56,7 @@ $ cpanm git://github.com/Akron/Mojolicious-Plugin-Oro.git
 $ cpanm git://github.com/Akron/Mojolicious-Plugin-Oro-Viewer.git
 $ cpanm git://github.com/Akron/Mojolicious-Plugin-TagHelpers-ContentBlock.git
 $ cpanm git://github.com/Akron/Mojolicious-Plugin-Localize.git
+$ cpanm git://github.com/KorAP/KorAP-XML-Krill.git
 ```
 
 Then install the dependencies as always and run the test suite.

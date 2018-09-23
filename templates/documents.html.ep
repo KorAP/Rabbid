@@ -1,5 +1,5 @@
 % layout 'default';
 
-<h3>Dokumente</h3>
+<h3><%= loc 'Rabbid_document_pl' %></h3>
 
 %= oro_view( stash 'oro_view' );

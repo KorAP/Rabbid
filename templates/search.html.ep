@@ -1,11 +1,11 @@
 % layout 'default';
 
 % if (stash('collection')) {
-<h3>Kollektion &quot;<%= stash('q') %>&quot;</h3>
+<h3><%= 'Rabbid_collection_sg' %> &quot;<%= stash('q') %>&quot;</h3>
 % } elsif (param('q')) {
-<h3>Suche nach &quot;<%= param 'q' %>&quot;</h3>
+<h3><%= loc 'Rabbid_searchfor' %> &quot;<%= param 'q' %>&quot;</h3>
 % } else {
-<h3>Suche</h3>
+<h3><%= loc 'Rabbid_search' %></h3>
 % };
 
 
@@ -21,10 +21,10 @@ top.query = "<%= param('q') %>";
 
 % if (defined stash('totalResults')) {
   <p class="total-results"><span><%= stash 'totalResults' %></span>
-    Treffer
+    <%= loc('Rabbid_sampleCount', found => stash('totalResults')) %>
     % if (stash('totalDocs')) {
-      in <span><%= stash 'totalDocs' %></span>
-      Dokument<% if (stash('totalDocs') != 1) { %>en<% } %>
+    <%= loc 'Rabbid_in' %> <span><%= stash 'totalDocs' %></span>
+    <%= loc('Rabbid_docCount', found => stash('totalDocs')) %>
     % }
     </p>
 % };
@@ -39,7 +39,7 @@ top.query = "<%= param('q') %>";
 <p class="oro-filter"><span><%= oro_filter_rule %></span></p>
 <div style="clear:both; text-align: center; padding: .5em">
   <object type="image/svg+xml" data="<%= stash 'prefix' %>/img/rabbid-sad.svg"></object>
-  <p>Leider keine Treffer ...</p>
+  <p><%= loc 'Rabbid_nomatches' %></p>
 </div>
 % };
 </div>

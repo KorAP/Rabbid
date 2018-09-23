@@ -3,12 +3,13 @@
 %= include 'filter';
 
 % if (scalar @$collection) {
-<h3>Kollektionen</h3>
+<h3><%= loc 'Rabbid_collection_pl' %></h3>
 
 <ol class="collection">
 %   foreach (@$collection) {
 % my $query = $_->{q};
-  <li><%= link_to $query, url_with('collection', coll_id => $_->{id})->query([q => $query]) %> (<%= $_->{samples} %> Belegstelle<% if ($_->{samples} > 1) { %>n<% } %>)</li>
+<li><%= link_to $query, url_with('collection', coll_id => $_->{id})->query([q => $query]) %>
+  (<%= $_->{samples} %> <%= loc('Rabbid_sampleCount', found => $_->{samples}) %>)</li>
 %   }
 </ol>
 % } else {

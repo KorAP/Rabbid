@@ -1,0 +1,3 @@
+% layout 'default', title => '500';
+
+<h3><%= loc 'Rabbid_error' %> 500</h3>

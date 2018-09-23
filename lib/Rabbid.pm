@@ -27,12 +27,38 @@ sub startup {
           author => 'Verfasser',
           title => 'Titel',
           year => 'Jahr',
-          file => '<span>file</span>'
+          file => '<span>file</span>',
+          collection => {
+            -sg => 'Kollektion',
+            pl => 'Kollektionen'
+          },
+          sampleCount => '<%= quant($found, "Belegstelle", "Belegstellen") %>',
+          docCount => '<%= quant($found, "Dokument", "Dokumenten") %>',
+          document_pl => 'Dokumente',
+          error => 'Fehler',
+          pagenotfound => 'Die Seite <%= url_for %> kann nicht gefunden werden.',
+          searchfor => 'Suche nach',
+          search => 'Suche',
+          in => 'in',
+          nomatches => 'Leider keine Treffer ...'
         },
         en => {
           author => 'Author',
           title => 'Title',
-          year => 'Year'
+          year => 'Year',
+          collection => {
+            -sg => 'Collection',
+            pl => 'Collections'
+          },
+          sampleCount => '<%= quant($found, "sample", "samples") %>',
+          docCount => '<%= quant($found, "document", "documents") %>',
+          document_pl => 'Documents',
+          error => 'Error',
+          pagenotfound => 'The page <%= url_for %> does not exist.',
+          searchfor => 'Search for',
+          search => 'Search',
+          in => 'in',
+          nomatches => 'Sorry, no matches ...'
         }
       }
     }
